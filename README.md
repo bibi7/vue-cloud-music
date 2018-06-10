@@ -6,4 +6,8 @@
 
 后台api使用：[Binaryify / NeteaseCloudMusicApi](https://github.com/Binaryify/NeteaseCloudMusicApi)
 
-项目进度：作业中
+ui界面基于ios版，version：5.2.0
+
+项目进度：作业中，未完成，请不要clone
+
+完成度：(5%)
