@@ -33,6 +33,7 @@ export default {
   height: 2.5rem;
   padding: 0 1rem;
   line-height: 2.5rem;
+  z-index: 10;
   color: #fff;
   box-sizing: border-box;
   display: flex;

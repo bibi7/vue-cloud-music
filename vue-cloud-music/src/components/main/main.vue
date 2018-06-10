@@ -25,6 +25,7 @@ export default {
   top: 2.5rem;
   width: 100%;
   height: 3rem;
+  z-index: 10;
   display: flex;
   justify-content: space-around;
   line-height: 3rem;
