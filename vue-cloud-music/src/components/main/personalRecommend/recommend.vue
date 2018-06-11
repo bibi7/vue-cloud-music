@@ -2,14 +2,19 @@
   <div class="recommend">
     <div class="red-bg"></div>
     <div class="banner">
-      1
+      <slider></slider>
     </div>
   </div>
 </template>
 
 <script>
+  import slider from '../slider/slider.vue'
+
 export default {
-  name: 'recommend'
+  name: 'recommend',
+  components: {
+    slider,
+  }
 }
 </script>
 
@@ -33,7 +38,6 @@ export default {
     color: #fff;
     overflow: hidden;
     border-radius: 5px;
-    border-radius: 1px #fff solid;
   }
 }
 </style>

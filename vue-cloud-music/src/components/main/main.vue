@@ -1,6 +1,6 @@
 <template lang="html">
-  <div>
-    <div class="swtich">
+  <div style="height: 2000px">
+    <div class="switch">
       <router-link to="/mainPart/recommend">
         <span>个性推荐</span>
       </router-link>
@@ -18,9 +18,9 @@ export default {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import '../../common/css/color.less';
-.swtich {
+.switch {
   position: fixed;
   top: 2.5rem;
   width: 100%;
