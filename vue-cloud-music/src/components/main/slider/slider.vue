@@ -7,7 +7,7 @@
     </div>
     <div class="dots">
       <div class="dots-in">
-        <span v-for="(item, index) in imgArray" :class="{'active' : index === currentIndex}"></span>
+        <span v-for="(item, index) in imgArray" :class="{'active' : index === currentIndex}" @click="goTo(index)"></span>
       </div>
     </div>
   </div>
@@ -103,6 +103,11 @@ export default {
     scrollEnd () {
       let index = this.slider.getCurrentPage().pageX;
       this.currentIndex = index;
+    },
+    //前往指定页数
+    goTo (index) {
+      this.currentIndex = index;
+      this.slider.goToPage(index)
     }
   }
 }

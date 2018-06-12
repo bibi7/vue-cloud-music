@@ -25,7 +25,6 @@ export default {
 <style lang="less">
 @import '../../common/css/icon/iconfont.css';
 @import '../../common/css/color.less';
-
 .header {
   position: fixed;
   top: 0;

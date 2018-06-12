@@ -15,17 +15,17 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-shunxubofang:before { content: "\e6ea"; }
+.icon-shunxubofang:before { content: "\e6ea"; } /*顺序播放*/
 
-.icon-dachaguanbi:before { content: "\e61c"; }
+.icon-dachaguanbi:before { content: "\e61c"; }  /*打叉关闭*/
 
-.icon-shangyishou:before { content: "\e6c9"; }
+.icon-shangyishou:before { content: "\e6c9"; }  /*上一首*/
 
-.icon-zanting:before { content: "\e663"; }
+.icon-zanting:before { content: "\e663"; }  /*暂停*/
 
-.icon-combinedshapefuben:before { content: "\e661"; }
+.icon-combinedshapefuben:before { content: "\e661"; }  /*箭头向右*/
 
-.icon-suiji2:before { content: "\e60c"; }
+.icon-suiji2:before { content: "\e60c"; }  /*随机*/
 
 .icon-paixingbang:before { content: "\e627"; }
 

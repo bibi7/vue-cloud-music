@@ -11,7 +11,7 @@ export default new Router({
   routes: [
     {
       path: '/',
-      redirect: '/mainPart'
+      redirect: '/mainPart/recommend'
     },
     {
       path: '/mainPart',

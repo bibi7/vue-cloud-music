@@ -1,5 +1,5 @@
 <template lang="html">
-  <div style="height: 2000px">
+  <div>
     <div class="switch">
       <router-link to="/mainPart/recommend">
         <span>个性推荐</span>
@@ -14,12 +14,15 @@
 
 <script>
 export default {
-  name: 'mainPart'
+  name: 'mainPart',
+
 }
 </script>
 
 <style lang="less" scoped>
 @import '../../common/css/color.less';
+@import '../../common/css/fontSize.less';
+
 .switch {
   position: fixed;
   top: 2.5rem;
@@ -30,6 +33,6 @@ export default {
   justify-content: space-around;
   line-height: 3rem;
   background-color: @themeRed;
-  font-size: .7rem;
+  font-size: @normalSize;
 }
 </style>

@@ -1,27 +1,55 @@
 <template lang="html">
   <div class="recommend">
-    <div class="red-bg"></div>
-    <div class="banner">
-      <slider></slider>
+    <div class="wrapper" ref="wrapper">
+      <div>
+        <div class="red-bg"></div>
+        <div class="banner">
+          <slider></slider>
+        </div>
+        <navigation></navigation>
+        <recommendSongList></recommendSongList>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-  import slider from '../slider/slider.vue'
-
-export default {
+  import slider from '../slider/slider.vue';
+  import BScroll from 'better-scroll';
+  import navigation from './recommendNavigate.vue';
+  import recommendSongList from '@/components/main/personalRecommend/recommendSongList.vue'
+  export default {
   name: 'recommend',
+  mounted () {
+    this._initScroll();
+  },
+  methods: {
+    _initScroll () {
+      this.scroll = new BScroll(this.$refs.wrapper, {
+        scrollY: true
+      })
+    }
+  },
   components: {
     slider,
+    navigation,
+    recommendSongList,
   }
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .recommend {
-  position: relative;
-  margin-top: 5.5rem;
+  position: fixed;
+  top: 5.5rem;
+  width: 100%;
+  bottom: 0;
+
+  .wrapper {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 
   .red-bg {
     position: absolute;

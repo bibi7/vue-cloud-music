@@ -10,4 +10,17 @@ export function getBanner() {
   return axios.get(`${url}banner`)
 }
 
+/**
+ * 获取首页推荐歌单
+ * @returns {AxiosPromise<any>}
+ */
+export function getRecommend() {
+  return axios.get(`${url}personalized`)
+}
+
+export function getNewMusic() {
+
+}
+
+
 
