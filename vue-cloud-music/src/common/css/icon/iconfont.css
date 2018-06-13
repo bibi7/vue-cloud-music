@@ -29,19 +29,19 @@
 
 .icon-paixingbang:before { content: "\e627"; }
 
-.icon-headset:before { content: "\e61f"; }
+.icon-headset:before { content: "\e61f"; } /*耳机*/
 
 .icon-Group:before { content: "\e618"; }
 
 .icon-gedan:before { content: "\e504"; }
 
-.icon-rili:before { content: "\e6f0"; }
+.icon-rili:before { content: "\e6f0"; } /*日历*/
 
 .icon-zhengzaibofang:before { content: "\e639"; }
 
 .icon-danquxunhuan:before { content: "\e608"; }
 
-.icon-fm:before { content: "\e65e"; }
+.icon-fm:before { content: "\e65e"; } /*电台*/
 
 .icon-menu:before { content: "\e60a"; }
 

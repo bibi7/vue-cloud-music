@@ -1,7 +1,13 @@
 <template>
-  <div class="recommendPart">
-    <recommendTitle></recommendTitle>
-    <recommendList :type="'recommend'"></recommendList>
+  <div>
+    <div class="recommendPart">
+      <recommendTitle :name="'推荐歌单'"></recommendTitle>
+      <recommendList :type="'recommend'"></recommendList>
+    </div>
+    <div class="recommendPart">
+      <recommendTitle :name="'最新音乐'"></recommendTitle>
+      <recommendList :type="'newMusic'"></recommendList>
+    </div>
   </div>
 </template>
 

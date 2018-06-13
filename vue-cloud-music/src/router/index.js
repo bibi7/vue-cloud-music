@@ -5,6 +5,7 @@ import playing from '@/components/playing/playing.vue'
 import mainPart from '@/components/main/main.vue'
 import recommend from '@/components/main/personalRecommend/recommend.vue'
 import radio from '@/components/main/streamerRadio/radio.vue'
+import musicList from '@/components/musicList/musicList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -34,6 +35,10 @@ export default new Router({
     {
       path: '/playing',
       component: playing
+    },
+    {
+      path: '/musicList/:id',
+      component: musicList,
     }
   ]
 })

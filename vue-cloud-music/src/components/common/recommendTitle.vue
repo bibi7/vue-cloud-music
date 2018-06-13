@@ -1,6 +1,6 @@
 <template>
   <div class="recommendTitle">
-    <p>推荐歌单</p>
+    <p>{{name}}</p>
     <i class="iconfont icon-combinedshapefuben"></i>
   </div>
 </template>
@@ -8,7 +8,13 @@
 
 <script>
   export default {
-    name: 'recommendTitle'
+    name: 'recommendTitle',
+    props: {
+      name: {
+        type: String,
+        default: ''
+      }
+    }
   }
 </script>
 

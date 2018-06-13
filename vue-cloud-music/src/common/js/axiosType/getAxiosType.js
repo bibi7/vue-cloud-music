@@ -1,6 +1,6 @@
 import axios from 'axios'
-
 const url = 'http://120.79.162.149:3000/';
+
 
 /**
  * 获取首页banner信息
@@ -18,9 +18,25 @@ export function getRecommend() {
   return axios.get(`${url}personalized`)
 }
 
+/**
+ * 获取首页最新音乐
+ * @returns {AxiosPromise<any>}
+ */
 export function getNewMusic() {
-
+  return axios.get(`${url}personalized/newsong`)
 }
 
+/**
+ * 获取歌单信息
+ * @param id
+ * @returns {AxiosPromise<any>}
+ */
+export function getMusicListInfo(id) {
+  return axios.get(`${url}playlist/detail?id=${id}`)
+}
+//
+// export function getUserInfo(id) {
+//   return axios
+// }
 
 

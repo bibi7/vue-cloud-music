@@ -1,11 +1,11 @@
 <template>
   <div class="mainList">
     <div v-for="(item, index) in info">
-      <div class="people">
+      <div class="people" v-if="item.playCount">
         <i class="iconfont icon-headset"></i>
         <span>{{item.playCount}}</span>
       </div>
-      <img :src="item.picUrl">
+      <img :src="item.picUrl" @click="getMusicList(item.id)">
       <span class="description">{{item.name}}</span>
     </div>
   </div>
@@ -13,7 +13,7 @@
 
 
 <script>
-  import {getRecommend} from '@/common/js/axiosType/getAxiosType.js'
+  import {getRecommend, getNewMusic} from '@/common/js/axiosType/getAxiosType.js'
 
   export default {
     name: 'recommendList',
@@ -29,12 +29,13 @@
       }
     },
     methods: {
+      //加载推荐歌单
       _initList () {
         if (this.type === 'recommend') {
           getRecommend().then(result => {
             console.log(result);
             result.data.result.forEach((item, index) => {
-              if (index < 6) {
+              if (index < 9) {
                 //num: 听歌人数,考虑到小数点，进行分割
                 let num = item.playCount.toString().split('.')[0];
                 switch (num.length) {
@@ -45,7 +46,7 @@
                     item.playCount = `${num.substring(0, 3)}万`;
                     break;
                   case 8:
-                    item.playCount = `${num.substring(0, 3)}万`;
+                    item.playCount = `${num.substring(0, 4)}万`;
                     break;
                   case 9:
                     item.playCount = `${num.substring(0, 1)}.${num.substring(1, 2)}亿`;
@@ -56,11 +57,23 @@
             })
           });
         }
+      },
+      //点击歌单
+      getMusicList (id) {
+        this.$router.push({
+          path: `/musicList/${id}`
+        })
+      },
+      //加载最新音乐
+      _initNewMusic () {
+        if (this.type === 'newMusic') {
+          getNewMusic().then(result => console.log(result))
+        }
       }
     },
     mounted () {
       this._initList();
-      console.log(this.info)
+//      this._initNewMusic();
     }
   }
 </script>
@@ -77,7 +90,7 @@
     position: relative;
     border-radius: 5px;
     width: 32%;
-    padding-bottom: .5rem;
+    padding-bottom: 1rem;
     overflow: hidden;
 
     .people {

@@ -75,13 +75,12 @@ export default {
     _sliderInit () {
       this.slider = new BScroll(this.$refs.banSli, {
         scrollX: true,  //横向滚动
-//        momentum: true,
         snap: {
           loop: true,
           threshold: 0.3,
-          speed: 400
+          speed: 800
         },
-        snapSpeed: 400,
+        snapSpeed: 800,
         bounce: false,
         stopPropagation: true,
         click: true
