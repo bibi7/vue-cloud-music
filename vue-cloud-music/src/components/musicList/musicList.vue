@@ -1,6 +1,6 @@
 <template>
-  <div class="musicList" ref="musicList" style="overflow:hidden; height: 100%">
-    <div class="listInfo" ref="listInfo" style="height: 2000px">
+  <div class="musicList" ref="musicList">
+    <div class="listInfo" ref="listInfo">
       <div>
         <div class="main-bg" ref="mainBg"></div>
         <div class="info">
@@ -19,6 +19,26 @@
               </div>
             </div>
           </div>
+          <div class="choose">
+            <div>
+              <div class="items">
+                <i class="iconfont icon-pinglun"></i>
+                <span>{{commentCount}}</span>
+              </div>
+              <div class="items">
+                <i class="iconfont icon-zhuanfa"></i>
+                <span>{{shareCount}}</span>
+              </div>
+              <div class="items">
+                <i class="iconfont icon-xiazai"></i>
+                <span>下载</span>
+              </div>
+              <div class="items">
+                <i class="iconfont icon-duoxuan"></i>
+                <span>多选</span>
+              </div>
+            </div>
+          </div>
         </div>
         <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
       </div>
@@ -26,9 +46,9 @@
     <div class="title">
       <div class="title-bg"></div>
       <div class="title-content">
-        <i class="iconfont icon-headset"></i>
+        <i class="iconfont icon-xiangzuo"></i>
         <p>歌单</p>
-        <i class="iconfont icon-headset"></i>
+        <i class="iconfont icon-zhengzaibofang"></i>
       </div>
     </div>
   </div>
@@ -46,6 +66,9 @@
         listMusicImg: '',
         avatar: {},
         name: '',
+        subscribedCount: 0,
+        commentCount: 0,
+        shareCount: 0,
         tracks: []
       }
     },
@@ -74,6 +97,10 @@
           this.tracks = result.data.result.tracks;
           //收藏数量
           this.subscribedCount = result.data.result.subscribedCount;
+          //评论数量
+          this.commentCount = result.data.result.commentCount;
+          //分享数量
+          this.shareCount = result.data.result.shareCount;
           //其他的初始化操作
           this.$refs.mainBg.style.background = `url(${this.listMusicImg}) center no-repeat`;
           this.$refs.mainBg.style.backgroundSize = 'cover';
@@ -82,6 +109,7 @@
       },
       //回弹初始化
       initWrapper () {
+        console.log(this.$refs.listInfo.offsetHeight)
         return new BScroll(this.$refs.musicList, {
           scrollY: true
         })
@@ -116,6 +144,7 @@
 
     line-height: 2.5rem;
     color: #fff;
+
     .title-bg {
       height: 2.5rem;
     }
@@ -134,7 +163,6 @@
   .listInfo {
     position: fixed;
     top: 2.5rem;
-    bottom: 0;
     width: 100%;
 
     & > div {
@@ -142,7 +170,7 @@
 
       .main-bg {
         position: relative;
-        height: 75vh;
+        height: 70vh;
         margin-top: -30vh;
         width: 106%;
         transform: translateX(-3%)
@@ -151,13 +179,14 @@
       .info {
         position: absolute;
         display: flex;
+        flex-wrap: wrap;
         justify-content: space-between;
-        top: 7vh;
+        top: 5vh;
         width: 94%;
         left: 3%;
 
         .info-img {
-          width: 45%;
+          width: 40%;
           border-radius: 5px;
           position: relative;
           overflow: hidden;
@@ -167,7 +196,7 @@
           }
         }
         .info-message {
-          width: 50%;
+          width: 55%;
           text-align: left;
           display: flex;
           align-items: center;
@@ -198,6 +227,33 @@
               & > i {
                 font-size: .5rem;
               }
+            }
+          }
+        }
+      }
+
+      .choose {
+        width: 100%;
+        margin-top: 2vh;
+
+        & > div {
+          width: 90%;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+
+          .items {
+            color: #fff;
+
+            & > i {
+              font-size: @oneSize + 0.2rem;
+            }
+
+            & > span {
+              display: block;
+              margin-top: 9px;
+              font-size: @normalSize;
+              color: @themeGray;
             }
           }
         }
