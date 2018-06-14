@@ -89,20 +89,20 @@
         getMusicListInfo(this.listId).then(result => {
           console.log(result);
           //歌单封面
-          this.listMusicImg = result.data.result.coverImgUrl;
+          this.listMusicImg = result.data.playlist.coverImgUrl;
           //歌单简述
-          this.name = result.data.result.name;
+          this.name = result.data.playlist.name;
           //创建者信息
-          this.avatar.imgUrl = result.data.result.creator.backgroundUrl;
-          this.avatar.nickname = result.data.result.creator.nickname;
+          this.avatar.imgUrl = result.data.playlist.creator.backgroundUrl;
+          this.avatar.nickname = result.data.playlist.creator.nickname;
           //歌曲列表信息
-          this.tracks = result.data.result.tracks;
+          this.tracks = result.data.playlist.tracks;
           //收藏数量
-          this.subscribedCount = result.data.result.subscribedCount;
+          this.subscribedCount = result.data.playlist.subscribedCount;
           //评论数量
-          this.commentCount = result.data.result.commentCount;
+          this.commentCount = result.data.playlist.commentCount;
           //分享数量
-          this.shareCount = result.data.result.shareCount;
+          this.shareCount = result.data.playlist.shareCount;
           //其他的初始化操作
           this.$refs.mainBg.style.background = `url(${this.listMusicImg}) center no-repeat`;
           this.$refs.mainBg.style.backgroundSize = 'cover';

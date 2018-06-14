@@ -19,7 +19,7 @@ export default new Vuex.Store({
     playingIndex: '',
 
     //当前播放的歌单列表
-    playList: '',
+    playList: {},
 
     //背景图片
     playImg: '',
@@ -28,12 +28,12 @@ export default new Vuex.Store({
     playMode: ''
   },
   mutations: {
-    [PLAY_MUSIC] (state, item) {
-      state.playingId = item.id;
-      // state.playingIndex =
-      state.playImg = item.album.picUrl;
-      state.playingName = item.name;
+    [PLAY_MUSIC] (state, obj) {
+      state.playingId = obj.item.id;
+      state.playingIndex = obj.index;
+      state.playImg = obj.item.al.picUrl;
+      state.playingName = obj.item.name;
+      state.playList = obj.list;
     }
   }
 });
-

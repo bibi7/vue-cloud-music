@@ -1,5 +1,6 @@
 import axios from 'axios'
-const url = 'http://120.79.162.149:3000/';
+// const url = 'http://120.79.162.149:3000/';
+const url = 'http://localhost:3000/';
 
 
 /**
@@ -43,5 +44,3 @@ export function getMusicListInfo(id) {
 export function getMusicUrl(id) {
   return axios.get(`${url}music/url?id=${id}`)
 }
-
-

@@ -8,15 +8,15 @@
     </div>
     <div>+ 收藏 （{{subscribedCount}}）</div>
   </div>
-  <div class="listItem" v-for="(item, index) in info" @click="playMusic(item)">
+  <div class="listItem" v-for="(item, index) in info" @click="playMusic({item: item, index: index, list: info})">
     <div>
       <span>{{index + 1}}</span>
     </div>
     <div>
       <div>
-        <span class="songName">{{item.name}}</span>
-        <span class="songderivation" v-show="item.alias[0]">（{{item.alias[0]}}）</span>
-        <p class="singer">{{item.album.artists[0].name}} - {{item.album.name}}</p>
+        <span class="songName">{{item.al.name}}</span>
+        <span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>
+        <p class="singer">{{item.ar[0].name}} - {{item.al.name}}</p>
       </div>
     </div>
     <i class="iconfont icon-gengduo"></i>
@@ -51,9 +51,11 @@
       }
     },
     methods: {
-      playMusic (item) {
+      playMusic (obj) {
+        console.log(typeof obj.list);
+        console.log(obj.list)
         //提交store
-        this.PLAY_MUSIC(item);
+        this.PLAY_MUSIC(obj);
         //路由切换
         this.$router.push({
           path: '/playing'

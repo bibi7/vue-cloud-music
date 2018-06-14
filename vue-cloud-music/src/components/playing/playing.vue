@@ -11,21 +11,21 @@
         <div>
           <img src="../../common/img/666.png">
           <div class="img-center">
-            <img :src="musicImg" @click="pas">
+            <img :src="musicImg">
           </div>
         </div>
         <div>
           <div>
-            <i class="iconfont icon-headset"></i>
+            <i class="iconfont icon-xin"></i>
           </div>
           <div>
-            <i class="iconfont icon-headset"></i>
+            <i class="iconfont icon-xiazai"></i>
           </div>
           <div>
-            <i class="iconfont icon-headset"></i>
+            <i class="iconfont icon-pinglun"></i>
           </div>
           <div>
-            <i class="iconfont icon-headset"></i>
+            <i class="iconfont icon-gengduo"></i>
           </div>
         </div>
       </div>
@@ -35,9 +35,10 @@
         </div>
         <div>
           <i class="iconfont icon-shunxubofang"></i>
-          <i class="iconfont icon-shangyishou"></i>
-          <i class="iconfont icon-bofangquanbu"></i>
-          <i class="iconfont icon-shangyishou1"></i>
+          <i class="iconfont icon-shangyishou" @click="prev"></i>
+          <i class="iconfont icon-bofangquanbu" @click="play" v-if="pauseMusic"></i>
+          <i class="iconfont icon-zanting" @click="pause" v-if="!pauseMusic"></i>
+          <i class="iconfont icon-shangyishou1" @click="next"></i>
           <i class="iconfont icon-Group"></i>
         </div>
       </div>
@@ -46,7 +47,7 @@
 </template>
 
 <script>
-  import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
+import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
 export default {
   name: 'playing',
   data () {
@@ -56,6 +57,8 @@ export default {
       musicUrl: '',
       musicImg: '',
       audio: '',
+      pauseMusic: '',
+      index: '',
     }
   },
   mounted () {
@@ -73,9 +76,11 @@ export default {
       this.id = this.$store.state.playingId;
       //初始化封面
       this.musicImg = this.$store.state.playImg;
-
+      //初始化歌曲index
+      this.index= this.$store.state.playingIndex;
       //初始化歌曲地址
       getMusicUrl(this.id).then(result => {
+        console.log(result);
         this.musicUrl = result.data.data[0].url;
         console.log(this.musicUrl)
       });
@@ -86,8 +91,23 @@ export default {
     controlAudio () {
       this.audio = this.$refs.audio;
     },
-    pas () {
+    //中断播放
+    pause () {
       this.audio.pause();
+      this.pauseMusic = true;
+    },
+    //继续播放
+    play () {
+      this.audio.play();
+      this.pauseMusic = false;
+    },
+    //上一首
+    prev () {
+
+    },
+    //下一首
+    next () {
+      console.log(this.index)
     }
   }
 }
@@ -115,7 +135,7 @@ export default {
 
     & > div:first-child {
       position: relative;
-      width: 77%;
+      width: 85%;
 
       & > img:first-child {
         width: 100%;
