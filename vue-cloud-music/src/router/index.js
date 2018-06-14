@@ -33,7 +33,7 @@ export default new Router({
       component: playList
     },
     {
-      path: '/playing',
+      path: '/playing/',
       component: playing
     },
     {

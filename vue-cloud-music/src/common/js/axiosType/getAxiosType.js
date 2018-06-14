@@ -34,9 +34,14 @@ export function getNewMusic() {
 export function getMusicListInfo(id) {
   return axios.get(`${url}playlist/detail?id=${id}`)
 }
-//
-// export function getUserInfo(id) {
-//   return axios
-// }
+
+/**
+ * 获取歌曲链接
+ * @param id
+ * @returns {AxiosPromise<any>}
+ */
+export function getMusicUrl(id) {
+  return axios.get(`${url}music/url?id=${id}`)
+}
 
 

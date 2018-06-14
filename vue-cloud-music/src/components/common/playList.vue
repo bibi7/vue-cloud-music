@@ -8,7 +8,7 @@
     </div>
     <div>+ 收藏 （{{subscribedCount}}）</div>
   </div>
-  <div class="listItem" v-for="(item, index) in info">
+  <div class="listItem" v-for="(item, index) in info" @click="playMusic(item)">
     <div>
       <span>{{index + 1}}</span>
     </div>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+  import {mapMutations} from 'vuex'
+  import {PLAY_MUSIC} from '@/store/mutationType.js'
   export default {
     name: 'playList',
     data () {
@@ -49,13 +51,23 @@
       }
     },
     methods: {
-
+      playMusic (item) {
+        //提交store
+        this.PLAY_MUSIC(item);
+        //路由切换
+        this.$router.push({
+          path: '/playing'
+        })
+      },
+      ...mapMutations([
+        'PLAY_MUSIC',
+      ]),
     },
     watch: {
       info () {
         console.log(this.info);
       }
-    }
+    },
   }
 
 </script>

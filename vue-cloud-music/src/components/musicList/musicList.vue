@@ -1,57 +1,59 @@
 <template>
-  <div class="musicList" ref="musicList">
-    <div class="listInfo" ref="listInfo">
-      <div>
-        <div class="main-bg" ref="mainBg"></div>
-        <div class="info">
-          <div class="info-img">
-            <img :src="listMusicImg">
-          </div>
-          <div class="info-message">
-            <div>
-              <p class="mes-title">{{name}}</p>
-              <div class="creator">
-                <img :src="avatar.imgUrl">
-                <div>
-                  <span>{{avatar.nickname}}</span>
-                  <i class="iconfont icon-combinedshapefuben"></i>
+  <keep-alive>
+    <div class="musicList" ref="musicList">
+      <div class="listInfo" ref="listInfo">
+        <div>
+          <div class="main-bg" ref="mainBg"></div>
+          <div class="info">
+            <div class="info-img">
+              <img :src="listMusicImg">
+            </div>
+            <div class="info-message">
+              <div>
+                <p class="mes-title">{{name}}</p>
+                <div class="creator">
+                  <img :src="avatar.imgUrl">
+                  <div>
+                    <span>{{avatar.nickname}}</span>
+                    <i class="iconfont icon-combinedshapefuben"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="choose">
+              <div>
+                <div class="items">
+                  <i class="iconfont icon-pinglun"></i>
+                  <span>{{commentCount}}</span>
+                </div>
+                <div class="items">
+                  <i class="iconfont icon-zhuanfa"></i>
+                  <span>{{shareCount}}</span>
+                </div>
+                <div class="items">
+                  <i class="iconfont icon-xiazai"></i>
+                  <span>下载</span>
+                </div>
+                <div class="items">
+                  <i class="iconfont icon-duoxuan"></i>
+                  <span>多选</span>
                 </div>
               </div>
             </div>
           </div>
-          <div class="choose">
-            <div>
-              <div class="items">
-                <i class="iconfont icon-pinglun"></i>
-                <span>{{commentCount}}</span>
-              </div>
-              <div class="items">
-                <i class="iconfont icon-zhuanfa"></i>
-                <span>{{shareCount}}</span>
-              </div>
-              <div class="items">
-                <i class="iconfont icon-xiazai"></i>
-                <span>下载</span>
-              </div>
-              <div class="items">
-                <i class="iconfont icon-duoxuan"></i>
-                <span>多选</span>
-              </div>
-            </div>
-          </div>
+          <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
         </div>
-        <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
+      </div>
+      <div class="title">
+        <div class="title-bg"></div>
+        <div class="title-content">
+          <i class="iconfont icon-xiangzuo" @click="back"></i>
+          <p>歌单</p>
+          <i class="iconfont icon-zhengzaibofang"></i>
+        </div>
       </div>
     </div>
-    <div class="title">
-      <div class="title-bg"></div>
-      <div class="title-content">
-        <i class="iconfont icon-xiangzuo"></i>
-        <p>歌单</p>
-        <i class="iconfont icon-zhengzaibofang"></i>
-      </div>
-    </div>
-  </div>
+  </keep-alive>
 </template>
 
 <script>
@@ -113,6 +115,10 @@
         return new BScroll(this.$refs.musicList, {
           scrollY: true
         })
+      },
+      //路由回退
+      back () {
+        this.$router.back(-1)
       }
     },
     mounted () {
