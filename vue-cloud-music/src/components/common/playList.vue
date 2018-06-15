@@ -14,7 +14,7 @@
     </div>
     <div>
       <div>
-        <span class="songName">{{item.al.name}}</span>
+        <span class="songName">{{item.name}}</span>
         <span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>
         <p class="singer">{{item.ar[0].name}} - {{item.al.name}}</p>
       </div>
@@ -53,7 +53,7 @@
     methods: {
       playMusic (obj) {
         console.log(typeof obj.list);
-        console.log(obj.list)
+        console.log(obj.list);
         //提交store
         this.PLAY_MUSIC(obj);
         //路由切换

@@ -9,12 +9,16 @@
       </div>
       <div class="main">
         <div>
-          <img src="../../common/img/666.png">
+          <img src="../../common/img/blackRecord.png">
           <div class="img-center">
             <img :src="musicImg">
           </div>
         </div>
-        <div>
+        <div class="head">
+          <div></div>
+          <img src="../../common/img/stylus.png" ref="stylus" :class="{'rotate':!pauseMusic}">
+        </div>
+        <div class="other">
           <div>
             <i class="iconfont icon-xin"></i>
           </div>
@@ -30,10 +34,21 @@
         </div>
       </div>
       <div class="footer">
-        <div>
-          <audio :src="musicUrl" controls="controls" ref="audio" autoplay="autoplay" style="position: absolute; transform: translateY(-6rem)"></audio>
+        <div class="progress">
+          <span>{{currentTime}}</span>
+          <div class="progress-bar" ref="progress" @click="jump">
+            <div class="real-progress" ref="progressReal">
+              <div class="circle">
+                <div class="small-circle"></div>
+              </div>
+            </div>
+          </div>
+          <span>{{duration}}</span>
         </div>
         <div>
+          <audio :src="musicUrl" id="audio" ref="audio" autoplay="autoplay" style="position: absolute; transform: translateY(-6rem)"></audio>
+        </div>
+        <div class="choose">
           <i class="iconfont icon-shunxubofang"></i>
           <i class="iconfont icon-shangyishou" @click="prev"></i>
           <i class="iconfont icon-bofangquanbu" @click="play" v-if="pauseMusic"></i>
@@ -47,37 +62,48 @@
 </template>
 
 <script>
+
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
+import {PLAY_PREV, PLAY_NEXT} from '@/store/mutationType.js'
+import {mapMutations} from 'vuex'
 export default {
   name: 'playing',
   data () {
     return {
-      name: '',
-      id: '',
       musicUrl: '',
-      musicImg: '',
       audio: '',
       pauseMusic: '',
-      index: '',
+      duration: '',
+      currentTime: '',
     }
   },
   mounted () {
-    this.initSong();
     this.controlAudio();
+    this.initSong();
+  },
+  computed: {
+    //歌曲在列表中的index
+    index () {
+      return this.$store.state.playingIndex;
+    },
+    //歌曲id
+    id () {
+      return this.$store.state.playingId;
+    },
+    //歌曲名
+    name () {
+      return this.$store.state.playingName;
+    },
+    //歌曲背景图
+    musicImg () {
+      return this.$store.state.playImg;
+    }
   },
   methods: {
     back () {
       this.$router.back(-1);
     },
     initSong () {
-      //初始化歌曲名
-      this.name = this.$store.state.playingName;
-      //初始化歌曲id
-      this.id = this.$store.state.playingId;
-      //初始化封面
-      this.musicImg = this.$store.state.playImg;
-      //初始化歌曲index
-      this.index= this.$store.state.playingIndex;
       //初始化歌曲地址
       getMusicUrl(this.id).then(result => {
         console.log(result);
@@ -90,6 +116,27 @@ export default {
     //控制音频的操作
     controlAudio () {
       this.audio = this.$refs.audio;
+      //歌曲总长
+      setTimeout(() => {
+        let min = (this.audio.duration / 60).toFixed(0);
+        let sec = (this.audio.duration % 60).toFixed(0);
+        if (sec < 10) sec = `0${sec}`;
+        this.duration = `${min}:${sec}`
+      },150);
+      //歌曲进度
+      this.audio.addEventListener('timeupdate', (e) => {
+        console.log(e);
+        let min = (e.path[0].currentTime / 60).toFixed(0);
+        let sec = (e.path[0].currentTime % 60).toFixed(0);
+        if (sec < 10) sec = `0${sec}`;
+        this.currentTime = `${min}:${sec}`;
+
+        this.updateProgress();
+      });
+
+      this.audio.addEventListener('ended', (e) => {
+        this.pauseMusic = true;
+      })
     },
     //中断播放
     pause () {
@@ -103,17 +150,43 @@ export default {
     },
     //上一首
     prev () {
-
+      this.PLAY_PREV();
+      this.initSong();
     },
     //下一首
     next () {
-      console.log(this.index)
-    }
+      this.PLAY_NEXT();
+      console.log(this.index);
+      this.initSong();
+    },
+    jump () {
+      const progress = this.$refs.progress;
+      progress.addEventListener('click', (e) => {
+        console.log(e.pageX)
+      })
+    },
+    updateProgress () {
+      let value = this.audio.currentTime / this.audio.duration;
+      value = `${(value * 100).toFixed(2)}%`;
+      this.$refs.progressReal.style.width = value;
+    },
+    ...mapMutations([
+      'PLAY_NEXT',
+      'PLAY_PREV'
+    ])
+  },
+  watch: {
+//    audio () {
+//      console.log(this.audio.currentTime)
+//    }
   }
 }
+
 </script>
 
 <style lang="less" scoped>
+  @import '../../common/css/color.less';
+  @import '../../common/css/fontSize.less';
 .playing {
   background-color: #fff;
   position: fixed;
@@ -132,6 +205,46 @@ export default {
     height: 76vh;
     top: 3rem;
     width: 100%;
+    overflow: hidden;
+
+    .head {
+      position: absolute;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background-color: #F7F7F8;
+      top: 0;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /*opacity: .8;*/
+
+      & > div {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 15px;
+        height: 15px;
+        border-radius: 50%;
+        background-color: #DEDEDF;
+        transform: translate(-50%, -50%);
+      }
+
+      & > img {
+        position: absolute;
+        top: 12px;
+        left: 15px;
+        transition: all .2s linear;
+        transform-origin: 0 0;
+      }
+
+      & > img.rotate {
+        transform: rotate(40deg);
+      }
+    }
+
+    .other i {
+      font-size: @oneHalfSize + 0.3rem;
+    }
 
     & > div:first-child {
       position: relative;
@@ -172,11 +285,65 @@ export default {
 
   .footer {
     position: absolute;
-    bottom: 2rem;
+    bottom: 2.5vh;
     width: 96%;
     margin: 0 2%;
 
-    & > div {
+    .progress {
+      width: 100%;
+      display: flex;
+      margin-bottom: .7rem;
+      align-items: center;
+      justify-content: space-between;
+
+      .progress-bar {
+        height: 2px;
+        width: 72%;
+        background-color: #a6a6a6;
+
+        .real-progress {
+          position: relative;
+          width: 0;
+          height: 100%;
+          transition: width .3s linear;
+          background-color: #d81e06;
+
+          .circle {
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            background-color: #fff;
+
+            .small-circle {
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 5px;
+              height: 5px;
+              border-radius: 50%;
+              transform: translate(-50%, -50%);
+              background-color: #D33A31;
+            }
+          }
+        }
+      }
+
+      & > span:first-child {
+        width: 8%;
+        font-size: @normalSize;
+        color: #fff;
+      }
+      & > span:last-child {
+        width: 8%;
+        font-size: @normalSize;
+        color: #fff;
+      }
+    }
+    .choose {
       margin: 0 auto;
       width: 94%;
       display: flex;
@@ -206,8 +373,6 @@ export default {
     line-height: 3rem;
     height: 3rem;
     background-color: transparent;
-    /*border-bottom: 1px #312822 solid;*/
-    /*background: linear-gradient(to bottom, #000 50%, #fff);*/
   }
 }
 
