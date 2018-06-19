@@ -42,6 +42,9 @@
             </div>
           </div>
           <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
+          <div class="audio">
+            <audio ref="audio"></audio>
+          </div>
         </div>
       </div>
       <div class="title">
@@ -49,7 +52,8 @@
         <div class="title-content">
           <i class="iconfont icon-xiangzuo" @click="back"></i>
           <p>歌单</p>
-          <i class="iconfont icon-zhengzaibofang"></i>
+          <i class="iconfont icon-zhengzaibofang" @click="goPlaying" v-if="!playing"></i>
+          <img class="gif" src="../../common/img/playing_red.gif" @click="goPlaying" v-if="playing">
         </div>
       </div>
     </div>
@@ -60,6 +64,8 @@
   import BScroll from 'better-scroll'
   import {getMusicListInfo} from '@/common/js/axiosType/getAxiosType.js'
   import playList from '@/components/common/playList.vue'
+  import {UPDATE_PROGRESS} from '@/store/mutationType.js'
+  import {mapMutations} from 'vuex'
   export default {
     name: 'musicList',
     data () {
@@ -71,7 +77,7 @@
         subscribedCount: 0,
         commentCount: 0,
         shareCount: 0,
-        tracks: []
+        tracks: [],
       }
     },
     components: {
@@ -111,19 +117,52 @@
       },
       //回弹初始化
       initWrapper () {
-        console.log(this.$refs.listInfo.offsetHeight)
+        console.log(this.$refs.listInfo.offsetHeight);
         return new BScroll(this.$refs.musicList, {
           scrollY: true
         })
       },
+      checkMusicBackground () {
+        let address = this.$store.state.playAddress;
+        let current = this.$store.state.currentTime;
+        if (current !== '' && address !== '') {
+          this.$refs.audio.src = address;
+          this.$refs.audio.currentTime = current;
+          this.$refs.audio.play();
+        }
+      },
       //路由回退
       back () {
         this.$router.back(-1)
+      },
+      //路由前进
+      goPlaying() {
+        this.$router.push({
+          path: '/playing'
+        })
+      },
+      ...mapMutations([
+        'UPDATE_PROGRESS'
+      ])
+    },
+    computed: {
+      //歌曲是否正在播放，决定了左上角的gif是否显示
+      playing () {
+        return this.$store.state.isPlaying
       }
     },
     mounted () {
       this.getMusicListInfo();
       this.initWrapper();
+      this.checkMusicBackground();
+    },
+    //在路由切换前上传播放进度
+    beforeRouteLeave (to, from, next) {
+      this.UPDATE_PROGRESS({
+        currentTime: this.$refs.audio.currentTime,
+        address: this.$refs.audio.src
+      });
+      next()
     }
   }
 </script>
@@ -163,6 +202,7 @@
       padding: 0 2%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
   }
 
@@ -265,7 +305,15 @@
         }
       }
     }
+  }
 
+  .gif {
+    width: 17px;
+    height: 17px;
+  }
+
+  .audio {
+    /*display: none;*/
   }
 }
 

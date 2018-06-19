@@ -46,7 +46,7 @@
           <span>{{duration}}</span>
         </div>
         <div>
-          <audio :src="musicUrl" id="audio" ref="audio" autoplay="autoplay" style="position: absolute; transform: translateY(-6rem)"></audio>
+          <audio :src="musicUrl" id="audio" ref="audio" autoplay="autoplay"></audio>
         </div>
         <div class="choose">
           <i class="iconfont icon-shunxubofang"></i>
@@ -64,7 +64,7 @@
 <script>
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
-import {PLAY_PREV, PLAY_NEXT} from '@/store/mutationType.js'
+import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS} from '@/store/mutationType.js'
 import {mapMutations} from 'vuex'
 export default {
   name: 'playing',
@@ -80,6 +80,7 @@ export default {
   mounted () {
     this.controlAudio();
     this.initSong();
+    this.checkMusicBackground();
   },
   computed: {
     //歌曲在列表中的index
@@ -100,7 +101,19 @@ export default {
     }
   },
   methods: {
+    //确认后台播放的进度
+    checkMusicBackground () {
+      if (this.$store.state.currentTime !== '' && this.$store.state.playAddress !== '') {
+        this.audio.src = this.$store.state.playAddress;
+        this.audio.currentTime = parseFloat(this.$store.state.currentTime);
+      }
+    },
+    //路由回退，上传播放进度
     back () {
+      this.UPDATE_PROGRESS({
+        currentTime: this.audio.currentTime,
+        address: this.musicUrl
+      });
       this.$router.back(-1);
     },
     initSong () {
@@ -125,14 +138,13 @@ export default {
       },200);
       //歌曲进度
       this.audio.addEventListener('timeupdate', (e) => {
-        console.log(e);
         let min = (e.path[0].currentTime / 60).toFixed(0);
         let sec = (e.path[0].currentTime % 60).toFixed(0);
         if (sec < 10) sec = `0${sec}`;
         this.currentTime = `${min}:${sec}`;
 
         this.updateProgress();
-      });
+      }, false);
 
       this.audio.addEventListener('ended', (e) => {
         this.pauseMusic = true;
@@ -178,14 +190,10 @@ export default {
     },
     ...mapMutations([
       'PLAY_NEXT',
-      'PLAY_PREV'
+      'PLAY_PREV',
+      'UPDATE_PROGRESS'
     ])
   },
-  watch: {
-//    audio () {
-//      console.log(this.audio.currentTime)
-//    }
-  }
 }
 
 </script>

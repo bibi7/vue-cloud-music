@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV} from "./mutationType";
+import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, UPDATE_PROGRESS} from "./mutationType";
 
 Vue.use(Vuex);
 
@@ -12,9 +12,6 @@ export default new Vuex.Store({
     //正在播放的歌曲id
     playingId: '',
 
-    //歌曲播放进度
-    playProgress: '',
-
     //当前播放歌曲索引
     playingIndex: '',
 
@@ -25,25 +22,32 @@ export default new Vuex.Store({
     playImg: '',
 
     //播放模式
-    playMode: '',
-
-    //歌曲总长度
-    playTotalLength: '',
+    // playMode: '',
 
     //歌曲播放长度
-    playCurrentLength: '',
+    currentTime: '',
+
+    //歌曲地址
+    playAddress: '',
+
+    //是否正在播放
+    isPlaying: false,
 
   },
   mutations: {
     //****[播放音乐]****
     [PLAY_MUSIC] (state, obj) {
+      if (state.playingId !== obj.item.id) {
+        state.currentTime = '';
+      }
       state.playingId = obj.item.id;
       state.playingIndex = obj.index;
       state.playImg = obj.item.al.picUrl;
       state.playingName = obj.item.name;
       state.playList = obj.list;
-      console.log(state.playingIndex)
+      state.isPlaying = true;
     },
+
     //****[上一首]****
     [PLAY_NEXT] (state) {
       let index = state.playingIndex;
@@ -58,6 +62,7 @@ export default new Vuex.Store({
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
     },
+
     //****[下一首]****
     [PLAY_PREV] (state) {
       let index = state.playingIndex;
@@ -71,6 +76,13 @@ export default new Vuex.Store({
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
+    },
+
+    //上传后台播放歌曲信息
+    [UPDATE_PROGRESS] (state, obj) {
+      state.currentTime = obj.currentTime;
+      state.playAddress = obj.address;
+      console.log(state.isPlaying);
     }
   }
 });

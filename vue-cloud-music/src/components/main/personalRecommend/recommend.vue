@@ -8,6 +8,7 @@
         </div>
         <navigation></navigation>
         <recommendSongList></recommendSongList>
+        <audio class="audio" ref="audio"></audio>
       </div>
     </div>
   </div>
@@ -18,17 +19,43 @@
   import BScroll from 'better-scroll';
   import navigation from './recommendNavigate.vue';
   import recommendSongList from '@/components/main/personalRecommend/recommendSongList.vue'
+  import {UPDATE_PROGRESS} from '@/store/mutationType.js'
+  import {mapMutations} from 'vuex'
   export default {
   name: 'recommend',
   mounted () {
     this._initScroll();
+    this.checkMusicBackground();
+  },
+    //在路由切换前上传播放进度
+  beforeRouteLeave (to, from, next) {
+    this.UPDATE_PROGRESS({
+      currentTime: this.$refs.audio.currentTime,
+      address: this.$refs.audio.src
+    });
+    next()
   },
   methods: {
     _initScroll () {
       this.scroll = new BScroll(this.$refs.wrapper, {
-        scrollY: true
+        scrollY: true,
+        click: true
       })
-    }
+    },
+    //checkMusicBackground在多处地方都曾使用，后期需要封装起来
+    checkMusicBackground () {
+      let address = this.$store.state.playAddress;
+      let current = this.$store.state.currentTime;
+      console.log(address);
+      if (current !== '' && address !== '') {
+        this.$refs.audio.src = address;
+        this.$refs.audio.currentTime = current;
+        this.$refs.audio.play();
+      }
+    },
+    ...mapMutations([
+      'UPDATE_PROGRESS'
+    ])
   },
   components: {
     slider,
@@ -49,6 +76,10 @@
     width: 100%;
     height: 100%;
     overflow: hidden;
+
+    .audio {
+      display: none;
+    }
   }
 
   .red-bg {

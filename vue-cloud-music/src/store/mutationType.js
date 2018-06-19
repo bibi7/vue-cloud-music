@@ -15,3 +15,9 @@ export const PLAY_PREV = 'PLAY_PREV';
  * @type {string}
  */
 export const PLAY_NEXT = 'PLAY_NEXT';
+
+/**
+ * 上传后台播放进度
+ * @type {string}
+ */
+export const UPDATE_PROGRESS = 'UPDATE_PROGRESS';
