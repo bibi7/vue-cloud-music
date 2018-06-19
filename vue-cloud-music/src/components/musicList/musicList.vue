@@ -119,7 +119,8 @@
       initWrapper () {
         console.log(this.$refs.listInfo.offsetHeight);
         return new BScroll(this.$refs.musicList, {
-          scrollY: true
+          scrollY: true,
+          click: true
         })
       },
       checkMusicBackground () {
