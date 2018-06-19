@@ -122,7 +122,7 @@ export default {
         let sec = (this.audio.duration % 60).toFixed(0);
         if (sec < 10) sec = `0${sec}`;
         this.duration = `${min}:${sec}`
-      },150);
+      },200);
       //歌曲进度
       this.audio.addEventListener('timeupdate', (e) => {
         console.log(e);
@@ -161,8 +161,14 @@ export default {
     },
     jump () {
       const progress = this.$refs.progress;
+      const progressReal = this.$refs.progressReal;
       progress.addEventListener('click', (e) => {
-        console.log(e.pageX)
+        let offsetX = e.offsetX;
+        let width = progress.clientWidth;
+        let percentage = `${(offsetX / width).toFixed(4) * 100}%`;
+        let current = (percentage.split('%')[0] / 100) * this.audio.duration;
+        this.audio.currentTime = current;
+        progressReal.style.width = percentage;
       })
     },
     updateProgress () {
