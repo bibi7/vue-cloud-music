@@ -49,7 +49,9 @@
           <audio :src="musicUrl" id="audio" ref="audio" autoplay="autoplay"></audio>
         </div>
         <div class="choose">
-          <i class="iconfont icon-shunxubofang"></i>
+          <i class="iconfont icon-shunxubofang" v-if="playMode === 0" @click="updateMode"></i>
+          <i class="iconfont icon-danquxunhuan" v-if="playMode === 1" @click="updateMode"></i>
+          <i class="iconfont icon-suiji2" v-if="playMode === 2" @click="updateMode"></i>
           <i class="iconfont icon-shangyishou" @click="prev"></i>
           <i class="iconfont icon-bofangquanbu" @click="play" v-if="pauseMusic"></i>
           <i class="iconfont icon-zanting" @click="pause" v-if="!pauseMusic"></i>
@@ -64,7 +66,7 @@
 <script>
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
-import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS} from '@/store/mutationType.js'
+import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE} from '@/store/mutationType.js'
 import {mapMutations} from 'vuex'
 export default {
   name: 'playing',
@@ -98,6 +100,10 @@ export default {
     //歌曲背景图
     musicImg () {
       return this.$store.state.playImg;
+    },
+    //播放模式
+    playMode () {
+      return this.$store.state.playMode;
     }
   },
   methods: {
@@ -148,6 +154,7 @@ export default {
 
       this.audio.addEventListener('ended', (e) => {
         this.pauseMusic = true;
+        this.checkMode();
       })
     },
     //中断播放
@@ -188,10 +195,39 @@ export default {
       value = `${(value * 100).toFixed(2)}%`;
       this.$refs.progressReal.style.width = value;
     },
+    //播放结束按照播放模式选择下一首曲目
+    checkMode () {
+      switch (this.playMode) {
+        //顺序播放，直接向store提交下一首
+        case 0:
+          this.PLAY_NEXT();
+          this.initSong();
+          this.pauseMusic = false;
+          break;
+        //单曲循环，这里偷懒直接把进度条拉到最开始的地方
+        case 1:
+          this.audio.currentTime = 0;
+          this.play();
+          break;
+        //随机播放，向store提交请求
+        case 2:
+          this.PLAY_IRREGULAR();
+          this.initSong();
+          this.pauseMusic = false;
+          break;
+      }
+    },
+    updateMode () {
+      if (this.playMode === 0) this.PLAY_MODE(1);
+      else if (this.playMode === 1) this.PLAY_MODE(2);
+      else if (this.playMode === 2) this.PLAY_MODE(0);
+    },
     ...mapMutations([
       'PLAY_NEXT',
       'PLAY_PREV',
-      'UPDATE_PROGRESS'
+      'UPDATE_PROGRESS',
+      'PLAY_IRREGULAR',
+      'PLAY_MODE'
     ])
   },
 }
@@ -364,6 +400,16 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      & > div {
+        width: 1.2rem;
+        height: 1.2rem;
+        overflow: hidden;
+        & > i {
+          font-size: 1.2rem;
+          color: #fff;
+        }
+      }
 
       & > i {
         font-size: 1.2rem;

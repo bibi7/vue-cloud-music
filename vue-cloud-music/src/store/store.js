@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, UPDATE_PROGRESS} from "./mutationType";
+import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE} from "./mutationType";
 
 Vue.use(Vuex);
 
@@ -21,8 +21,8 @@ export default new Vuex.Store({
     //背景图片
     playImg: '',
 
-    //播放模式
-    // playMode: '',
+    //播放模式, 0顺序播放，1单曲循环，2随机播放
+    playMode: 2,
 
     //歌曲播放长度
     currentTime: '',
@@ -83,6 +83,22 @@ export default new Vuex.Store({
       state.currentTime = obj.currentTime;
       state.playAddress = obj.address;
       console.log(state.isPlaying);
+    },
+
+    //随机播放
+    [PLAY_IRREGULAR] (state) {
+      const length = state.playList.length;
+      const index = Math.round(Math.random() * length);
+      state.playingIndex = index;
+      state.playingId = state.playList[index].id;
+      state.playImg = state.playList[index].al.picUrl;
+      state.playingName = state.playList[index].name;
+    },
+
+    //更改播放模式
+    [PLAY_MODE] (state, modeNumber) {
+      state.playMode = modeNumber
     }
+    //这个store还是存在了一些重复的代码，需要优化，做个mark
   }
 });
