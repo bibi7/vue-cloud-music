@@ -314,6 +314,7 @@ export default {
         height: 2px;
         width: 72%;
         background-color: #a6a6a6;
+        cursor: pointer;
 
         .real-progress {
           position: relative;

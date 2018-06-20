@@ -15,7 +15,6 @@
 <script>
 export default {
   name: 'mainPart',
-
 }
 </script>
 
@@ -33,6 +32,22 @@ export default {
   justify-content: space-around;
   line-height: 3rem;
   background-color: @themeRed;
-  font-size: @normalSize;
+  font-size: @normalSize + 0.2rem;
+
+  .router-link-exact-active {
+    position: relative;
+  }
+
+  .router-link-exact-active::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 3px;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 7px;
+    background-color: #fff;
+  }
 }
 </style>

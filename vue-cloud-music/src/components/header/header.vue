@@ -8,9 +8,9 @@
       <p>网易云音乐</p>
       <!--前往正在播放-->
       <router-link to="/playing">
-        <i class="iconfont icon-zhengzaibofang"></i>
+        <i class="iconfont icon-zhengzaibofang" v-if="!playing"></i>
+        <img class="gif" src="../../common/img/playing_white.gif" v-if="playing">
       </router-link>
-
     </div>
   </div>
 </template>
@@ -19,6 +19,11 @@
 import playList from '../playList/playList.vue'
 export default {
   name: 'header_',
+  computed: {
+    playing () {
+      return this.$store.state.isPlaying
+    }
+  }
 }
 </script>
 
@@ -38,5 +43,10 @@ export default {
   display: flex;
   justify-content: space-between;
   background-color: @themeRed;
+
+  .gif {
+    width: 17px;
+    height: 17px;
+  }
 }
 </style>
