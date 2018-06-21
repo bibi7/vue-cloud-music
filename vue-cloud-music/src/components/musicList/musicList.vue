@@ -42,9 +42,6 @@
             </div>
           </div>
           <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
-          <div class="audio">
-            <audio ref="audio"></audio>
-          </div>
         </div>
       </div>
       <div class="title">
@@ -78,6 +75,7 @@
         commentCount: 0,
         shareCount: 0,
         tracks: [],
+        scrollY: 0,
       }
     },
     components: {
@@ -118,21 +116,13 @@
       //回弹初始化
       initWrapper () {
         console.log(this.$refs.listInfo.offsetHeight);
-        return new BScroll(this.$refs.musicList, {
+        const scrollWrapper = new BScroll(this.$refs.musicList, {
           scrollY: true,
-          click: true
-        })
-      },
-      checkMusicBackground () {
-        if (this.$store.state.isPlaying) {
-          let address = this.$store.state.playAddress;
-          let current = this.$store.state.currentTime;
-          if (current !== '' && address !== '') {
-            this.$refs.audio.src = address;
-            this.$refs.audio.currentTime = current;
-            this.$refs.audio.play();
-          }
-        }
+          click: true,
+          probeType: 3
+        });
+
+        scrollWrapper.on('scroll', this.onScroll)
       },
       //路由回退
       back () {
@@ -144,6 +134,12 @@
           path: '/playing'
         })
       },
+      onScroll (pos) {
+        this.scrollY = pos.y
+      },
+      checkBgHeight () {
+        this.bgHeight = this.$refs.mainBg.clientHeight
+      },
       ...mapMutations([
         'UPDATE_PROGRESS'
       ])
@@ -154,20 +150,26 @@
         return this.$store.state.isPlaying
       }
     },
+    watch: {
+      scrollY () {
+        console.log(this.scrollY)
+        console.log(this.bgHeight)
+      }
+    },
     mounted () {
       this.getMusicListInfo();
       this.initWrapper();
-      this.checkMusicBackground();
+      this.checkBgHeight();
     },
     //在路由切换前上传播放进度
-    beforeRouteLeave (to, from, next) {
-      this.UPDATE_PROGRESS({
-        currentTime: this.$refs.audio.currentTime,
-        address: this.$refs.audio.src,
-        pause: this.$store.state.isPlaying
-      });
-      next()
-    }
+//    beforeRouteLeave (to, from, next) {
+//      this.UPDATE_PROGRESS({
+//        currentTime: this.$refs.audio.currentTime,
+//        address: this.$refs.audio.src,
+//        pause: this.$store.state.isPlaying
+//      });
+//      next()
+//    }
   }
 </script>
 
@@ -231,7 +233,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        top: 5vh;
+        top: 7vh;
         width: 94%;
         left: 3%;
 

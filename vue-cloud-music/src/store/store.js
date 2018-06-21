@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE} from "./mutationType";
+import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, PLAY_IRREGULAR, PLAY_MODE, UPDATE_CURRENTTIME, UPDATE_DURATION, PLAY, PAUSE, JUMP} from "./mutationType";
 
 Vue.use(Vuex);
 
@@ -22,16 +22,25 @@ export default new Vuex.Store({
     playImg: '',
 
     //播放模式, 0顺序播放，1单曲循环，2随机播放
-    playMode: 2,
+    playMode: 0,
 
-    //歌曲播放长度
+    //歌曲当前长度
     currentTime: '',
+
+    //歌曲总长度
+    duration: '',
+
+    unFixedTime: '',
+
+    unFixedDuration: '',
 
     //歌曲地址
     playAddress: '',
 
     //是否正在播放
     isPlaying: false,
+
+    jump: '',
 
   },
   mutations: {
@@ -78,12 +87,31 @@ export default new Vuex.Store({
       state.playingName = state.playList[index].name;
     },
 
-    //上传后台播放歌曲信息
-    [UPDATE_PROGRESS] (state, obj) {
-      state.currentTime = obj.currentTime;
-      state.playAddress = obj.address;
-      state.isPlaying = obj.pause;
-      console.log(state.isPlaying);
+    //****[更新进度]****
+    [UPDATE_CURRENTTIME] (state, obj) {
+      state.currentTime = obj.current;
+      state.unFixedTime = obj.unFixedTime;
+    },
+
+    //****[更新歌曲总时间]****
+    [UPDATE_DURATION] (state, obj) {
+      state.duration = obj.duration;
+      state.unFixedDuration = obj.unFixedDuration;
+    },
+
+    //****[播放]****
+    [PLAY] (state) {
+      state.isPlaying = true
+    },
+
+    //****[暂停]****
+    [PAUSE] (state) {
+      state.isPlaying = false
+    },
+
+    //****[歌曲跳跃]****
+    [JUMP] (state, jump) {
+      state.jump = jump
     },
 
     //随机播放

@@ -2,15 +2,18 @@
   <div id="app">
     <appHeader></appHeader>
     <router-view></router-view>
+    <audios></audios>
   </div>
 </template>
 
 <script>
 import appHeader from './components/header/header.vue';
+import audios from './components/playing/audio.vue';
 export default {
   name: 'App',
   components: {
     appHeader,
+    audios
   }
 }
 </script>

@@ -10,11 +10,12 @@
   </div>
   <div class="listItem" v-for="(item, index) in info" @click="playMusic({item: item, index: index, list: info})">
     <div>
-      <span>{{index + 1}}</span>
+      <span v-if="item.name !== playingName">{{index + 1}}</span>
+      <img class="gif" src="../../common/img/playing_red.gif" v-if="item.name === playingName">
     </div>
     <div>
       <div>
-        <span class="songName">{{item.name}}</span>
+        <span class="songName" :class="{nowPlaying: item.name === playingName}">{{item.name}}</span>
         <span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>
         <p class="singer">{{item.ar[0].name}} - {{item.al.name}}</p>
       </div>
@@ -48,6 +49,11 @@
       subscribedCount: {
         type: Number,
         default: 0,
+      }
+    },
+    computed: {
+      playingName () {
+        return this.$store.state.playingName
       }
     },
     methods: {
@@ -138,14 +144,19 @@
         text-align: left;
         border-bottom: 1px #cdcdcd solid;
 
-        .songName{
+        .songName {
           font-size: @normalSize + 0.3rem;
           color: @themeBlack;
         }
-        .songderivation{
+
+        .songName.nowPlaying {
+          color: @themeRed;
+        }
+
+        .songderivation {
           color: @themeGray;
         }
-        .singer{
+        .singer {
           color: @themeGray;
           margin-top: 8px;
           font-size: @normalSize - 0.1rem;
@@ -171,5 +182,10 @@
   overflow: hidden;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.gif {
+  width: 13px;
+  height: 13px;
 }
 </style>

@@ -16,7 +16,7 @@
         </div>
         <div class="head">
           <div></div>
-          <img src="../../common/img/stylus.png" ref="stylus" :class="{'rotate':!pauseMusic}">
+          <img src="../../common/img/stylus.png" ref="stylus" :class="{'rotate':pauseMusic}">
         </div>
         <div class="other">
           <div>
@@ -35,7 +35,7 @@
       </div>
       <div class="footer">
         <div class="progress">
-          <span>{{currentTime}}</span>
+          <span>{{current}}</span>
           <div class="progress-bar" ref="progress" @click="jump">
             <div class="real-progress" ref="progressReal">
               <div class="circle">
@@ -45,16 +45,13 @@
           </div>
           <span>{{duration}}</span>
         </div>
-        <div>
-          <audio :src="musicUrl" id="audio" ref="audio" autoplay="autoplay"></audio>
-        </div>
         <div class="choose">
           <i class="iconfont icon-shunxubofang" v-if="playMode === 0" @click="updateMode"></i>
           <i class="iconfont icon-danquxunhuan" v-if="playMode === 1" @click="updateMode"></i>
           <i class="iconfont icon-suiji2" v-if="playMode === 2" @click="updateMode"></i>
           <i class="iconfont icon-shangyishou" @click="prev"></i>
-          <i class="iconfont icon-bofangquanbu" @click="play" v-if="pauseMusic"></i>
-          <i class="iconfont icon-zanting" @click="pause" v-if="!pauseMusic"></i>
+          <i class="iconfont icon-bofangquanbu" @click="play" v-if="!pauseMusic"></i>
+          <i class="iconfont icon-zanting" @click="pause" v-if="pauseMusic"></i>
           <i class="iconfont icon-shangyishou1" @click="next"></i>
           <i class="iconfont icon-Group"></i>
         </div>
@@ -69,7 +66,7 @@
 <script>
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
-import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE} from '@/store/mutationType.js'
+import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP} from '@/store/mutationType.js'
 import {mapMutations} from 'vuex'
 export default {
   name: 'playing',
@@ -77,15 +74,10 @@ export default {
     return {
       musicUrl: '',
       audio: '',
-      pauseMusic: false,
-      duration: '',
-      currentTime: '',
     }
   },
   mounted () {
-    this.controlAudio();
     this.initSong();
-    this.checkMusicBackground();
   },
   computed: {
     //歌曲在列表中的index
@@ -107,6 +99,16 @@ export default {
     //播放模式
     playMode () {
       return this.$store.state.playMode;
+    },
+    current () {
+      return this.$store.state.currentTime;
+    },
+    duration () {
+      return this.$store.state.duration;
+    },
+    pauseMusic () {
+      return this.$store.state.isPlaying;
+
     }
   },
   methods: {
@@ -119,11 +121,6 @@ export default {
     },
     //路由回退，上传播放进度
     back () {
-      this.UPDATE_PROGRESS({
-        currentTime: this.audio.currentTime,
-        address: this.musicUrl,
-        pause: !this.pauseMusic
-      });
       this.$router.back(-1);
     },
     initSong () {
@@ -136,51 +133,21 @@ export default {
 
       this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
     },
-    //控制音频的操作
-    controlAudio () {
-      this.audio = this.$refs.audio;
-      //歌曲总长
-      setTimeout(() => {
-        let min = (this.audio.duration / 60).toFixed(0);
-        let sec = (this.audio.duration % 60).toFixed(0);
-        if (sec < 10) sec = `0${sec}`;
-        this.duration = `${min}:${sec}`
-      },200);
-      //歌曲进度
-      this.audio.addEventListener('timeupdate', (e) => {
-        let min = (e.path[0].currentTime / 60).toFixed(0);
-        let sec = (e.path[0].currentTime % 60).toFixed(0);
-        if (sec < 10) sec = `0${sec}`;
-        this.currentTime = `${min}:${sec}`;
-
-        this.updateProgress();
-      }, false);
-
-      this.audio.addEventListener('ended', (e) => {
-        this.pauseMusic = true;
-        this.checkMode();
-      })
-    },
     //中断播放
     pause () {
-      this.audio.pause();
-      this.pauseMusic = true;
+      this.PAUSE()
     },
     //继续播放
     play () {
-      this.audio.play();
-      this.pauseMusic = false;
+      this.PLAY()
     },
     //上一首
     prev () {
       this.PLAY_PREV();
-      this.initSong();
     },
     //下一首
     next () {
       this.PLAY_NEXT();
-      console.log(this.index);
-      this.initSong();
     },
     //进度条跳到指定位置
     jump () {
@@ -190,14 +157,13 @@ export default {
         let offsetX = e.offsetX;
         let width = progress.clientWidth;
         let percentage = `${(offsetX / width).toFixed(4) * 100}%`;
-        let current = (percentage.split('%')[0] / 100) * this.audio.duration;
-        this.audio.currentTime = current;
-        progressReal.style.width = percentage;
+        let current = (percentage.split('%')[0] / 100) * this.$store.state.unFixedDuration;
+        this.JUMP(current)
       })
     },
     //进度条更新进度
     updateProgress () {
-      let value = this.audio.currentTime / this.audio.duration;
+      let value = this.$store.state.unFixedTime / this.this.$store.state.unFixedDuration;
       value = `${(value * 100).toFixed(2)}%`;
       this.$refs.progressReal.style.width = value;
     },
@@ -232,11 +198,24 @@ export default {
     ...mapMutations([
       'PLAY_NEXT',
       'PLAY_PREV',
-      'UPDATE_PROGRESS',
       'PLAY_IRREGULAR',
-      'PLAY_MODE'
+      'PLAY_MODE',
+      'PLAY',
+      'PAUSE',
+      'JUMP'
     ])
   },
+  watch: {
+    current () {
+      let value = this.$store.state.unFixedTime / this.$store.state.unFixedDuration;
+      console.log(value)
+      value = `${(value * 100).toFixed(2)}%`;
+      this.$refs.progressReal.style.width = value;
+    },
+    musicImg () {
+      this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
+    }
+  }
 }
 
 </script>

@@ -8,7 +8,7 @@
         </div>
         <navigation></navigation>
         <recommendSongList></recommendSongList>
-        <audio class="audio" ref="audio"></audio>
+        <!--<audio class="audio" ref="audio"></audio>-->
       </div>
     </div>
   </div>
@@ -25,17 +25,17 @@
   name: 'recommend',
   mounted () {
     this._initScroll();
-    this.checkMusicBackground();
+//    this.checkMusicBackground();
   },
     //在路由切换前上传播放进度
-  beforeRouteLeave (to, from, next) {
-    this.UPDATE_PROGRESS({
-      currentTime: this.$refs.audio.currentTime,
-      address: this.$refs.audio.src,
-      pause: this.$store.state.isPlaying
-    });
-    next()
-  },
+//  beforeRouteLeave (to, from, next) {
+//    this.UPDATE_PROGRESS({
+//      currentTime: this.$refs.audio.currentTime,
+//      address: this.$refs.audio.src,
+//      pause: this.$store.state.isPlaying
+//    });
+//    next()
+//  },
   methods: {
     _initScroll () {
       this.scroll = new BScroll(this.$refs.wrapper, {
