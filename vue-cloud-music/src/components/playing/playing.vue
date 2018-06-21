@@ -59,6 +59,9 @@
           <i class="iconfont icon-Group"></i>
         </div>
       </div>
+      <div class="list">
+
+      </div>
     </div>
   </keep-alive>
 </template>
@@ -74,7 +77,7 @@ export default {
     return {
       musicUrl: '',
       audio: '',
-      pauseMusic: '',
+      pauseMusic: false,
       duration: '',
       currentTime: '',
     }
@@ -118,7 +121,8 @@ export default {
     back () {
       this.UPDATE_PROGRESS({
         currentTime: this.audio.currentTime,
-        address: this.musicUrl
+        address: this.musicUrl,
+        pause: !this.pauseMusic
       });
       this.$router.back(-1);
     },
@@ -178,6 +182,7 @@ export default {
       console.log(this.index);
       this.initSong();
     },
+    //进度条跳到指定位置
     jump () {
       const progress = this.$refs.progress;
       const progressReal = this.$refs.progressReal;
@@ -190,6 +195,7 @@ export default {
         progressReal.style.width = percentage;
       })
     },
+    //进度条更新进度
     updateProgress () {
       let value = this.audio.currentTime / this.audio.duration;
       value = `${(value * 100).toFixed(2)}%`;
@@ -217,6 +223,7 @@ export default {
           break;
       }
     },
+    //向store提交播放模式
     updateMode () {
       if (this.playMode === 0) this.PLAY_MODE(1);
       else if (this.playMode === 1) this.PLAY_MODE(2);
@@ -245,6 +252,11 @@ export default {
   right: 0;
   bottom: 0;
   z-index: 10;
+
+  .list {
+    position: absolute;
+
+  }
 
   .main {
     position: fixed;
@@ -401,15 +413,15 @@ export default {
       align-items: center;
       justify-content: space-between;
 
-      & > div {
-        width: 1.2rem;
-        height: 1.2rem;
-        overflow: hidden;
-        & > i {
-          font-size: 1.2rem;
-          color: #fff;
-        }
-      }
+      /*& > div {*/
+        /*width: 1.2rem;*/
+        /*height: 1.2rem;*/
+        /*overflow: hidden;*/
+        /*& > i {*/
+          /*font-size: 1.2rem;*/
+          /*color: #fff;*/
+        /*}*/
+      /*}*/
 
       & > i {
         font-size: 1.2rem;

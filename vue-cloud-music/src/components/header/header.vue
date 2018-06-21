@@ -44,6 +44,7 @@ export default {
   justify-content: space-between;
   background-color: @themeRed;
 
+
   .gif {
     width: 17px;
     height: 17px;

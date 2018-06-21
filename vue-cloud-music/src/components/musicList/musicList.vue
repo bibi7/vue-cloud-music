@@ -124,12 +124,14 @@
         })
       },
       checkMusicBackground () {
-        let address = this.$store.state.playAddress;
-        let current = this.$store.state.currentTime;
-        if (current !== '' && address !== '') {
-          this.$refs.audio.src = address;
-          this.$refs.audio.currentTime = current;
-          this.$refs.audio.play();
+        if (this.$store.state.isPlaying) {
+          let address = this.$store.state.playAddress;
+          let current = this.$store.state.currentTime;
+          if (current !== '' && address !== '') {
+            this.$refs.audio.src = address;
+            this.$refs.audio.currentTime = current;
+            this.$refs.audio.play();
+          }
         }
       },
       //路由回退
@@ -161,7 +163,8 @@
     beforeRouteLeave (to, from, next) {
       this.UPDATE_PROGRESS({
         currentTime: this.$refs.audio.currentTime,
-        address: this.$refs.audio.src
+        address: this.$refs.audio.src,
+        pause: this.$store.state.isPlaying
       });
       next()
     }

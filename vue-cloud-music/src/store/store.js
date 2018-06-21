@@ -82,6 +82,7 @@ export default new Vuex.Store({
     [UPDATE_PROGRESS] (state, obj) {
       state.currentTime = obj.currentTime;
       state.playAddress = obj.address;
+      state.isPlaying = obj.pause;
       console.log(state.isPlaying);
     },
 
