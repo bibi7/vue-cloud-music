@@ -16,7 +16,7 @@
         </div>
         <div class="head">
           <div></div>
-          <img src="../../common/img/stylus.png" ref="stylus" :class="{'rotate':pauseMusic}">
+          <img src="../../common/img/stylus.png" ref="stylus" :class="{'rotate':isPauseMusic}">
         </div>
         <div class="other">
           <div>
@@ -50,14 +50,34 @@
           <i class="iconfont icon-danquxunhuan" v-if="playMode === 1" @click="updateMode"></i>
           <i class="iconfont icon-suiji2" v-if="playMode === 2" @click="updateMode"></i>
           <i class="iconfont icon-shangyishou" @click="prev"></i>
-          <i class="iconfont icon-bofangquanbu" @click="play" v-if="!pauseMusic"></i>
-          <i class="iconfont icon-zanting" @click="pause" v-if="pauseMusic"></i>
+          <i class="iconfont icon-bofangquanbu" @click="play" v-if="!isPauseMusic"></i>
+          <i class="iconfont icon-zanting" @click="pause" v-if="isPauseMusic"></i>
           <i class="iconfont icon-shangyishou1" @click="next"></i>
-          <i class="iconfont icon-Group"></i>
+          <i class="iconfont icon-Group" @click="showList"></i>
         </div>
       </div>
-      <div class="list">
-
+      <div class="list" :class="{active: isShowList}">
+        <div>
+          <div class="listHeader" ref="listHeader">
+            <div>
+              <span>列表歌曲</span>
+              <span>({{listInfo.length}})</span>
+            </div>
+            <div>
+              <span>收藏全部</span>
+            </div>
+          </div>
+          <div class="listContainer" ref="listContainer">
+            <div>
+              <div v-for="(item, index) in listInfo">
+                <singleCollection :name="item.name" :singer="item.ar[0].name" :songId="item.id" :item="item" :index="index"></singleCollection>
+              </div>
+            </div>
+          </div>
+          <div class="listFooter" ref="listFooter" @click="closeList">
+            <span>关闭</span>
+          </div>
+        </div>
       </div>
     </div>
   </keep-alive>
@@ -66,18 +86,26 @@
 <script>
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
-import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP} from '@/store/mutationType.js'
-import {mapMutations} from 'vuex'
+import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP} from '@/store/mutationType.js';
+import {mapMutations} from 'vuex';
+import BScroll from 'better-scroll';
+import singleCollection from '@/components/common/singleCollection/singleCollection.vue';
+//import playList from '@/components/common/playList.vue'
 export default {
   name: 'playing',
   data () {
     return {
       musicUrl: '',
       audio: '',
+      isShowList: false
     }
   },
   mounted () {
     this.initSong();
+    console.log(this.listInfo)
+  },
+  components: {
+    singleCollection
   },
   computed: {
     //歌曲在列表中的index
@@ -100,25 +128,24 @@ export default {
     playMode () {
       return this.$store.state.playMode;
     },
+    //当前播放长度
     current () {
       return this.$store.state.currentTime;
     },
+    //总长度
     duration () {
       return this.$store.state.duration;
     },
-    pauseMusic () {
+    //是否暂停
+    isPauseMusic () {
       return this.$store.state.isPlaying;
-
+    },
+    //歌单列表信息
+    listInfo () {
+      return this.$store.state.playList;
     }
   },
   methods: {
-    //确认后台播放的进度
-    checkMusicBackground () {
-      if (this.$store.state.currentTime !== '' && this.$store.state.playAddress !== '') {
-        this.audio.src = this.$store.state.playAddress;
-        this.audio.currentTime = parseFloat(this.$store.state.currentTime);
-      }
-    },
     //路由回退，上传播放进度
     back () {
       this.$router.back(-1);
@@ -167,33 +194,28 @@ export default {
       value = `${(value * 100).toFixed(2)}%`;
       this.$refs.progressReal.style.width = value;
     },
-    //播放结束按照播放模式选择下一首曲目
-    checkMode () {
-      switch (this.playMode) {
-        //顺序播放，直接向store提交下一首
-        case 0:
-          this.PLAY_NEXT();
-          this.initSong();
-          this.pauseMusic = false;
-          break;
-        //单曲循环，这里偷懒直接把进度条拉到最开始的地方
-        case 1:
-          this.audio.currentTime = 0;
-          this.play();
-          break;
-        //随机播放，向store提交请求
-        case 2:
-          this.PLAY_IRREGULAR();
-          this.initSong();
-          this.pauseMusic = false;
-          break;
-      }
-    },
     //向store提交播放模式
     updateMode () {
       if (this.playMode === 0) this.PLAY_MODE(1);
       else if (this.playMode === 1) this.PLAY_MODE(2);
       else if (this.playMode === 2) this.PLAY_MODE(0);
+    },
+    showList () {
+      this.isShowList = true;
+      this.initWrapper()
+    },
+    closeList () {
+      this.isShowList = false
+    },
+    //由于display为none，一开始载入不能够获取直接的高度，所以无法滚动，先采取hack的方式延迟100毫秒再获取。
+    initWrapper () {
+      setTimeout(() => {
+        this.wrapper = new BScroll(this.$refs.listContainer, {
+          scrollY: true,
+          click: true
+        })
+      }, 100)
+
     },
     ...mapMutations([
       'PLAY_NEXT',
@@ -233,8 +255,56 @@ export default {
   z-index: 10;
 
   .list {
-    position: absolute;
+    display: none;
+    position: fixed;
+    height: 60vh;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    color: @themeBlack;
+    border-radius: 7px;
+    background-color: @listBg;
+    animation: showList .4s cubic-bezier(0, 0.97, 0.55, 1.07);
+    animation-fill-mode: forwards;
 
+    &.active {
+      display: block;
+    }
+
+    & > div {
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .listHeader {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 96%;
+      height: 12%;
+      padding: 0 2%;
+      border-bottom: 1px #C9C9C9 solid;
+    }
+
+    .listContainer {
+      overflow: hidden;
+      height: 75%;
+      line-height: 3rem;
+    }
+
+    .listFooter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 13%;
+      border-top: 1px #C9C9C9 solid;
+
+      & > span {
+        font-size: @oneSize + 0.2rem;
+        display: block;
+      }
+    }
   }
 
   .main {
@@ -392,16 +462,6 @@ export default {
       align-items: center;
       justify-content: space-between;
 
-      /*& > div {*/
-        /*width: 1.2rem;*/
-        /*height: 1.2rem;*/
-        /*overflow: hidden;*/
-        /*& > i {*/
-          /*font-size: 1.2rem;*/
-          /*color: #fff;*/
-        /*}*/
-      /*}*/
-
       & > i {
         font-size: 1.2rem;
         color: #fff;
@@ -434,6 +494,17 @@ export default {
     }
     100% {
       transform: rotate(360deg);
+    }
+  }
+
+  @keyframes showList {
+    0% {
+      top: 100vh;
+      opacity: .3;
+    }
+    100% {
+      top: 40vh;
+      opacity: .98;
     }
   }
 </style>

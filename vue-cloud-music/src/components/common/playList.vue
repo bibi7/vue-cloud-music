@@ -6,7 +6,7 @@
       <span>播放全部</span>
       <span class="number">（共{{info.length}}首）</span>
     </div>
-    <div>+ 收藏 （{{subscribedCount}}）</div>
+    <div>收藏数 （{{subscribedCount}}）</div>
   </div>
   <div class="listItem" v-for="(item, index) in info" @click="playMusic({item: item, index: index, list: info})">
     <div>

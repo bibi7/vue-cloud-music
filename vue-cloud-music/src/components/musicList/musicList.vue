@@ -44,13 +44,13 @@
           <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
         </div>
       </div>
-      <div class="title">
+      <div class="title" ref="title">
         <div class="title-bg"></div>
         <div class="title-content">
           <i class="iconfont icon-xiangzuo" @click="back"></i>
           <p>歌单</p>
           <i class="iconfont icon-zhengzaibofang" @click="goPlaying" v-if="!playing"></i>
-          <img class="gif" src="../../common/img/playing_red.gif" @click="goPlaying" v-if="playing">
+          <img class="gif" src="../../common/img/playing_white.gif" @click="goPlaying" v-if="playing">
         </div>
       </div>
     </div>
@@ -152,8 +152,13 @@
     },
     watch: {
       scrollY () {
-        console.log(this.scrollY)
-        console.log(this.bgHeight)
+        //7和4是因为在css中写定了比例，高度为70vh，卷高为30vh，实际高则为七分之四
+        const bgHeight = this.bgHeight;
+        const realHeight = (bgHeight / 7) * 4;
+        const value = (Math.abs(this.scrollY) - 40) / realHeight;
+        if (value < 1) {
+          this.$refs.title.style.backgroundColor = `rgba(212, 68, 57, ${value})`
+        }
       }
     },
     mounted () {
@@ -161,15 +166,6 @@
       this.initWrapper();
       this.checkBgHeight();
     },
-    //在路由切换前上传播放进度
-//    beforeRouteLeave (to, from, next) {
-//      this.UPDATE_PROGRESS({
-//        currentTime: this.$refs.audio.currentTime,
-//        address: this.$refs.audio.src,
-//        pause: this.$store.state.isPlaying
-//      });
-//      next()
-//    }
   }
 </script>
 
@@ -192,7 +188,6 @@
     top: 0;
     width: 100%;
     z-index: 1;
-
     line-height: 2.5rem;
     color: #fff;
 
