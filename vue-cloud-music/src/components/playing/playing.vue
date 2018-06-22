@@ -481,10 +481,11 @@ export default {
 
   .play-bg {
     position: fixed;
-    width: 100%;
-    height: 100%;
+    width: 120%;
+    height: 120%;
     background-size: cover!important;
-    filter: blur(60px);
+    filter: blur(55px);
+    transform: translate(-10%, -10%);
   }
 
   .header {
