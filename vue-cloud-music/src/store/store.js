@@ -49,11 +49,13 @@ export default new Vuex.Store({
       if (state.playingId !== obj.item.id) {
         state.currentTime = '';
       }
+      if (obj.list) {
+        state.playList = obj.list;
+      }
       state.playingId = obj.item.id;
       state.playingIndex = obj.index;
       state.playImg = obj.item.al.picUrl;
       state.playingName = obj.item.name;
-      state.playList = obj.list;
       state.isPlaying = true;
     },
 

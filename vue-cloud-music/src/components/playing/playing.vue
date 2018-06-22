@@ -69,7 +69,7 @@
           </div>
           <div class="listContainer" ref="listContainer">
             <div>
-              <div v-for="(item, index) in listInfo">
+              <div v-for="(item, index) in listInfo" @click="switchPlay(item, index)">
                 <singleCollection :name="item.name" :singer="item.ar[0].name" :songId="item.id" :item="item" :index="index"></singleCollection>
               </div>
             </div>
@@ -86,7 +86,7 @@
 <script>
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
-import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP} from '@/store/mutationType.js';
+import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP, PLAY_MUSIC} from '@/store/mutationType.js';
 import {mapMutations} from 'vuex';
 import BScroll from 'better-scroll';
 import singleCollection from '@/components/common/singleCollection/singleCollection.vue';
@@ -215,9 +215,15 @@ export default {
           click: true
         })
       }, 100)
-
+    },
+    switchPlay (item, index) {
+      if (item.id === this.$store.state.playingId) {
+        return
+      }
+      this.PLAY_MUSIC({item: item, index: index})
     },
     ...mapMutations([
+      'PLAY_MUSIC',
       'PLAY_NEXT',
       'PLAY_PREV',
       'PLAY_IRREGULAR',
