@@ -1,11 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, PLAY_IRREGULAR, PLAY_MODE, UPDATE_CURRENTTIME, UPDATE_DURATION, PLAY, PAUSE, JUMP} from "./mutationType";
+import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, PLAY_IRREGULAR, PLAY_MODE, UPDATE_CURRENTTIME, UPDATE_DURATION, PLAY, PAUSE, JUMP, LIKE} from "./mutationType";
 
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
+    //当前播放的item本身
+    playItem: '',
+
     //正在播放的歌曲名称
     playingName: '',
 
@@ -30,8 +33,10 @@ export default new Vuex.Store({
     //歌曲总长度
     duration: '',
 
+    //歌曲未格式化时的播放长度
     unFixedTime: '',
 
+    //歌曲未格式化时的总长度
     unFixedDuration: '',
 
     //歌曲地址
@@ -40,7 +45,11 @@ export default new Vuex.Store({
     //是否正在播放
     isPlaying: false,
 
+    //快进
     jump: '',
+
+    //收藏歌单
+    collectionList: {list: [], id: []},
 
   },
   mutations: {
@@ -52,6 +61,7 @@ export default new Vuex.Store({
       if (obj.list) {
         state.playList = obj.list;
       }
+      state.playItem = obj.item;
       state.playingId = obj.item.id;
       state.playingIndex = obj.index;
       state.playImg = obj.item.al.picUrl;
@@ -69,6 +79,7 @@ export default new Vuex.Store({
         index = 0;
       }
       state.playingIndex = index;
+      state.playItem = state.playList[index];
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
@@ -84,6 +95,7 @@ export default new Vuex.Store({
         index = index - 1;
       }
       state.playingIndex = index;
+      state.playItem = state.playList[index];
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
@@ -121,6 +133,7 @@ export default new Vuex.Store({
       const length = state.playList.length;
       const index = Math.round(Math.random() * length);
       state.playingIndex = index;
+      state.playItem = state.playList[index];
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
@@ -129,6 +142,19 @@ export default new Vuex.Store({
     //更改播放模式
     [PLAY_MODE] (state, modeNumber) {
       state.playMode = modeNumber
+    },
+
+    [LIKE] (state, obj) {
+      console.log(state.collectionList)
+      if (state.collectionList.id.indexOf(obj.id) === -1) {
+        state.collectionList.id.push(obj.id)
+        state.collectionList.list.push(obj.item)
+      } else {
+        const index = state.collectionList.id.indexOf(obj.id);
+        console.log(index);
+        state.collectionList.id.splice(index, 1);
+        state.collectionList.list.splice(index, 1);
+      }
     }
     //这个store还是存在了一些重复的代码，需要优化，做个mark
   }

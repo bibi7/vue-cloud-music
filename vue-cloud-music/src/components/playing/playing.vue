@@ -20,7 +20,7 @@
         </div>
         <div class="other">
           <div>
-            <i class="iconfont icon-xin"></i>
+            <i class="iconfont icon-aixin likes" @click="likes" :class="{active: isLike}"></i>
           </div>
           <div>
             <i class="iconfont icon-xiazai"></i>
@@ -47,7 +47,7 @@
         </div>
         <div class="choose">
           <i class="iconfont icon-shunxubofang" v-if="playMode === 0" @click="updateMode"></i>
-          <i class="iconfont icon-danquxunhuan" v-if="playMode === 1" @click="updateMode"></i>
+          <i class="iconfont icon-danquxunhuan1" v-if="playMode === 1" @click="updateMode"></i>
           <i class="iconfont icon-suiji2" v-if="playMode === 2" @click="updateMode"></i>
           <i class="iconfont icon-shangyishou" @click="prev"></i>
           <i class="iconfont icon-bofangquanbu" @click="play" v-if="!isPauseMusic"></i>
@@ -79,6 +79,9 @@
           </div>
         </div>
       </div>
+      <!-- <div class="" style="position: fixed; top: 20px;">
+        {{collectionList.length}}{{isLike}}
+      </div> -->
     </div>
   </keep-alive>
 </template>
@@ -86,18 +89,17 @@
 <script>
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
-import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP, PLAY_MUSIC} from '@/store/mutationType.js';
+import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP, PLAY_MUSIC, LIKE} from '@/store/mutationType.js';
 import {mapMutations} from 'vuex';
 import BScroll from 'better-scroll';
 import singleCollection from '@/components/common/singleCollection/singleCollection.vue';
-//import playList from '@/components/common/playList.vue'
 export default {
   name: 'playing',
   data () {
     return {
       musicUrl: '',
       audio: '',
-      isShowList: false
+      isShowList: false,
     }
   },
   mounted () {
@@ -143,6 +145,22 @@ export default {
     //歌单列表信息
     listInfo () {
       return this.$store.state.playList;
+    },
+    //正在播放的歌曲整体
+    playingItem () {
+      return this.$store.state.playItem;
+    },
+    //已收藏的歌曲
+    collectionList () {
+      return this.$store.state.collectionList.list;
+    },
+    //已收藏的歌曲们的id
+    collctionIdList () {
+      return this.$store.state.collectionList.id;
+    },
+    //该歌曲是否已喜欢
+    isLike () {
+      return this.collctionIdList.indexOf(this.id) !== -1;
     }
   },
   methods: {
@@ -222,6 +240,9 @@ export default {
       }
       this.PLAY_MUSIC({item: item, index: index})
     },
+    likes () {
+      this.LIKE({item: this.playingItem, id: this.id});
+    },
     ...mapMutations([
       'PLAY_MUSIC',
       'PLAY_NEXT',
@@ -230,7 +251,8 @@ export default {
       'PLAY_MODE',
       'PLAY',
       'PAUSE',
-      'JUMP'
+      'JUMP',
+      'LIKE'
     ])
   },
   watch: {
@@ -242,7 +264,7 @@ export default {
     },
     musicImg () {
       this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
-    }
+    },
   }
 }
 
@@ -361,6 +383,10 @@ export default {
 
     .other i {
       font-size: @oneHalfSize + 0.3rem;
+
+      &.likes.active {
+        color: @themeRed;
+      }
     }
 
     & > div:first-child {

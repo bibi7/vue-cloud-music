@@ -16,18 +16,6 @@ export const PLAY_PREV = 'PLAY_PREV';
  */
 export const PLAY_NEXT = 'PLAY_NEXT';
 
-// /**
-//  * 上传后台播放进度
-//  * @type {string}
-//  */
-// export const UPDATE_PROGRESS = 'UPDATE_PROGRESS';
-
-// /**
-//  * 播放结束时通知store
-//  * @type {string}
-//  */
-// export const MUSIC_END = 'MUSIC_END';
-
 /**
  * 控制播放模式
  * @type {string}
@@ -69,3 +57,9 @@ export const PAUSE = 'PAUSE';
  * @type {string}
  */
 export const JUMP = 'JUMP';
+
+/**
+ * 我喜欢
+ * @type {string}
+ */
+export const LIKE = 'LIKE';
