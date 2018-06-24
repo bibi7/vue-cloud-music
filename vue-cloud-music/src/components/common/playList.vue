@@ -10,12 +10,12 @@
   </div>
   <div class="listItem" v-for="(item, index) in info" @click="playMusic({item: item, index: index, list: info})">
     <div>
-      <span v-if="item.name !== playingName">{{index + 1}}</span>
-      <img class="gif" src="../../common/img/playing_red.gif" v-if="item.name === playingName">
+      <span v-if="item.id !== id">{{index + 1}}</span>
+      <img class="gif" src="../../common/img/playing_red.gif" v-if="item.id === id">
     </div>
     <div>
       <div>
-        <span class="songName" :class="{nowPlaying: item.name === playingName}">{{item.name}}</span>
+        <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name}}</span>
         <span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>
         <p class="singer">{{item.ar[0].name}} - {{item.al.name}}</p>
       </div>
@@ -54,6 +54,12 @@
     computed: {
       playingName () {
         return this.$store.state.playingName
+      },
+      indexs () {
+        return this.$store.state.playingIndex
+      },
+      id () {
+        return this.$store.state.playingId
       }
     },
     methods: {
@@ -102,7 +108,7 @@
     & > div:nth-child(2) {
       width: 60%;
       text-align: left;
-      border-bottom: 1px #cdcdcd solid;
+      border-bottom: 1px #EEEFF0 solid;
 
     }
     & > div:nth-child(3) {
@@ -111,7 +117,7 @@
       font-size: @normalSize;
       white-space: nowrap;
       background: linear-gradient(to right, #FE594A, #D43B31);
-      border-bottom: 1px #cdcdcd solid;
+      border-bottom: 1px #EEEFF0 solid;
 
 
     }
@@ -142,7 +148,7 @@
         width: 80%;
         height: 100%;
         text-align: left;
-        border-bottom: 1px #cdcdcd solid;
+        border-bottom: 1px #EEEFF0 solid;
 
         .songName {
           font-size: @normalSize + 0.3rem;
@@ -169,7 +175,7 @@
         font-size: @oneHalfSize - 0.2rem;
         width: 10%;
         height: 100%;
-        border-bottom: 1px #cdcdcd solid;
+        border-bottom: 1px #EEEFF0 solid;
 
       }
   }

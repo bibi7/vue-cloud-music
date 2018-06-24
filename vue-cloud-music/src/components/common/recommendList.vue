@@ -39,6 +39,12 @@
                 //num: 听歌人数,考虑到小数点，进行分割
                 let num = item.playCount.toString().split('.')[0];
                 switch (num.length) {
+                  case 4:
+                    item.playCount = num;
+                    break;
+                  case 5:
+                    item.playCount = `${num.substring(0, 1)}万`;
+                    break;
                   case 6:
                     item.playCount = `${num.substring(0, 2)}万`;
                     break;

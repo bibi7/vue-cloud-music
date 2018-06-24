@@ -218,6 +218,7 @@ export default {
       else if (this.playMode === 1) this.PLAY_MODE(2);
       else if (this.playMode === 2) this.PLAY_MODE(0);
     },
+    //显示歌单列表
     showList () {
       this.isShowList = true;
       this.initWrapper()
@@ -234,12 +235,14 @@ export default {
         })
       }, 100)
     },
+    //切歌_(:з」∠)_
     switchPlay (item, index) {
       if (item.id === this.$store.state.playingId) {
         return
       }
       this.PLAY_MUSIC({item: item, index: index})
     },
+    //点击喜欢该歌曲
     likes () {
       this.LIKE({item: this.playingItem, id: this.id});
     },

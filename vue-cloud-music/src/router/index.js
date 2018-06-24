@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import playList from '@/components/playList/playList.vue'
+import collection from '@/components/playList/collection.vue'
 import playing from '@/components/playing/playing.vue'
 import mainPart from '@/components/main/main.vue'
 import recommend from '@/components/main/personalRecommend/recommend.vue'
@@ -29,8 +29,8 @@ export default new Router({
       ]
     },
     {
-      path: '/playList',
-      component: playList
+      path: '/collection',
+      component: collection
     },
     {
       path: '/playing/',

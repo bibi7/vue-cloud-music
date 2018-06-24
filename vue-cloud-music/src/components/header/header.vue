@@ -2,7 +2,7 @@
   <div>
     <div class="header">
       <!--前往我的播放列表-->
-      <router-link to="/playList">
+      <router-link to="/collection">
         <i class="iconfont icon-menu"></i>
       </router-link>
       <p>网易云音乐</p>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import playList from '../playList/playList.vue'
+import collection from '../playList/collection.vue'
 export default {
   name: 'header_',
   computed: {
