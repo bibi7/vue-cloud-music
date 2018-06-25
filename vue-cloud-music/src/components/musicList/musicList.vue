@@ -53,6 +53,7 @@
           <img class="gif" src="../../common/img/playing_white.gif" @click="goPlaying" v-if="playing">
         </div>
       </div>
+      <loading :class="{hide: !hide, none: isLoadingDone}"></loading>
     </div>
   </keep-alive>
 </template>
@@ -61,6 +62,7 @@
   import BScroll from 'better-scroll'
   import {getMusicListInfo} from '@/common/js/axiosType/getAxiosType.js'
   import playList from '@/components/common/playList.vue'
+  import loading from '@/components/common/loading/loading.vue'
   import {UPDATE_PROGRESS} from '@/store/mutationType.js'
   import {mapMutations} from 'vuex'
   export default {
@@ -76,10 +78,13 @@
         shareCount: 0,
         tracks: [],
         scrollY: 0,
+        isLoadingDone: false,
+        hide: true,
       }
     },
     components: {
       playList,
+      loading,
     },
     methods: {
       //获取歌单id
@@ -110,8 +115,19 @@
           //其他的初始化操作
           this.$refs.mainBg.style.background = `url(${this.listMusicImg}) center no-repeat`;
           this.$refs.mainBg.style.backgroundSize = 'cover';
-          this.$refs.mainBg.style.filter = 'blur(20px)'
-        })
+          this.$refs.mainBg.style.filter = 'blur(20px)';
+
+          //结束loading，loading分为两部分，分别是淡出动画以及display为none
+          setTimeout(() => {
+            this.hide = false
+          }, 300)
+
+          setTimeout(() => {
+            this.isLoadingDone = true
+          }, 500)
+        });
+
+
       },
       //回弹初始化
       initWrapper () {

@@ -15,9 +15,9 @@
     </div>
     <div>
       <div>
-        <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name}}</span>
-        <span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>
-        <p class="singer">{{item.ar[0].name}} - {{item.al.name}}</p>
+        <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name.length < 20? item.name: item.name.substring(0, 20) + '...'}}</span>
+        <!--<span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>-->
+        <p class="singer">{{item.ar[0].name}} - {{item.al.name.length < 15? item.al.name: item.al.name.substring(0, 15) + '...'}}</p>
       </div>
     </div>
     <i class="iconfont icon-gengduo"></i>
