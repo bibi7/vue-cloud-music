@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
   <div class="recommend">
     <div class="wrapper" ref="wrapper">
       <div>

@@ -2,18 +2,9 @@
   <!--我喜欢-->
   <div class="list">
     <div class="collection-header" ref="collectionHeader">
-      <div>
-        <div>
-          <i class="iconfont icon-xiangzuo" @click="back"></i>
-        </div>
-        <div>
-          <span>我喜欢</span>
-        </div>
-        <div>
-          <i class="iconfont icon-zhengzaibofang" @click="goPlaying" v-if="!playing"></i>
-          <img class="gif" src="../../common/img/playing_white.gif" @click="goPlaying" v-if="playing">
-        </div>
-      </div>
+      <redHeader>
+        <span>我喜欢</span>
+      </redHeader>
     </div>
     <div class="container" v-if="collectionList.length !== 0" ref="container">
       <div>
@@ -62,12 +53,18 @@
 import {PLAY_MUSIC} from '@/store/mutationType.js'
 import BScroll from 'better-scroll'
 import {mapMutations} from 'vuex'
+import redHeader from '@/components/common/redHeader/redHeader.vue'
+import appHeader from '@/components/header/header.vue';
 export default {
   name: 'playList',
   data () {
     return {
 
     }
+  },
+  components: {
+    redHeader,
+//    appHeader,
   },
   mounted () {
     this.resetHeight();
@@ -87,14 +84,6 @@ export default {
     }
   },
   methods: {
-    back () {
-      this.$router.back(-1)
-    },
-    goPlaying () {
-      this.$router.push({
-        path: '/playing'
-      })
-    },
     //提交store
     playMusic (obj) {
       this.PLAY_MUSIC(obj)

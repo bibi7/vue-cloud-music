@@ -4,9 +4,10 @@
       <!--前往我的播放列表-->
       <router-link to="/collection">
         <i class="iconfont icon-menu"></i>
+        <!--<i class="iconfont icon-xiangzuo" @click="back" v-if="isBack"></i>-->
       </router-link>
-      <p>网易云音乐</p>
-      <!--前往正在播放-->
+        <p>网易云音乐</p>
+        <!--前往正在播放-->
       <router-link to="/playing">
         <i class="iconfont icon-zhengzaibofang" v-if="!playing"></i>
         <img class="gif" src="../../common/img/playing_white.gif" v-if="playing">
@@ -19,9 +20,20 @@
 import collection from '../playList/collection.vue'
 export default {
   name: 'header_',
+//  props: {
+//    isBack: {
+//      type: Boolean,
+//      default: false
+//    }
+//  },
   computed: {
     playing () {
       return this.$store.state.isPlaying
+    }
+  },
+  methods: {
+    back () {
+      this.$router.back(-1)
     }
   }
 }

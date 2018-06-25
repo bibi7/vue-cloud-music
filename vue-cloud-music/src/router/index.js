@@ -6,6 +6,7 @@ import mainPart from '@/components/main/main.vue'
 import recommend from '@/components/main/personalRecommend/recommend.vue'
 import radio from '@/components/main/streamerRadio/radio.vue'
 import musicList from '@/components/musicList/musicList.vue'
+import homePageMusicList from '@/components/homePageMusicList/homePageMusicList.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +40,10 @@ export default new Router({
     {
       path: '/musicList/:id',
       component: musicList,
+    },
+    {
+      path: '/homePageMusicList',
+      component: homePageMusicList
     }
   ]
 })

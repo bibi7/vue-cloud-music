@@ -45,3 +45,11 @@ export function getMusicListInfo(id) {
 export function getMusicUrl(id) {
   return axios.get(`${url}music/url?id=${id}`)
 }
+
+/**
+ * 获取精品歌单
+ * @returns {AxiosPromise<any>}
+ */
+export function getHighqualityList() {
+  return axios.get(`${url}top/playList/highquality`)
+}

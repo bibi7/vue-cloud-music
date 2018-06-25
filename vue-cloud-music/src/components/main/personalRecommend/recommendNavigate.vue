@@ -9,7 +9,7 @@
         <i class="iconfont icon-rili"></i>
         <span>每日推荐</span>
       </div>
-      <div>
+      <div @click="homePageMusicList">
         <i class="iconfont icon-gedan"></i>
         <span>歌单</span>
       </div>
@@ -30,7 +30,11 @@
       }
     },
     methods: {
-
+      homePageMusicList () {
+        this.$router.push({
+          path: '/homePageMusicList'
+        })
+      }
     }
   }
 </script>

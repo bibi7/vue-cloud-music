@@ -293,7 +293,8 @@ export default {
     right: 0;
     bottom: 0;
     color: @themeBlack;
-    border-radius: 7px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
     background-color: @listBg;
     animation: showList .4s cubic-bezier(0, 0.97, 0.55, 1.07);
     animation-fill-mode: forwards;
