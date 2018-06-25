@@ -83,6 +83,7 @@ export default new Vuex.Store({
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
+      state.isPlaying = true;
     },
 
     //****[下一首]****
@@ -99,6 +100,7 @@ export default new Vuex.Store({
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
+      state.isPlaying = true;
     },
 
     //****[更新进度]****
