@@ -27,6 +27,8 @@ ui界面基于ios版，version：5.2.0
 
 注意：(由于[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的后台api持续不断迭代，不同版本之间的api可能会造成前端axios返回的**数据格式**不同，一旦出现了**报错**或者**数据无法正常加载**很可能就是版本不同的原因，请立即**提issue**给本人_(:з」∠)_ ， 另外欢迎pr提出任何你觉得**不足/可改进**的地方⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄)
 
+**真机上还有一些bug，目前强烈建议使用chrome开发者工具移动端预览**
+
 ## 为什么开始
 刚好看到[CaiJinyc / vue-music-webapp](https://github.com/CaiJinyc/vue-music-webapp)的项目，顿时手痒想试试，还在一边开坑一边填坑中，有好多奇奇怪怪的bug orz
 
