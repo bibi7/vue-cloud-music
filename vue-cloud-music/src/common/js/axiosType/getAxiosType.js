@@ -53,3 +53,29 @@ export function getMusicUrl(id) {
 export function getHighqualityList() {
   return axios.get(`${url}top/playList/highquality`)
 }
+
+/**
+ * 获取歌单评论
+ * @param id 必选
+ * @param limit 可选，评论的数量，默认20
+ * @returns {AxiosPromise<any>}
+ */
+export function getSongSheetComment(id, limit) {
+  if (!limit) {
+    limit = 20
+  }
+  return axios.get(`${url}comment/playlist?id=${id}&limit=${limit}`)
+}
+
+/**
+ * 获取歌曲评论
+ * @param id 必选
+ * @param limit 可选，评论的数量，默认20
+ * @returns {AxiosPromise<any>}
+ */
+export function getMusicComment(id, limit) {
+  if (!limit) {
+    limit = 20
+  }
+  return axios.get(`${url}comment/music?id=${id}&limit=${limit}`)
+}

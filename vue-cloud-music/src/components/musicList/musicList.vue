@@ -22,7 +22,7 @@
             </div>
             <div class="choose">
               <div>
-                <div class="items">
+                <div class="items" @click="goComment">
                   <i class="iconfont icon-pinglun"></i>
                   <span>{{commentCount}}</span>
                 </div>
@@ -91,7 +91,17 @@
       getMusicId () {
         this.listId = this.$route.params.id
       },
-
+      goComment () {
+        this.$router.push({
+          path: `/listComment/${this.listId}`,
+          query: {
+            img: this.listMusicImg,
+            name: this.name,
+            nickName: this.avatar.nickname,
+            songSheet: true,
+          }
+        })
+      },
       //通过歌单id进行歌单列表查询，并进行一些初始化操作
       getMusicListInfo () {
         this.getMusicId();

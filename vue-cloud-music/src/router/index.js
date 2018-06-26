@@ -7,6 +7,7 @@ import recommend from '@/components/main/personalRecommend/recommend.vue'
 import radio from '@/components/main/streamerRadio/radio.vue'
 import musicList from '@/components/musicList/musicList.vue'
 import homePageMusicList from '@/components/homePageMusicList/homePageMusicList.vue'
+import listComment from '@/components/listComment/listComment.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -44,6 +45,10 @@ export default new Router({
     {
       path: '/homePageMusicList',
       component: homePageMusicList
+    },
+    {
+      path: '/listComment/:id',
+      component: listComment
     }
   ]
 })
