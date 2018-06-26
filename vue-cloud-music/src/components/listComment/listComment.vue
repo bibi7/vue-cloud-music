@@ -37,7 +37,10 @@
                   <p>{{item.user.nickname}}</p>
                   <span v-if="item.user.nickname === nickName">(作者)</span>
                   <span>{{getTime(item.time)}}</span>
-                  <span class="like">{{item.likedCount}}</span>
+                  <div class="like">
+                    <i class="iconfont icon-dianzan-choose"></i>
+                    <span>{{item.likedCount}}</span>
+                  </div>
                 </div>
                 <div class="content">
                   <pre>{{item.content}}</pre>
@@ -61,7 +64,10 @@
                 <div class="r-title">
                   <p>{{item.user.nickname}}</p>
                   <span>{{getTime(item.time)}}</span>
-                  <span class="like">{{item.likedCount}}</span>
+                  <div class="like">
+                    <i class="iconfont icon-dianzan"></i>
+                    <span>{{item.likedCount}}</span>
+                  </div>
                 </div>
                 <div class="content">
                   <pre>{{item.content}}</pre>
@@ -303,6 +309,10 @@
                   right: 0;
                   font-size: .8rem;
                   color: @themeGray;
+
+                  & > i.active {
+                    color: @themeRed;
+                  }
                 }
               }
 
