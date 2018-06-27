@@ -23,7 +23,7 @@ ui界面基于ios版，version：5.2.0
 ## 前言碎语
 由于个人原因无法提供在线演示地址，不排除以后会提供，现阶段如果想查看演示的话只能clone本项目。
 
-此项目需要基于[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的node后台API，所以如果clone了，你还需要继续clone一份[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的后台api方可（别忘了启服务）。
+此项目需要基于[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的node后台API，所以如果clone了，你还需要继续clone一份[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的后台api方可（**别忘了启服务**）。
 
 注意：(由于[Binaryify](https://github.com/Binaryify/NeteaseCloudMusicApi)的后台api持续不断迭代，不同版本之间的api可能会造成前端axios返回的**数据格式**不同，一旦出现了**报错**或者**数据无法正常加载**很可能就是版本不同的原因，请立即**提issue**给本人_(:з」∠)_ ， 另外欢迎pr提出任何你觉得**不足/可改进**的地方⁄(⁄ ⁄•⁄ω⁄•⁄ ⁄)⁄)
 
@@ -60,5 +60,17 @@ ui界面基于ios版，version：5.2.0
 8. 用户详情
 9. 持续不断的bug fix
 10. 持续不断的code结构优化
+
+```
+# install
+cd vue-cloud-music
+npm install
+
+# run demo
+npm run dev
+
+# service now running at localhost:8080
+localhost:8080
+```
 
 喜欢的话点个`star`吧
