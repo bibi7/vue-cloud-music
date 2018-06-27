@@ -79,3 +79,23 @@ export function getMusicComment(id, limit) {
   }
   return axios.get(`${url}comment/music?id=${id}&limit=${limit}`)
 }
+//
+// /**
+//  * 新碟专辑
+//  * @returns {AxiosPromise<any>}
+//  */
+// export function newAlbum(id) {
+//   if (id) {
+//     return axios.get(`${url}top/album?id=${id}`)
+//   }
+//   return axios.get(`${url}top/album`)
+// }
+
+/**
+ *
+ * @param id
+ * @returns {AxiosPromise<any>}
+ */
+export function getUserDetail (id) {
+  return axios.get(`${url}user/detail?uid=${id}`)
+}

@@ -14,7 +14,7 @@
                 <div class="creator">
                   <img :src="avatar.imgUrl">
                   <div>
-                    <span>{{avatar.nickname}}</span>
+                    <span @click="getUserDetail(126243265)">{{avatar.nickname}}</span>
                     <i class="iconfont icon-combinedshapefuben"></i>
                   </div>
                 </div>
@@ -60,7 +60,7 @@
 
 <script>
   import BScroll from 'better-scroll'
-  import {getMusicListInfo} from '@/common/js/axiosType/getAxiosType.js'
+  import {getMusicListInfo, getUserDetail} from '@/common/js/axiosType/getAxiosType.js'
   import playList from '@/components/common/playList.vue'
   import loading from '@/components/common/loading/loading.vue'
   import {UPDATE_PROGRESS} from '@/store/mutationType.js'
@@ -91,6 +91,11 @@
       getMusicId () {
         this.listId = this.$route.params.id
       },
+      getUserDetail (id) {
+        getUserDetail(id).then(result => {
+          console.log(result)
+        })
+      },
       goComment () {
         this.$router.push({
           path: `/listComment/${this.listId}`,
@@ -112,7 +117,7 @@
           //歌单简述
           this.name = result.data.playlist.name;
           //创建者信息
-          this.avatar.imgUrl = result.data.playlist.creator.backgroundUrl;
+          this.avatar.imgUrl = result.data.playlist.creator.avatarUrl;
           this.avatar.nickname = result.data.playlist.creator.nickname;
           //歌曲列表信息
           this.tracks = result.data.playlist.tracks;

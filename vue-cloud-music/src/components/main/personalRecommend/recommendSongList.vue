@@ -4,10 +4,10 @@
       <recommendTitle :name="'推荐歌单'"></recommendTitle>
       <recommendList :type="'recommend'" :width="'32%'"></recommendList>
     </div>
-    <div class="recommendPart">
-      <recommendTitle :name="'最新音乐'"></recommendTitle>
-      <recommendList :type="'newMusic'"></recommendList>
-    </div>
+    <!--<div class="recommendPart">-->
+      <!--<recommendTitle :name="'最新音乐'"></recommendTitle>-->
+      <!--<recommendList :type="'newMusic'" :width="'32%'"></recommendList>-->
+    <!--</div>-->
   </div>
 </template>
 

@@ -1,26 +1,27 @@
 <template>
   <div class="mainList">
-    <div v-for="(item, index) in info" :style="{width: width}">
+    <div v-for="(item, index) in info" :style="{width: width}" v-if="info.length !== 0">
       <div class="people" v-if="item.playCount">
         <i class="iconfont icon-headset"></i>
         <span>{{item.playCount}}</span>
       </div>
       <!--两个接口返回的格式不一致，推荐歌单的图片字段为picUrl，精品歌单的图片字段为coverImgUrl，组件复用的时候做一下hack-->
       <img :src="item.picUrl? item.picUrl: item.coverImgUrl" @click="getMusicList(item.id)">
-      <span class="description">{{item.name}}</span>
+      <span class="description">{{item.name.length < 15? item.name : `${item.name.substring(0, 15)}...`}}</span>
     </div>
   </div>
 </template>
 
 
 <script>
-  import {getRecommend, getNewMusic, getHighqualityList} from '@/common/js/axiosType/getAxiosType.js'
+  import {getRecommend, getNewMusic, getHighqualityList, newAlbum} from '@/common/js/axiosType/getAxiosType.js'
 
   export default {
     name: 'recommendList',
     data () {
       return {
-        info: []
+        info: [],
+//        albums: []
       }
     },
     props: {
@@ -40,7 +41,7 @@
           getRecommend().then(result => {
             console.log(result);
             result.data.result.forEach((item, index) => {
-              this.fillItem(item, index, 9)
+              this.fillItem(item, index, 21)
             })
           });
         } else if (this.type === 'highQualityList') {
@@ -51,6 +52,13 @@
             })
           })
         }
+//        else if (this.type = 'newMusic') {
+//          newAlbum().then(result => {
+//            console.log(1)
+//            console.log(result)
+//            this.info = result.data.albums
+//          })
+//        }
       },
       //歌单通用处理
       fillItem (item, index, limitNumber) {
@@ -86,24 +94,9 @@
           path: `/musicList/${id}`
         })
       },
-      //加载最新音乐
-      _initNewMusic () {
-        if (this.type === 'newMusic') {
-          getNewMusic().then(result => console.log(result))
-        }
-      },
-      //初始化宽度
-//      _initWidth () {
-//        if (this.column === 3) {
-//          console.log(this.$refs.divs)
-//          this.$refs.items.style.width = '30%'
-//        }
-//      }
     },
     mounted () {
       this._initList();
-//      this._initWidth();
-//      this._initNewMusic();
     }
   }
 </script>

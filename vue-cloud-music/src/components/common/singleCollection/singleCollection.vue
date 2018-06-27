@@ -2,10 +2,10 @@
   <div class="singleList" :class="{playingNow: index === storeIndex}">
     <img src="../../../common/img/playing_red.gif" v-if="index === storeIndex">
     <div>
-      {{name}}
+      {{name.length < 15? name : `${name.substring(0, 15)}...`}}
     </div>
     <div class="singer">
-       &nbsp;&nbsp;-&nbsp;&nbsp;{{singer}}
+       &nbsp;&nbsp;-&nbsp;&nbsp;{{singer.length < 15? singer : `${singer.substring(0, 15)}...`}}
     </div>
   </div>
 </template>

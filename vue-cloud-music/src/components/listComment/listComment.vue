@@ -21,7 +21,7 @@
             </div>
           </div>
         </div>
-        <div class="h-comment">
+        <div class="h-comment" v-if="hotComment.length !== 0">
           <div class="h">
             <span>精彩评论</span>
           </div>
@@ -50,7 +50,7 @@
             </div>
           </div>
         </div>
-        <div class="h-comment">
+        <div class="h-comment" v-if="newComment.length !== 0">
           <div class="h">
             <span>最新评论</span>
           </div>
@@ -321,7 +321,7 @@
 
                 & > span {
                   display: inline-block;
-                  margin-top: 4px;
+                  margin-top: 8px;
                   font-size: .7rem;
                   color: @themeGray;
                 }

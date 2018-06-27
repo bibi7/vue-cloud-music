@@ -19,10 +19,12 @@
               <img class="gifs" src="../../common/img/playing_red.gif" v-if="item.id === id">
               <div class="">
                 <div :class="{playing: id === item.id}">
-                  {{item.name}}
+                  {{item.name.length < 20? item.name : `${item.name.substring(0, 20)}...`}}
                 </div>
                 <div class="item-info">
-                  {{item.ar[0].name}} - {{item.al.name}}
+                  {{item.ar[0].name < 12? item.ar[0].name : `${item.ar[0].name.substring(0, 12)}...`}}
+                   -
+                  {{item.al.name < 12? item.al.name : `${item.al.name.substring(0, 12)}...`}}
                 </div>
               </div>
             </div>

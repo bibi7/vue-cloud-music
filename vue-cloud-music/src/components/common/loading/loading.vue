@@ -2,14 +2,34 @@
   <div class="loading">
     <div>
       <img src="../../../common/img/playing_red.gif" class="gif">
-      <span>机甲强冷却中，移往舰载口...</span>
+      <span>{{show}}</span>
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'loading'
+    name: 'loading',
+    data () {
+      return {
+        desc: [
+          '机甲强冷却中，移往舰载口...',
+          '主舰炮过热，需要重载...',
+          '等我打完这场仗就回家跟你结婚',
+          '警告，我们未能穿透敌方装甲！'
+        ],
+        show: ''
+      }
+    },
+    methods: {
+      switchInfo () {
+        const index = Math.floor(Math.random() * this.desc.length);
+        this.show = this.desc[index]
+      }
+    },
+    mounted () {
+      this.switchInfo();
+    }
   }
 </script>
 
