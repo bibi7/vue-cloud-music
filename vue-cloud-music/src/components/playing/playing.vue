@@ -26,7 +26,7 @@
             <i class="iconfont icon-xiazai"></i>
           </div>
           <div>
-            <i class="iconfont icon-pinglun"></i>
+            <i class="iconfont icon-pinglun" @click="goComment"></i>
           </div>
           <div>
             <i class="iconfont icon-gengduo"></i>
@@ -161,12 +161,27 @@ export default {
     //该歌曲是否已喜欢
     isLike () {
       return this.collctionIdList.indexOf(this.id) !== -1;
+    },
+    //歌手
+    singerName () {
+      return this.$store.state.singerName
     }
   },
   methods: {
     //路由回退，上传播放进度
     back () {
       this.$router.back(-1);
+    },
+    goComment () {
+      this.$router.push({
+        path: `/listComment/${this.id}`,
+        query: {
+          img: this.musicImg,
+          name: this.name,
+          singerName: this.singerName,
+          songSingle: true
+        }
+      })
     },
     initSong () {
       //初始化歌曲地址

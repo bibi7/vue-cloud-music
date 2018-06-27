@@ -16,7 +16,8 @@
                 <span>{{name.length > 12? `${name.substring(0, 12)}...` : name}}</span>
               </div>
               <span class="by">by</span>
-              <span class="nick-name">{{nickName}}</span>
+              <span class="nick-name" v-if="nickName">{{nickName}}</span>
+              <span class="nick-name" v-if="singerName">{{singerName}}</span>
             </div>
           </div>
         </div>
@@ -84,7 +85,7 @@
 <script>
   import BScroll from 'better-scroll'
   import redHeader from '@/components/common/redHeader/redHeader.vue'
-  import {getSongSheetComment, getMusicListInfo} from '@/common/js/axiosType/getAxiosType.js'
+  import {getSongSheetComment, getMusicComment} from '@/common/js/axiosType/getAxiosType.js'
   export default {
     name: 'listComment',
     data () {
@@ -109,14 +110,27 @@
       nickName () {
         return this.$route.query.nickName
       },
+      singerName () {
+        return this.$route.query.singerName
+      },
       isSongSheet () {
         return this.$route.query.songSheet
+      },
+      isSongSingle () {
+        return this.$route.query.songSingle
       }
     },
     methods: {
       getSongSheetComment (id) {
         getSongSheetComment(id).then(result => {
           console.log(result);
+          this.hotComment = result.data.hotComments
+          this.newComment = result.data.comments
+        })
+      },
+      getSongSingleComment (id) {
+        getMusicComment(id).then(result => {
+          console.log(result)
           this.hotComment = result.data.hotComments
           this.newComment = result.data.comments
         })
@@ -147,7 +161,7 @@
         }
         //本年评论
         if (now.getTime() - num > 259200000 && now.getFullYear() === thatTime.getFullYear()) {
-          commentTime = `${month}月${day}日`
+          commentTime = `${month + 1}月${day}日`
         }
         //前天的评论
         if (now.getTime() - num < 259200000) {
@@ -163,7 +177,11 @@
         }
         //一小时前的评论
         if(now.getTime() - num < 3600000) {
-          const before = Math.round((now.getTime() - num) / 60000);
+          let before = Math.round((now.getTime() - num) / 60000);
+          if (before === 0) {
+            commentTime = '刚刚'
+            return commentTime
+          }
           commentTime = `${before}分钟前`
         }
         return commentTime
@@ -172,7 +190,12 @@
     mounted () {
       console.log(this.id);
       console.log(this.$route.query);
-      this.getSongSheetComment(this.id);
+      if (this.isSongSheet) {
+        this.getSongSheetComment(this.id);
+      }
+      if (this.isSongSingle) {
+        this.getSongSingleComment(this.id)
+      }
       this.initWrapper();
     }
   }

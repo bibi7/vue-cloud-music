@@ -15,6 +15,9 @@ export default new Vuex.Store({
     //正在播放的歌曲id
     playingId: '',
 
+    //歌手名
+    singerName: '',
+
     //当前播放歌曲索引
     playingIndex: '',
 
@@ -63,6 +66,7 @@ export default new Vuex.Store({
       }
       state.playItem = obj.item;
       state.playingId = obj.item.id;
+      state.singerName = obj.item.ar[0].name
       state.playingIndex = obj.index;
       state.playImg = obj.item.al.picUrl;
       state.playingName = obj.item.name;
@@ -80,6 +84,7 @@ export default new Vuex.Store({
       }
       state.playingIndex = index;
       state.playItem = state.playList[index];
+      state.singerName = state.playList[index].ar[0].name;
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
@@ -97,6 +102,7 @@ export default new Vuex.Store({
       }
       state.playingIndex = index;
       state.playItem = state.playList[index];
+      state.singerName = state.playList[index].ar[0].name;
       state.playingId = state.playList[index].id;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
@@ -137,6 +143,7 @@ export default new Vuex.Store({
       state.playingIndex = index;
       state.playItem = state.playList[index];
       state.playingId = state.playList[index].id;
+      state.singerName = state.playList[index].ar[0].name;
       state.playImg = state.playList[index].al.picUrl;
       state.playingName = state.playList[index].name;
     },
