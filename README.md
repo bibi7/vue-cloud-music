@@ -6,7 +6,7 @@
 ![preview-two](./vue-cloud-music/src/common/img/preview/preview-two.jpg)
 ![preview-three](./vue-cloud-music/src/common/img/preview/preview-three.jpg)
 ![preview-four](./vue-cloud-music/src/common/img/preview/preview-four.jpg)
-![preview-five](./vue-cloud-music/src/common/img/preview/preview-five.jpg)
+![preview-five](./vue-cloud-music/src/common/img/preview/preview-five.png)
 ![preview-six](./vue-cloud-music/src/common/img/preview/preview-six.jpg)
 ![preview-seven](./vue-cloud-music/src/common/img/preview/preview-seven.jpg)
 ![preview-eight](./vue-cloud-music/src/common/img/preview/preview-eight.jpg)
@@ -50,7 +50,7 @@ ui界面基于ios版，version：5.2.0
 5. 可以收藏自己喜欢的歌曲到收藏列表
 
 ## 还会做的其他功能？（排名不分先后）
-1. 评论？
+1. ~~评论？~~
 2. 电台？
 3. ~~精品歌单~~
 4. 排行榜？
