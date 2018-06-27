@@ -38,8 +38,8 @@
           <span>{{current}}</span>
           <div class="progress-bar" ref="progress" @click="jump">
             <div class="real-progress" ref="progressReal">
-              <div class="circle">
-                <div class="small-circle"></div>
+              <div class="circle" @touchmove="touchmove" @touchend="touchend">
+                <div class="small-circle" ref="small"></div>
               </div>
             </div>
           </div>
@@ -165,6 +165,9 @@ export default {
     //歌手
     singerName () {
       return this.$store.state.singerName
+    },
+    unFixDuration () {
+      return this.$store.state.unFixedDuration
     }
   },
   methods: {
@@ -212,20 +215,13 @@ export default {
     //进度条跳到指定位置
     jump () {
       const progress = this.$refs.progress;
-      const progressReal = this.$refs.progressReal;
       progress.addEventListener('click', (e) => {
         let offsetX = e.offsetX;
         let width = progress.clientWidth;
         let percentage = `${(offsetX / width).toFixed(4) * 100}%`;
-        let current = (percentage.split('%')[0] / 100) * this.$store.state.unFixedDuration;
+        let current = (percentage.split('%')[0] / 100) * this.unFixDuration;
         this.JUMP(current)
       })
-    },
-    //进度条更新进度
-    updateProgress () {
-      let value = this.$store.state.unFixedTime / this.this.$store.state.unFixedDuration;
-      value = `${(value * 100).toFixed(2)}%`;
-      this.$refs.progressReal.style.width = value;
     },
     //向store提交播放模式
     updateMode () {
@@ -260,6 +256,26 @@ export default {
     //点击喜欢该歌曲
     likes () {
       this.LIKE({item: this.playingItem, id: this.id});
+    },
+    //拉动进度条
+    touchmove (e) {
+      const progress = this.$refs.progress;
+      const realProgress = this.$refs.progressReal;
+      const width = progress.clientWidth;
+      if (e.target === this.$refs.small) {
+        const margin = e.path[2].offsetLeft;
+        const newOffset = e.changedTouches[0].pageX - margin;
+        if (newOffset > 0) {
+          let percentage = ((newOffset / width).toFixed(4));
+          if (percentage < 1) {
+            realProgress.style.width = `${percentage * 100}%`;
+            this.move = percentage * this.unFixDuration
+          }
+        }
+      }
+    },
+    touchend () {
+      this.JUMP(this.move)
     },
     ...mapMutations([
       'PLAY_MUSIC',
@@ -449,7 +465,7 @@ export default {
     position: absolute;
     bottom: 2.5vh;
     width: 96%;
-    margin: 0 2%;
+    padding: 0 2%;
 
     .progress {
       width: 100%;

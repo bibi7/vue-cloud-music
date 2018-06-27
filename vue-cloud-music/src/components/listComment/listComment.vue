@@ -157,7 +157,7 @@
         }
         //跨年评论
         if (now.getTime() - num > 259200000 && now.getFullYear() !== thatTime.getFullYear()) {
-          commentTime = `${year}年${month}月${day}日`
+          commentTime = `${year}年${month + 1}月${day}日`
         }
         //本年评论
         if (now.getTime() - num > 259200000 && now.getFullYear() === thatTime.getFullYear()) {
