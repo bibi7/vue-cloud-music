@@ -57,7 +57,8 @@ ui界面基于ios版，version：5.2.0
 5. 私人FM？
 6. 歌手详情
 7. ~~loading页！~~
-8. 持续不断的bug fix
-9. 持续不断的code结构优化
+8. 用户详情
+9. 持续不断的bug fix
+10. 持续不断的code结构优化
 
 喜欢的话点个`star`吧
