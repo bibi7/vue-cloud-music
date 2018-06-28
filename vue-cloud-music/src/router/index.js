@@ -8,6 +8,7 @@ import radio from '@/components/main/streamerRadio/radio.vue'
 import musicList from '@/components/musicList/musicList.vue'
 import homePageMusicList from '@/components/homePageMusicList/homePageMusicList.vue'
 import listComment from '@/components/listComment/listComment.vue'
+import userInfo from '@/components/userInfo/userInfo.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -49,6 +50,10 @@ export default new Router({
     {
       path: '/listComment/:id',
       component: listComment
+    },
+    {
+      path: '/userInfo/:userId',
+      component: userInfo
     }
   ]
 })

@@ -99,3 +99,12 @@ export function getMusicComment(id, limit) {
 export function getUserDetail (id) {
   return axios.get(`${url}user/detail?uid=${id}`)
 }
+
+/**
+ * 获取用户歌单
+ * @param id
+ * @returns {AxiosPromise<any>}
+ */
+export function getUserPlaylist(id) {
+  return axios.get(`${url}user/playlist?uid=${id}`)
+}

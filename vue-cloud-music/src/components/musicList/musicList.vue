@@ -14,7 +14,7 @@
                 <div class="creator">
                   <img :src="avatar.imgUrl">
                   <div>
-                    <span @click="getUserDetail(126243265)">{{avatar.nickname}}</span>
+                    <span @click="getUserDetail(avatar.userId)">{{avatar.nickname}}</span>
                     <i class="iconfont icon-combinedshapefuben"></i>
                   </div>
                 </div>
@@ -92,8 +92,8 @@
         this.listId = this.$route.params.id
       },
       getUserDetail (id) {
-        getUserDetail(id).then(result => {
-          console.log(result)
+        this.$router.push({
+          path: `/userInfo/${id}`
         })
       },
       goComment () {
@@ -119,6 +119,7 @@
           //创建者信息
           this.avatar.imgUrl = result.data.playlist.creator.avatarUrl;
           this.avatar.nickname = result.data.playlist.creator.nickname;
+          this.avatar.userId = result.data.playlist.creator.userId;
           //歌曲列表信息
           this.tracks = result.data.playlist.tracks;
           //收藏数量

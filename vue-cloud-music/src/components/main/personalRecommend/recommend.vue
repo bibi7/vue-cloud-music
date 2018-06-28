@@ -4,7 +4,9 @@
       <div>
         <div class="red-bg"></div>
         <div class="banner">
-          <slider></slider>
+          <keep-alive>
+            <slider></slider>
+          </keep-alive>
         </div>
         <navigation></navigation>
         <recommendSongList></recommendSongList>

@@ -1,6 +1,6 @@
 <template>
   <!--与header组件其实重复了，后期需要合并起来-->
-  <div class="red-header">
+  <div class="red-header" :class="{tr : transparent}">
     <div>
       <div>
         <i class="iconfont icon-xiangzuo" @click="back"></i>
@@ -19,6 +19,12 @@
 <script>
   export default {
     name: 'redHeader',
+    props: {
+      transparent: {
+        type: Boolean,
+        default: false
+      }
+    },
     computed: {
       playing () {
         return this.$store.state.isPlaying
@@ -57,6 +63,10 @@
         width: 17px;
         height: 17px;
       }
+    }
+
+    &.tr {
+      background-color: transparent!important;
     }
   }
 </style>
