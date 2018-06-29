@@ -76,7 +76,11 @@
         currentTab: 'userSongList',
         aboutInfo: {},
         songList: {
-          test: 1
+          //songList传递空对象给props后，子组件无法第一时间更新数据，需要事先在对象中初始化。
+          //之所以aboutInfo不用初始化是因为默认显示songList，等到切换aboutInfo相当于组件重载了一次，所传递的对象已经是数据填充好了的对象。
+          userId: 0,
+          playlistCount: 0,
+          playlistBeSubscribedCount: 0,
         }
       }
     },
@@ -107,7 +111,8 @@
           this.checkBirthday(data.birthday);
           this.checkRegion(data.city);
           this.songList.playlistCount = data.playlistCount;
-          this.songList.playlistBeSubscribedCount = data.playlistBeSubscribedCount
+          this.songList.playlistBeSubscribedCount = data.playlistBeSubscribedCount;
+          this.songList.userId = data.userId;
         })
         .then(() => {
           this.initBackground()

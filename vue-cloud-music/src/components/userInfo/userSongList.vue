@@ -6,10 +6,11 @@
           <span>歌单({{songList.playlistCount}})</span>
         </div>
         <div class="collection">
-          <span>共被收藏{{num}}次</span>
+          <span>共被收藏{{initCollectionNumber(songList.playlistBeSubscribedCount)}}次</span>
         </div>
       </div>
     </div>
+    <span>{{songList.userId}}</span>
   </div>
 </template>
 <script>
@@ -17,7 +18,7 @@
     name: 'userSongList',
     data () {
       return {
-        num: this.songList.playlistBeSubscribedCount
+        num: this.songList.playlistBeSubscribedCount,
       }
     },
     props: {
@@ -26,24 +27,24 @@
         default: function () {
           return {}
         }
-      }
+      },
     },
     methods: {
-      initCollectionNumber () {
-        if (this.num > 100000 && this.num < 1000000) {
-          this.num = `${this.num.toString().substring(0, 2)}.${this.num.toString().substring(2, 3)}万`
+      initCollectionNumber (num) {
+        if (num > 100000 && num < 1000000) {
+          return `${num.toString().substring(0, 2)}.${num.toString().substring(2, 3)}万`
         }
-        if (this.num >= 1000000 && this.num < 10000000) {
-          this.num = `${this.num.toString().substring(0, 3)}.${this.num.toString().substring(3, 4)}万`
+        if (num >= 1000000 && num < 10000000) {
+          return `${num.toString().substring(0, 3)}.${num.toString().substring(3, 4)}万`
         }
-        if (this.num > 10000000) {
-          this.num = `${this.num.toString().substring(0, 4)}.${this.num.toString().substring(4, 5)}万`
+        if (num > 10000000) {
+          return `${num.toString().substring(0, 4)}.${num.toString().substring(4, 5)}万`
         }
       }
     },
     mounted () {
-      this.initCollectionNumber();
-    }
+//      this.initCollectionNumber();
+    },
   }
 </script>
 <style lang="less" scoped>
