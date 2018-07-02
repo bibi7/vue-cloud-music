@@ -1,6 +1,6 @@
 <template>
   <!--与header组件其实重复了，后期需要合并起来-->
-  <div class="red-header" :class="{tr : transparent}">
+  <div class="red-header" :class="{tr : transparent, fixed: fixed}">
     <div>
       <div>
         <i class="iconfont icon-xiangzuo" @click="back"></i>
@@ -21,6 +21,10 @@
     name: 'redHeader',
     props: {
       transparent: {
+        type: Boolean,
+        default: false
+      },
+      fixed: {
         type: Boolean,
         default: false
       }
@@ -67,6 +71,12 @@
 
     &.tr {
       background-color: transparent;
+    }
+
+    &.fixed {
+      position: fixed;
+      top: 0;
+      width: 100%;
     }
   }
 </style>

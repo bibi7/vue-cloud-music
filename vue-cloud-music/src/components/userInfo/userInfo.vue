@@ -1,8 +1,5 @@
 <template>
   <div class="user" ref="user">
-    <redHeader :transparent="true" ref="header">
-      <span>{{userName}}</span>
-    </redHeader>
     <div ref="wrapper" class="wrapper">
       <div>
         <div class="main-info" ref="main">
@@ -48,6 +45,10 @@
         </div>
       </div>
     </div>
+    <redHeader :transparent="true" :fixed="true" ref="header">
+      <span>{{userName}}</span>
+    </redHeader>
+
   </div>
 </template>
 
@@ -134,7 +135,9 @@
         this.aboutInfo.gender = '女'
       },
       onScroll (pos) {
-        this.scrollY = pos.y
+        if (pos.y < 0) {
+          this.scrollY = pos.y
+        }
       },
       checkBirthday(birthday) {
         const year = new Date(birthday).getFullYear();
@@ -269,9 +272,7 @@
         }
       },
       initWrapper () {
-        const wrapper = this.$refs.wrapper;
-        wrapper.style.height = `${this.$refs.user.clientHeight - this.$refs.header.$el.clientHeight}px`;
-        const v =  new BScroll(this.$refs.wrapper, {
+        const v =  new BScroll(this.$refs.user, {
           scrollY: true,
           click: true,
           probeType: 3
