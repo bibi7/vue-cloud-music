@@ -11,7 +11,7 @@
       </div>
     </div>
     <div class="list-container">
-      <div class="list-item" v-for="(item, index) in list">
+      <div class="list-item" v-for="(item, index) in list" @click="goList(item.id)">
         <div class="item-img">
           <img :src="item.coverImgUrl">
         </div>
@@ -68,6 +68,11 @@
       getUserSongList (result) {
         console.log(result)
         this.list = result.data.playlist
+      },
+      goList (id) {
+        this.$router.push({
+          path: `/musicList/${id}`
+        })
       }
     },
     mounted () {

@@ -1,48 +1,52 @@
 <template>
-  <div class="user">
-    <redHeader :transparent="true">
+  <div class="user" ref="user">
+    <redHeader :transparent="true" ref="header">
       <span>{{userName}}</span>
     </redHeader>
-    <div class="main-info" ref="main">
-      <div class="bg" ref="bg"></div>
-      <div class="info-container">
-        <div>
-          <div class="top">
-            <div class="top-l">
-              <img :src="userImg">
-            </div>
-            <div class="top-r">
-              <div>
-                <span>+关注</span>
+    <div ref="wrapper" class="wrapper">
+      <div>
+        <div class="main-info" ref="main">
+          <div class="bg" ref="bg"></div>
+          <div class="info-container">
+            <div>
+              <div class="top">
+                <div class="top-l">
+                  <img :src="userImg">
+                </div>
+                <div class="top-r">
+                  <div>
+                    <span>+关注</span>
+                  </div>
+                </div>
+              </div>
+              <div class="under">
+                <div class="userName">
+                  <p>{{userName}}</p>
+                </div>
+                <div class="follow">
+                  <span>关注 {{following}}</span>
+                  <span></span>
+                  <span>粉丝 {{followers}}</span>
+                </div>
               </div>
             </div>
           </div>
-          <div class="under">
-            <div class="userName">
-              <p>{{userName}}</p>
-            </div>
-            <div class="follow">
-              <span>关注 {{following}}</span>
-              <span></span>
-              <span>粉丝 {{followers}}</span>
+        </div>
+        <div class="listen-info">
+          <div class="top">
+            <div>
+              <div class="in" v-for="tab in tabs"
+                   @click="currentTab = tab.en">
+                <span :class="{active: currentTab === tab.en}">
+                  {{tab.name}}
+                </span>
+                <span v-if="tab.name === '音乐'" class="count">{{playlistCount}}</span>
+              </div>
             </div>
           </div>
+          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList"></component>
         </div>
       </div>
-    </div>
-    <div class="listen-info">
-      <div class="top">
-        <div>
-          <div class="in" v-for="tab in tabs"
-               @click="currentTab = tab.en">
-            <span :class="{active: currentTab === tab.en}">
-            {{tab.name}}
-            </span>
-            <span v-if="tab.name === '音乐'" class="count">{{playlistCount}}</span>
-          </div>
-        </div>
-      </div>
-      <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList"></component>
     </div>
   </div>
 </template>
@@ -64,6 +68,7 @@
         followers: '',
         located: '',
         playlistCount: '',
+        scrollY: 0,
         tabs: [
           {
           name: '音乐',
@@ -127,6 +132,9 @@
           return;
         }
         this.aboutInfo.gender = '女'
+      },
+      onScroll (pos) {
+        this.scrollY = pos.y
       },
       checkBirthday(birthday) {
         const year = new Date(birthday).getFullYear();
@@ -260,9 +268,31 @@
             break;
         }
       },
+      initWrapper () {
+        const wrapper = this.$refs.wrapper;
+        wrapper.style.height = `${this.$refs.user.clientHeight - this.$refs.header.$el.clientHeight}px`;
+        const v =  new BScroll(this.$refs.wrapper, {
+          scrollY: true,
+          click: true,
+          probeType: 3
+        });
+
+        v.on('scroll', this.onScroll)
+      },
     },
     mounted () {
-      this.initInfo(this.userId);
+      setTimeout(this.initInfo(this.userId), 150);
+      this.initWrapper();
+    },
+    watch: {
+        scrollY () {
+        const bgHeight = this.$refs.bg.clientHeight;
+        const realHeight = (bgHeight / 7) * 4;
+        const value = (Math.abs(this.scrollY) - 40) / realHeight;
+        if (value < 1) {
+          this.$refs.header.$el.style.backgroundColor = `rgba(212, 68, 57, ${value})`
+        }
+      }
     }
   }
 </script>
@@ -279,10 +309,15 @@
     z-index: 10;
     background-color: #fff;
 
+    .wrapper {
+      position: relative;
+      z-index: -1;
+    }
+
     .main-info {
       position: relative;
       height: 40vh;
-      margin-top: -2.5rem;
+      /*margin-top: -2.5rem;*/
       z-index: -1;
 
       .bg {
