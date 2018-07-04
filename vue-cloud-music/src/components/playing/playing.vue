@@ -25,8 +25,9 @@
           <div>
             <i class="iconfont icon-xiazai"></i>
           </div>
-          <div>
+          <div class="comment">
             <i class="iconfont icon-pinglun" @click="goComment"></i>
+            <!--<span>999</span>-->
           </div>
           <div>
             <i class="iconfont icon-gengduo"></i>
@@ -403,6 +404,7 @@ export default {
         transform: translate(-50%, -50%);
       }
 
+
       & > img {
         position: absolute;
         top: 12px;
@@ -413,6 +415,16 @@ export default {
 
       & > img.rotate {
         transform: rotate(40deg);
+      }
+    }
+
+    .other > div {
+      position: relative;
+
+      .comment {
+        position: absolute;
+        top: 0;
+        right: 0;
       }
     }
 

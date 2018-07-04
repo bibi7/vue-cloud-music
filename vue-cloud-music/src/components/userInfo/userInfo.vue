@@ -48,7 +48,7 @@
     <redHeader :transparent="true" :fixed="true" ref="header">
       <span>{{userName}}</span>
     </redHeader>
-
+    <loading :class="{hide: !hide, none: isLoadingDone}"></loading>
   </div>
 </template>
 
@@ -58,6 +58,7 @@
   import {getUserDetail} from '@/common/js/axiosType/getAxiosType.js'
   import userSongList from '@/components/userInfo/userSongList.vue'
   import userAbout from '@/components/userInfo/userAbout.vue'
+  import loading from '@/components/common/loading/loading.vue'
   export default {
     name: 'userInfo',
     data () {
@@ -87,7 +88,9 @@
           userId: 0,
           playlistCount: 0,
           playlistBeSubscribedCount: 0,
-        }
+        },
+        isLoadingDone: false,
+        hide: true,
       }
     },
     computed: {
@@ -99,6 +102,7 @@
       redHeader,
       userSongList,
       userAbout,
+      loading,
     },
     methods: {
       initInfo (id) {
@@ -123,6 +127,12 @@
         .then(() => {
           this.initBackground()
         })
+        .then(setTimeout(() => {
+            this.hide = false
+          }, 300))
+        .then(setTimeout(() => {
+          this.isLoadingDone = true
+        }, 500))
       },
       initBackground () {
         this.$refs.bg.style.background = `url(${this.backgroundImg})`
