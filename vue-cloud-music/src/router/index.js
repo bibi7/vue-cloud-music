@@ -9,6 +9,7 @@ import musicList from '@/components/musicList/musicList.vue'
 import homePageMusicList from '@/components/homePageMusicList/homePageMusicList.vue'
 import listComment from '@/components/listComment/listComment.vue'
 import userInfo from '@/components/userInfo/userInfo.vue'
+import ranking from '@/components/ranking/ranking.vue'
 Vue.use(Router)
 
 export default new Router({
@@ -54,6 +55,10 @@ export default new Router({
     {
       path: '/userInfo/:userId',
       component: userInfo
+    },
+    {
+      path: '/ranking',
+      component: ranking
     }
   ]
 })

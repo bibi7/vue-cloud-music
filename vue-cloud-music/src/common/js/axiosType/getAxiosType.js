@@ -108,3 +108,12 @@ export function getUserDetail (id) {
 export function getUserPlaylist(id) {
   return axios.get(`${url}user/playlist?uid=${id}`)
 }
+
+/**
+ * 排行榜
+ * @param id
+ * @returns {AxiosPromise<any>}
+ */
+export function getRanking(id) {
+  return axios.get(`${url}top/list?id=${id}`)
+}

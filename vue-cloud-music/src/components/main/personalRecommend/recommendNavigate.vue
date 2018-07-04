@@ -13,7 +13,7 @@
         <i class="iconfont icon-gedan"></i>
         <span>歌单</span>
       </div>
-      <div>
+      <div @click="ranking">
         <i class="iconfont icon-paihangbang"></i>
         <span>排行榜</span>
       </div>
@@ -33,6 +33,11 @@
       homePageMusicList () {
         this.$router.push({
           path: '/homePageMusicList'
+        })
+      },
+      ranking () {
+        this.$router.push({
+          path: '/ranking'
         })
       }
     }
