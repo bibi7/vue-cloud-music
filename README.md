@@ -6,10 +6,12 @@
 ![preview-two](./vue-cloud-music/src/common/img/preview/preview-two.jpg)
 ![preview-three](./vue-cloud-music/src/common/img/preview/preview-three.jpg)
 ![preview-four](./vue-cloud-music/src/common/img/preview/preview-four.jpg)
-![preview-five](./vue-cloud-music/src/common/img/preview/preview-five.png)
+![preview-five](./vue-cloud-music/src/common/img/preview/preview-five.jpg)
 ![preview-six](./vue-cloud-music/src/common/img/preview/preview-six.jpg)
 ![preview-seven](./vue-cloud-music/src/common/img/preview/preview-seven.jpg)
 ![preview-eight](./vue-cloud-music/src/common/img/preview/preview-eight.jpg)
+![preview-nine](./vue-cloud-music/src/common/img/preview/preview-nine.jpg)
+![preview-ten](./vue-cloud-music/src/common/img/preview/preview-ten.jpg)
 
 ## 关键信息
 项目启发于：[CaiJinyc / vue-music-webapp](https://github.com/CaiJinyc/vue-music-webapp)
