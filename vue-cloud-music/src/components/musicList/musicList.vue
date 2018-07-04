@@ -180,6 +180,9 @@
       //歌曲是否正在播放，决定了左上角的gif是否显示
       playing () {
         return this.$store.state.isPlaying
+      },
+      time () {
+        return this.$route.params.time;
       }
     },
     watch: {

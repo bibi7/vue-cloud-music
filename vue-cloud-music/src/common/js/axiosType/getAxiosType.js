@@ -115,5 +115,5 @@ export function getUserPlaylist(id) {
  * @returns {AxiosPromise<any>}
  */
 export function getRanking(id) {
-  return axios.get(`${url}top/list?id=${id}`)
+  return axios.get(`${url}top/list?idx=${id}`)
 }
