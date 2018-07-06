@@ -73,7 +73,7 @@
                 <div class="content">
                   <pre>{{item.content}}</pre>
                   <div class="reply" v-if="item.beReplied[0]">
-                    <span>@{{item.beReplied[0].user.nickname}}：</span>
+                    <span @click="goUser(item.beReplied[0].user.userId)">@{{item.beReplied[0].user.nickname}}：</span>
                     <span>{{item.beReplied[0].content}}</span>
                   </div>
                 </div>
@@ -146,6 +146,11 @@
           scrollY: true,
           click: true,
         });
+      },
+      goUser (id) {
+        this.$router.push({
+          path: `/userInfo/${id}`
+        })
       },
       getTime(num) {
         let commentTime;

@@ -117,3 +117,11 @@ export function getUserPlaylist(id) {
 export function getRanking(id) {
   return axios.get(`${url}top/list?idx=${id}`)
 }
+
+// /**
+//  * 每日歌曲推荐，需要登录
+//  * @returns {AxiosPromise<any>}
+//  */
+// export function getDailyRecSong() {
+//   return axios.get(`${url}recommend/songs`)
+// }
