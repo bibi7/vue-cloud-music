@@ -72,6 +72,10 @@
                 </div>
                 <div class="content">
                   <pre>{{item.content}}</pre>
+                  <div class="reply" v-if="item.beReplied[0]">
+                    <span>@{{item.beReplied[0].user.nickname}}：</span>
+                    <span>{{item.beReplied[0].content}}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -349,6 +353,24 @@
                   font-size: .8rem;
                   text-align: left;
                   color: @themeBlack;
+                }
+
+                .reply {
+                  border: 1px #DBDCDD solid;
+                  background-color: #FDFEFE;
+                  padding: 5px 10px;
+                  margin-top: 5px;
+                  font-size: .8rem;
+                  text-align: left;
+                  line-height: 1.6rem;
+
+                  & > span:first-child {
+                    color: #789BC1;
+                  }
+
+                  & > span:nth-child(2) {
+                    color: @themeGray;
+                  }
                 }
               }
             }
