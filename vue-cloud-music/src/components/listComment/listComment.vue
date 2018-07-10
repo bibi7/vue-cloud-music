@@ -152,7 +152,7 @@
           path: `/userInfo/${id}`
         })
       },
-      getTime(num) {
+      getTime (num) {
         let commentTime;
         const now = new Date();
         const thatTime = new Date(num);
