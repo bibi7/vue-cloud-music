@@ -41,7 +41,7 @@
               </div>
             </div>
           </div>
-          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList"></component>
+          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" @updateScroll="initWrapper"></component>
         </div>
       </div>
     </div>
@@ -282,18 +282,22 @@
         }
       },
       initWrapper () {
-        const v =  new BScroll(this.$refs.user, {
-          scrollY: true,
-          click: true,
-          probeType: 3
-        });
+        console.log(this.$refs.wrapper.clientHeight) //依旧无法明白这里的高度，需要setTimeout一下才是真正高度
+        setTimeout(() => {
+          console.log(this.$refs.wrapper.clientHeight)
+          const v =  new BScroll(this.$refs.user, {
+            scrollY: true,
+            click: true,
+            probeType: 3
+          });
 
-        v.on('scroll', this.onScroll)
+          v.on('scroll', this.onScroll)
+        }, 300)
       },
     },
     mounted () {
       setTimeout(this.initInfo(this.userId), 150);
-      this.initWrapper();
+//      this.initWrapper();
     },
     watch: {
         scrollY () {

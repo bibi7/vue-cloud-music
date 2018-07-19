@@ -73,6 +73,9 @@
         this.$router.push({
           path: `/musicList/${id}`
         })
+      },
+      updateScroll () {
+        this.$emit('updateScroll')
       }
     },
     mounted () {
@@ -86,6 +89,7 @@
         getUserPlaylist(newValue).then(result => {
           this.getUserSongList(result)
         })
+        .then(this.updateScroll())
       }
     }
   }
