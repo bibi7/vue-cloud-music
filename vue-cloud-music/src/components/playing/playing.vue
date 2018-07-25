@@ -4,7 +4,7 @@
       <div class="play-bg" ref="bg"></div>
       <div class="header">
         <i class="iconfont icon-xiangzuo" @click="back"></i>
-        <p>{{name}}</p>
+        <p>{{name.length < 25? name:`${name.substring(0, 25)}...`}}</p>
         <i class="iconfont icon-zhuanfa"></i>
       </div>
       <div class="main">

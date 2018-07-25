@@ -33,7 +33,7 @@
     },
     methods: {
       timeUpdate (e) {
-        console.log(e);
+//        console.log(e);
         let min = parseInt((e.path[0].currentTime / 60), 10);
         let sec = (e.path[0].currentTime % 60).toFixed(0);
         if (sec < 10) sec = `0${sec}`;
