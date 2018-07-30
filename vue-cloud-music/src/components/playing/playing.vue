@@ -65,7 +65,7 @@
               <span>({{listInfo.length}})</span>
             </div>
             <div>
-              <span>收藏全部</span>
+              <!--<span>收藏全部</span>-->
             </div>
           </div>
           <div class="listContainer" ref="listContainer">
