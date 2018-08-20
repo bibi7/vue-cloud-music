@@ -53,7 +53,7 @@ export const PLAY = 'PLAY';
 export const PAUSE = 'PAUSE';
 
 /**
- *
+ * 跳转
  * @type {string}
  */
 export const JUMP = 'JUMP';
