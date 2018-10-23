@@ -90,6 +90,9 @@
           this.getUserSongList(result)
         })
         .then(this.updateScroll())
+        .then(() => {
+          this.$emit('goRemoveLoading')
+        })
       }
     }
   }

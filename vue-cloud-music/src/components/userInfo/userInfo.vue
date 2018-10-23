@@ -41,7 +41,7 @@
               </div>
             </div>
           </div>
-          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" @updateScroll="initWrapper"></component>
+          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" v-on:goRemoveLoading="removeLoading" @updateScroll="initWrapper"></component>
         </div>
       </div>
     </div>
@@ -126,6 +126,12 @@
         })
         .then(() => {
           this.initBackground()
+        })
+      },
+      removeLoading () {
+        console.log('test1')
+        return new Promise(function(resolve, reject) {
+          resolve()
         })
         .then(setTimeout(() => {
             this.hide = false
