@@ -41,7 +41,7 @@
               </div>
             </div>
           </div>
-          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" v-on:goRemoveLoading="removeLoading" @updateScroll="initWrapper"></component>
+          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" v-on:goRemoveLoading="removeLoading"></component>
         </div>
       </div>
     </div>
@@ -129,7 +129,6 @@
         })
       },
       removeLoading () {
-        console.log('test1')
         return new Promise(function(resolve, reject) {
           resolve()
         })
@@ -139,6 +138,9 @@
         .then(setTimeout(() => {
           this.isLoadingDone = true
         }, 500))
+        .then(() => {
+          this.initWrapper();
+        })
       },
       initBackground () {
         this.$refs.bg.style.background = `url(${this.backgroundImg})`
@@ -296,7 +298,6 @@
             click: true,
             probeType: 3
           });
-
           v.on('scroll', this.onScroll)
         }, 300)
       },
