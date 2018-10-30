@@ -45,13 +45,11 @@
       initList () {
         rankRange.forEach(item => {
           getRanking(item).then(result => {
-            console.log(result);
             const item = {};
             item.imgUrl = result.data.playlist.coverImgUrl;
             item.topThree = result.data.playlist.tracks.slice(0, 3);
             item.id = result.data.playlist.id;
             this.list.push(item);
-            console.log(item.topThree)
           })
         });
       },

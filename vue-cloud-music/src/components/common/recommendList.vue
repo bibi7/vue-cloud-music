@@ -39,7 +39,6 @@
       _initList () {
         if (this.type === 'recommend') {
           getRecommend().then(result => {
-            console.log(result);
             result.data.result.forEach((item, index) => {
               this.fillItem(item, index, 21)
             })

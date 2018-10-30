@@ -50,7 +50,6 @@
     methods: {
       initData () {
         getHighqualityList().then(result => {
-          console.log(result)
           this.titleImg = result.data.playlists[0].coverImgUrl
           this.titleInfo = result.data.playlists[0].name
           this.titleShortInfo = result.data.playlists[0].copywriter

@@ -64,8 +64,6 @@
     },
     methods: {
       playMusic(obj) {
-        console.log(typeof obj.list);
-        console.log(obj.list);
         //提交store
         this.PLAY_MUSIC(obj);
         //路由切换

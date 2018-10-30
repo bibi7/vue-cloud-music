@@ -107,7 +107,6 @@
     methods: {
       initInfo (id) {
         getUserDetail(id).then(result => {
-          console.log(result);
           const data = result.data.profile;
           this.userName = data.nickname;
           this.backgroundImg = data.backgroundUrl;
@@ -159,7 +158,6 @@
       },
       checkBirthday(birthday) {
         const year = new Date(birthday).getFullYear();
-        console.log(year);
         if (year < 2000) {
           if (year < 2000 && year >= 1990) {
             return this.aboutInfo.age = '90后'
@@ -179,7 +177,6 @@
       },
       //这个函数也太长了！！！！！
       checkRegion (region) {
-        console.log(region);
         const regionNumber = region.toString().substring(0, 3);
         switch (regionNumber) {
           case '110':
@@ -290,9 +287,7 @@
         }
       },
       initWrapper () {
-        console.log(this.$refs.wrapper.clientHeight) //依旧无法明白这里的高度，需要setTimeout一下才是真正高度
         setTimeout(() => {
-          console.log(this.$refs.wrapper.clientHeight)
           const v =  new BScroll(this.$refs.user, {
             scrollY: true,
             click: true,

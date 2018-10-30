@@ -127,14 +127,12 @@
     methods: {
       getSongSheetComment (id) {
         getSongSheetComment(id).then(result => {
-          console.log(result);
           this.hotComment = result.data.hotComments
           this.newComment = result.data.comments
         })
       },
       getSongSingleComment (id) {
         getMusicComment(id).then(result => {
-          console.log(result)
           this.hotComment = result.data.hotComments
           this.newComment = result.data.comments
         })
@@ -197,8 +195,6 @@
       }
     },
     mounted () {
-      console.log(this.id);
-      console.log(this.$route.query);
       if (this.isSongSheet) {
         this.getSongSheetComment(this.id);
       }

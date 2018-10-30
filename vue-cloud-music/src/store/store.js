@@ -154,13 +154,11 @@ export default new Vuex.Store({
     },
 
     [LIKE] (state, obj) {
-      console.log(state.collectionList)
       if (state.collectionList.id.indexOf(obj.id) === -1) {
         state.collectionList.id.push(obj.id)
         state.collectionList.list.push(obj.item)
       } else {
         const index = state.collectionList.id.indexOf(obj.id);
-        console.log(index);
         state.collectionList.id.splice(index, 1);
         state.collectionList.list.splice(index, 1);
       }

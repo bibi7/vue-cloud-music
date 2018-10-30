@@ -66,7 +66,6 @@
         return num
       },
       getUserSongList (result) {
-        console.log(result)
         this.list = result.data.playlist
       },
       goList (id) {
@@ -79,7 +78,6 @@
       }
     },
     mounted () {
-      console.log(this.userId);
       getUserPlaylist(this.userId).then(result => {
         this.getUserSongList(result)
       })

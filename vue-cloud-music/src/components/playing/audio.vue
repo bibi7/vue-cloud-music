@@ -76,7 +76,6 @@
     watch: {
       id () {
         getMusicUrl(this.id).then(result => {
-          console.log(result);
           this.address = result.data.data[0].url;
         });
       },

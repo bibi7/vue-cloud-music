@@ -111,7 +111,6 @@
       getMusicListInfo () {
         this.getMusicId();
         getMusicListInfo(this.listId).then(result => {
-          console.log(result);
           //歌单封面
           this.listMusicImg = result.data.playlist.coverImgUrl;
           //歌单简述
@@ -147,7 +146,6 @@
       },
       //回弹初始化
       initWrapper () {
-        console.log(this.$refs.listInfo.offsetHeight);
         const scrollWrapper = new BScroll(this.$refs.musicList, {
           scrollY: true,
           click: true,

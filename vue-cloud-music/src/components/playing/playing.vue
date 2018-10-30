@@ -105,7 +105,6 @@ export default {
   },
   mounted () {
     this.initSong();
-    console.log(this.listInfo)
   },
   components: {
     singleCollection
@@ -190,9 +189,7 @@ export default {
     initSong () {
       //初始化歌曲地址
       getMusicUrl(this.id).then(result => {
-        console.log(result);
         this.musicUrl = result.data.data[0].url;
-        console.log(this.musicUrl)
       });
 
       this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
@@ -293,7 +290,6 @@ export default {
   watch: {
     current () {
       let value = this.$store.state.unFixedTime / this.$store.state.unFixedDuration;
-      console.log(value)
       value = `${(value * 100).toFixed(2)}%`;
       this.$refs.progressReal.style.width = value;
     },
