@@ -1,6 +1,18 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {PLAY_MUSIC, PLAY_NEXT, PLAY_PREV, PLAY_IRREGULAR, PLAY_MODE, UPDATE_CURRENTTIME, UPDATE_DURATION, PLAY, PAUSE, JUMP, LIKE} from "./mutationType";
+import {
+  PLAY_MUSIC,
+  PLAY_NEXT,
+  PLAY_PREV,
+  PLAY_IRREGULAR,
+  PLAY_MODE,
+  UPDATE_CURRENTTIME,
+  UPDATE_DURATION,
+  PLAY,
+  PAUSE,
+  JUMP,
+  LIKE
+} from "./mutationType";
 
 Vue.use(Vuex);
 
