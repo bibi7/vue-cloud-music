@@ -6,7 +6,7 @@
         <span>{{item.playCount}}</span>
       </div>
       <!--两个接口返回的格式不一致，推荐歌单的图片字段为picUrl，精品歌单的图片字段为coverImgUrl，组件复用的时候做一下hack-->
-      <img :src="item.picUrl? item.picUrl: item.coverImgUrl" @click="getMusicList(item.id)">
+      <img v-lazy="item.picUrl? item.picUrl: item.coverImgUrl" @click="getMusicList(item.id)">
       <span class="description">{{item.name.length < 15? item.name : `${item.name.substring(0, 15)}...`}}</span>
     </div>
   </div>
@@ -14,7 +14,7 @@
 
 
 <script>
-  import {getRecommend, getNewMusic, getHighqualityList, newAlbum} from '@/common/js/axiosType/getAxiosType.js'
+  import {getRecommend, getNewMusic, getHighqualityList, newAlbum} from '@/common/js/axiosType/getAxiosType'
 
   export default {
     name: 'recommendList',
@@ -133,7 +133,17 @@
 
     & > img {
       width: 100%;
+      animation: imgShow .25s linear
     }
+  }
+}
+
+@keyframes imgShow {
+  0% {
+    opacity: 0
+  }
+  80% {
+    opacity: 1
   }
 }
 </style>

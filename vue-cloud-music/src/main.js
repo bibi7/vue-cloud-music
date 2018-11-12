@@ -4,6 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from './store/store'
+import VueLazyLoad from 'vue-LazyLoad'
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
@@ -13,4 +14,8 @@ new Vue({
   store,
   components: { App },
   template: '<App/>'
+})
+
+Vue.use(VueLazyLoad, {
+  loading: require('@/common/img/default.png')
 })
