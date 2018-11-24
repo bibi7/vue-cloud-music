@@ -61,10 +61,10 @@
 
   .red-bg {
     position: absolute;
-    top: -30vh;
+    top: -25rem;
     z-index: -10;
     width: 100%;
-    height: 50vh;
+    height: 32rem;
     background-color: #D44439;
   }
 

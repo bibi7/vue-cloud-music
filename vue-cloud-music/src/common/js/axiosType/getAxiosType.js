@@ -43,7 +43,7 @@ export function getMusicListInfo(id) {
  * @returns {AxiosPromise<any>}
  */
 export function getMusicUrl(id) {
-  return axios.get(`${url}music/url?id=${id}`)
+  return axios.get(`${url}song/url?id=${id}`)
 }
 
 /**

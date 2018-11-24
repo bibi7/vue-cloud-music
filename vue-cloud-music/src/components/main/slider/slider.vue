@@ -2,7 +2,7 @@
   <div class="ban-sli" ref="banSli">
     <div class="slider" ref="slider">
       <div v-for="(item, index) in imgArray" class="slider-in" ref="sliders">
-        <img :src="item.picUrl">
+        <img :src="item.imageUrl">
       </div>
     </div>
     <div class="dots">
@@ -44,6 +44,7 @@ export default {
           //获取banner数量
           this.bannerLength = result.data.banners.length;
         }
+        console.log(result)
       })
     },
     _initWidth () {
