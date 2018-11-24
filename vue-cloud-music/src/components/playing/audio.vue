@@ -75,8 +75,10 @@
     },
     watch: {
       id () {
-        getMusicUrl(this.id).then(result => {
-          this.address = result.data.data[0].url;
+        getMusicUrl(this.id).then(result => { 
+          const { url , id }= result.data.data[0];
+          //个别url地址会导致播放403，采用id的方式拼入官方url
+          this.address = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
         });
       },
       isPlaying () {
