@@ -166,6 +166,7 @@ export default {
     singerName () {
       return this.$store.state.singerName
     },
+    //未修正歌曲长度
     unFixDuration () {
       return this.$store.state.unFixedDuration
     }

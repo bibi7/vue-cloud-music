@@ -4,12 +4,11 @@
     <div class="listItem" v-for="(item, index) in itemArray" @click="playMusic({item: item, index: index, list: itemArray})">
       <div>
         <span v-if="item.id !== id">{{index + 1}}</span>
-        <img class="gif" src="../../common/img/playing_red.gif" v-if="item.id === id">
+        <img class="gif" src="../../../common/img/playing_red.gif" v-if="item.id === id">
       </div>
       <div>
         <div>
           <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name.length < 20? item.name: item.name.substring(0, 20) + '...'}}</span>
-          <!--<span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>-->
           <p class="singer">{{item.ar[0].name}} - {{item.al.name.length < 15? item.al.name: item.al.name.substring(0, 15) + '...'}}</p>
         </div>
       </div>
@@ -28,21 +27,28 @@ export default {
         return []
       }
     }
-  }
+  },
   data() {
     return {
       musicArray: []
     }
   },
+  computed: {
+    id () {
+      return this.$store.state.playingId
+    }
+  },
   methods: {
     playMusic(musicItem) {
-      this.$emit('playMusic')
+      this.$emit('play-music', musicItem)
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
+@import '../../../common/css/fontSize.less';
+@import '../../../common/css/color.less';
 .listItem {
   display: flex;
   align-items: center;
@@ -93,5 +99,10 @@ export default {
       border-bottom: 1px #EEEFF0 solid;
 
     }
+}
+
+.gif {
+  width: 13px;
+  height: 13px;
 }
 </style>

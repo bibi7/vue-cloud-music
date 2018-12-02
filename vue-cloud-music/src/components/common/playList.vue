@@ -8,32 +8,18 @@
     </div>
     <div>收藏数 （{{subscribedCount}}）</div>
   </div>
-  <div class="listItem" v-for="(item, index) in info" @click="playMusic({item: item, index: index, list: info})">
-    <div>
-      <span v-if="item.id !== id">{{index + 1}}</span>
-      <img class="gif" src="../../common/img/playing_red.gif" v-if="item.id === id">
-    </div>
-    <div>
-      <div>
-        <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name.length < 20? item.name: item.name.substring(0, 20) + '...'}}</span>
-        <!--<span class="songderivation" v-show="item.alia[0]">（{{item.alia[0]}}）</span>-->
-        <p class="singer">{{item.ar[0].name}} - {{item.al.name.length < 15? item.al.name: item.al.name.substring(0, 15) + '...'}}</p>
-      </div>
-    </div>
-    <i class="iconfont icon-gengduo"></i>
-  </div>
+  <playItem :itemArray="info" v-on:play-music="playMusic"/>
 </div>
 </template>
 
 <script>
   import {mapMutations} from 'vuex'
+  import playItem from './playItem/playItem'
   import {PLAY_MUSIC} from '@/store/mutationType.js'
   export default {
     name: 'playList',
-    data () {
-      return {
-        musicInfo: [],
-      }
+    components: {
+      playItem,
     },
     props: {
       radius: {
@@ -57,9 +43,6 @@
       },
       indexs () {
         return this.$store.state.playingIndex
-      },
-      id () {
-        return this.$store.state.playingId
       }
     },
     methods: {
@@ -190,10 +173,5 @@
   overflow: hidden;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-}
-
-.gif {
-  width: 13px;
-  height: 13px;
 }
 </style>
