@@ -83,6 +83,7 @@
       <!-- <div class="" style="position: fixed; top: 20px;">
         {{collectionList.length}}{{isLike}}
       </div> -->
+      <popBox :clickText="likeText" />
     </div>
   </keep-alive>
 </template>
@@ -92,6 +93,7 @@
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
 import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP, PLAY_MUSIC, LIKE} from '@/store/mutationType.js';
 import {mapMutations} from 'vuex';
+import popBox from '@/components/common/popBox/popBox.vue';
 import BScroll from 'better-scroll';
 import singleCollection from '@/components/common/singleCollection/singleCollection.vue';
 export default {
@@ -101,13 +103,16 @@ export default {
       musicUrl: '',
       audio: '',
       isShowList: false,
+      likeText: '',
+      isShow: false,
     }
   },
   mounted () {
     this.initSong();
   },
   components: {
-    singleCollection
+    singleCollection,
+    popBox,
   },
   computed: {
     //歌曲在列表中的index
@@ -255,6 +260,12 @@ export default {
     //点击喜欢该歌曲
     likes () {
       this.LIKE({item: this.playingItem, id: this.id});
+      const storeSong = this.$store.state.collectionList;
+      if (storeSong.id.includes(this.id)) {
+        this.likeText = '已喜欢！_(:з」∠)_';
+        return;
+      }
+      this.likeText = '取消喜欢QAQ';
     },
     //拉动进度条
     touchmove (e) {
