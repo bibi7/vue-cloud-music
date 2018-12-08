@@ -22,7 +22,7 @@
           </div>
         </div>
         <comment :title="'热门评论'" :commentObject="hotComment"/>
-        <comment :title="'最新评论'" :commentObject="newComment"/>
+        <comment :title="'最新评论'" :commentObject="newComment" v-on:wantMore="wantMore"/>
       </div>
     </div>
   </div>
@@ -37,6 +37,7 @@
     name: 'listComment',
     data () {
       return {
+        type: '',
         hotComment: [],
         newComment: []
       }
@@ -69,16 +70,29 @@
       }
     },
     methods: {
+      wantMore(obj) {
+        if (this.type === 'songSheet') {
+          getSongSheetComment(this.id, obj.frequency).then(result => {
+            this.newComment.push(...result.data.comments)
+          })
+        } else {
+          getMusicComment(this.id, obj.frequency).then(result => {
+            this.newComment.push(...result.data.comments)
+          })
+        }
+      },
       getSongSheetComment (id) {
         getSongSheetComment(id).then(result => {
           this.hotComment = result.data.hotComments
           this.newComment = result.data.comments
+          this.type = 'songSheet'
         })
       },
       getSongSingleComment (id) {
         getMusicComment(id).then(result => {
           this.hotComment = result.data.hotComments
           this.newComment = result.data.comments
+          this.type = 'songSingle'
         })
       },
       initWrapper () {

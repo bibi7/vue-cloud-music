@@ -29,12 +29,19 @@
         </div>
       </div>
     </div>
+    <span v-if="more != ''" class="more" @click="wantMore">{{more}}</span>
   </div>
 </template>
 
 <script>
 export default {
   name: 'comment',
+  data() {
+    return {
+      more: '',
+      wantFrequency: 0,
+    }
+  },
   props: {
     title: {
       type: String,
@@ -47,9 +54,9 @@ export default {
       }
     }
   },
-  data() {
-    return {
-
+  beforeMount() {
+    if (this.title === '最新评论') {
+      this.more = '查看更多...'
     }
   },
   methods: {
@@ -95,6 +102,11 @@ export default {
         commentTime = `${before}分钟前`
       }
       return commentTime
+    },
+    wantMore() {
+      this.wantFrequency++;
+      console.log(this.wantFrequency * 20)
+      this.$emit('wantMore', {frequency: this.wantFrequency * 20})
     }
   }
 }
@@ -211,6 +223,12 @@ export default {
         }
       }
     }
+  }
+  .more {
+    display: block;
+    padding: 1rem;
+    color: #668EB9;
+    font-size: .8rem;
   }
 }
 </style>

@@ -60,11 +60,9 @@ export function getHighqualityList() {
  * @param limit 可选，评论的数量，默认20
  * @returns {AxiosPromise<any>}
  */
-export function getSongSheetComment(id, limit) {
-  if (!limit) {
-    limit = 20
-  }
-  return axios.get(`${url}comment/playlist?id=${id}&limit=${limit}`)
+export function getSongSheetComment(id, offset) {
+  if (!offset) offset = 0;
+  return axios.get(`${url}comment/playlist?id=${id}&offset=${offset}`)
 }
 
 /**
@@ -73,11 +71,9 @@ export function getSongSheetComment(id, limit) {
  * @param limit 可选，评论的数量，默认20
  * @returns {AxiosPromise<any>}
  */
-export function getMusicComment(id, limit) {
-  if (!limit) {
-    limit = 20
-  }
-  return axios.get(`${url}comment/music?id=${id}&limit=${limit}`)
+export function getMusicComment(id, offset) {
+  if (!offset) offset = 0;
+  return axios.get(`${url}comment/music?id=${id}&offset=${offset}`)
 }
 //
 // /**
