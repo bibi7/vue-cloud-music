@@ -1,7 +1,7 @@
 # vue-cloud-music
 基于vue + vuex + vue-router + axios的网易云音乐
 
-## is this shit still in maintenance?
+## dose this shit still in maintenance?
 ✅
 
 ## 前瞻图
