@@ -504,7 +504,6 @@ export default {
           position: relative;
           width: 0;
           height: 100%;
-          transition: width .3s linear;
           background-color: #d81e06;
 
           .circle {
@@ -595,4 +594,5 @@ export default {
       opacity: .98;
     }
   }
+
 </style>

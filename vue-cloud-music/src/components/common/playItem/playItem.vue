@@ -8,8 +8,8 @@
       </div>
       <div>
         <div>
-          <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name.length < 20? item.name: item.name.substring(0, 20) + '...'}}</span>
-          <p class="singer">{{item.ar[0].name}} - {{item.al.name.length < 15? item.al.name: item.al.name.substring(0, 15) + '...'}}</p>
+          <span class="songName" :class="{nowPlaying: item.id === id}">{{item.name}}</span>
+          <p class="singer">{{item.ar[0].name}} - {{item.al.name}}</p>
         </div>
       </div>
       <i class="iconfont icon-gengduo"></i>
@@ -72,8 +72,13 @@ export default {
       border-bottom: 1px #EEEFF0 solid;
 
       .songName {
+        width: 95%;
+        display: inline-block;
         font-size: @normalSize + 0.3rem;
         color: @themeBlack;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .songName.nowPlaying {
@@ -83,10 +88,20 @@ export default {
       .songderivation {
         color: @themeGray;
       }
-      .singer {
-        color: @themeGray;
-        margin-top: 8px;
-        font-size: @normalSize - 0.1rem;
+
+      & > div {
+        width: 100%;
+
+        .singer {
+          width: 95%;
+          line-height: 1rem;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          color: @themeGray;
+          margin-top: 8px;
+          font-size: @normalSize - 0.1rem;
+        }
       }
     }
     & > i:nth-child(3) {
