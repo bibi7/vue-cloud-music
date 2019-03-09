@@ -8,7 +8,7 @@
         <i class="iconfont icon-zhuanfa"></i>
       </div>
       <div class="main">
-        <div>
+        <div  @click="showLyric">
           <img src="../../common/img/blackRecord.png">
           <div class="img-center">
             <img :src="musicImg">
@@ -84,6 +84,7 @@
         {{collectionList.length}}{{isLike}}
       </div> -->
       <popBox :clickText="likeText" />
+      <lyric :id="id" :show="isLyricShow" v-on:hide="hideLyric"/>
     </div>
   </keep-alive>
 </template>
@@ -95,6 +96,7 @@ import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, 
 import {mapMutations} from 'vuex';
 import popBox from '@/components/common/popBox/popBox.vue';
 import BScroll from 'better-scroll';
+import lyric from '@/components/lyric/lyric.vue'
 import singleCollection from '@/components/common/singleCollection/singleCollection.vue';
 export default {
   name: 'playing',
@@ -105,6 +107,7 @@ export default {
       isShowList: false,
       likeText: '',
       isShow: false,
+      isLyricShow: false,
     }
   },
   mounted () {
@@ -113,6 +116,7 @@ export default {
   components: {
     singleCollection,
     popBox,
+    lyric,
   },
   computed: {
     //歌曲在列表中的index
@@ -180,6 +184,12 @@ export default {
     //路由回退，上传播放进度
     back () {
       this.$router.back(-1);
+    },
+    showLyric() {
+      this.isLyricShow = true
+    },
+    hideLyric() {
+      this.isLyricShow = false
     },
     goComment () {
       this.$router.push({

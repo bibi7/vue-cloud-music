@@ -27,7 +27,6 @@ export default {
   },
   created () {
     this._getBanner()
-
   },
   mounted () {
     this._initWidth();

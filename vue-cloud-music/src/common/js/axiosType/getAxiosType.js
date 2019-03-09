@@ -114,6 +114,15 @@ export function getRanking(id) {
   return axios.get(`${url}top/list?idx=${id}`)
 }
 
+/**
+ * 歌词搜索
+ * @param id
+ * @returns {AxiosPromise<any>}
+ */
+export function getSongLyric(id) {
+  return axios.get(`${url}lyric?id=${id}`)
+}
+
 // /**
 //  * 每日歌曲推荐，需要登录
 //  * @returns {AxiosPromise<any>}
