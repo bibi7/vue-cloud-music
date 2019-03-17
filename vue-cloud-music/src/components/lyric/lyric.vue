@@ -1,12 +1,8 @@
 <template lang="html">
-  <div class="lyric-base" :class="show? 'show': null" @click="hide">
-    <div class="">
-      this song's id is
+  <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
+    <div class="lyric-text">
       {{id}}
-    </div>
-    <div class="">
-      css show is
-      {{show}}
+      {{lrc}}
     </div>
   </div>
 </template>
@@ -15,6 +11,16 @@
 import { getSongLyric } from '@/common/js/axiosType/getAxiosType'
 export default {
   name: 'lyric',
+  data() {
+    return {
+      lrc: ''
+    }
+  },
+  computed: {
+    id () {
+      return this.$store.state.playingId;
+    }
+  },
   props: {
     show: {
       type: Boolean,
@@ -22,20 +28,25 @@ export default {
         return false
       }
     },
-    id: {
-      type: Number,
-      default: () => {
-        return 0
-      }
-    }
   },
   methods: {
-    hide() {
-      this.$emit('hide')
+    hide(e) {
+      this.$emit('hide', e)
     }
   },
-  mounted() {
-
+  watch: {
+    id(newId, oldId) {
+      getSongLyric(this.id).then((result) => {
+        console.log(result)
+        if (result.data.lrc) {
+          this.lrc = result.data.lrc.lyric
+        } else {
+          this.lrc = '暂无歌词'
+        }
+      })
+      console.log(`new is : ${newId}`)
+      console.log(`old is : ${oldId}`)
+    }
   }
 }
 </script>
@@ -43,12 +54,14 @@ export default {
 <style lang="less" scoped>
   .lyric-base {
     display: none;
-    position: fixed;
-    padding-top: 3rem;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
+    height: 100%;
+    z-index: 10;
+    transition: all .3s linear;
+
+    .lyric-text {
+      height: 100%;
+      color: #fff;
+    }
 
     &.show {
       display: block;

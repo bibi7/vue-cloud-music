@@ -7,18 +7,21 @@
         <p>{{name.length < 25? name:`${name.substring(0, 25)}...`}}</p>
         <i class="iconfont icon-zhuanfa"></i>
       </div>
-      <div class="main">
-        <div  @click="showLyric">
+      <div class="main" @click="showLyric">
+        <div :class="!isLyricShow ? 'show' : ''">
           <img src="../../common/img/blackRecord.png">
           <div class="img-center">
             <img :src="musicImg">
           </div>
         </div>
-        <div class="head">
+        <section class="section-lyric">
+          <lyric :show="isLyricShow" v-on:hide.stop="hideLyric"/>
+        </section>
+        <div class="head" :class="!isLyricShow ? 'show' : ''">
           <div></div>
           <img src="../../common/img/stylus.png" ref="stylus" :class="{'rotate':isPauseMusic}">
         </div>
-        <div class="other">
+        <div class="other" :class="!isLyricShow ? 'show' : ''">
           <div>
             <i class="iconfont icon-aixin likes" @click="likes" :class="{active: isLike}"></i>
           </div>
@@ -84,7 +87,6 @@
         {{collectionList.length}}{{isLike}}
       </div> -->
       <popBox :clickText="likeText" />
-      <lyric :id="id" :show="isLyricShow" v-on:hide="hideLyric"/>
     </div>
   </keep-alive>
 </template>
@@ -185,10 +187,10 @@ export default {
     back () {
       this.$router.back(-1);
     },
-    showLyric() {
+    showLyric(e) {
       this.isLyricShow = true
     },
-    hideLyric() {
+    hideLyric(e) {
       this.isLyricShow = false
     },
     goComment () {
@@ -393,6 +395,7 @@ export default {
     position: fixed;
     display: flex;
     align-items: center;
+    transition: all .3s linear;
     flex-wrap: wrap;
     justify-content: center;
     height: 76vh;
@@ -400,7 +403,20 @@ export default {
     width: 100%;
     overflow: hidden;
 
+    .section-lyric {
+      position: absolute;
+      overflow: hidden;
+      height: 100%;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+
     .head {
+      display: block;
+      z-index: -1;
+      opacity: 0;
       position: absolute;
       width: 34px;
       height: 34px;
@@ -408,8 +424,13 @@ export default {
       background-color: #F7F7F8;
       top: 0;
       left: 50%;
+      transition: all .3s linear;
       transform: translate(-50%, -50%);
       /*opacity: .8;*/
+
+      &.show {
+        opacity: 1;
+      }
 
       & > div {
         position: absolute;
@@ -453,10 +474,15 @@ export default {
         color: @themeRed;
       }
     }
-
     & > div:first-child {
+      opacity: 0;
       position: relative;
       width: 85%;
+      transition: all .3s linear;
+
+      &.show {
+        opacity: 1;
+      }
 
       & > img:first-child {
         width: 100%;
@@ -480,14 +506,20 @@ export default {
         }
       }
     }
-
     & > div:last-child {
+      z-index: -1;
       color: #C3AEB0;
       position: absolute;
       bottom: 0;
       width: 65%;
+      opacity: 0;
       display: flex;
+      transition: all .3s linear;
       justify-content: space-between;
+
+      &.show {
+        opacity: 1;
+      }
     }
   }
 
