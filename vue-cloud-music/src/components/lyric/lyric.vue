@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
     <div class="lyric-text">
-      {{id}}
+      
       {{lrc}}
     </div>
   </div>

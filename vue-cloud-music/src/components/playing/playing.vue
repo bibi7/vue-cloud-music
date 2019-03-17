@@ -83,9 +83,6 @@
           </div>
         </div>
       </div>
-      <!-- <div class="" style="position: fixed; top: 20px;">
-        {{collectionList.length}}{{isLike}}
-      </div> -->
       <popBox :clickText="likeText" />
     </div>
   </keep-alive>
@@ -183,7 +180,7 @@ export default {
     }
   },
   methods: {
-    //路由回退，上传播放进度
+    //路由回退
     back () {
       this.$router.back(-1);
     },
@@ -241,9 +238,13 @@ export default {
     },
     //向store提交播放模式
     updateMode () {
-      if (this.playMode === 0) this.PLAY_MODE(1);
-      else if (this.playMode === 1) this.PLAY_MODE(2);
-      else if (this.playMode === 2) this.PLAY_MODE(0);
+      if (this.playMode === 0) {
+        this.PLAY_MODE(1);
+      } else if (this.playMode === 1) {
+        this.PLAY_MODE(2);
+      }else if (this.playMode === 2) {
+        this.PLAY_MODE(0);
+      }
     },
     //显示歌单列表
     showList () {
