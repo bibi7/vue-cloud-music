@@ -1,8 +1,12 @@
 <template lang="html">
   <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
+    <!-- {{unFixedDuration}}
+    {{unFixedTime}} -->
+    {{current}}
     <div v-if="this.lrcArray.length !== 0" class="lyric-text">
       <p v-for="(lyricItem, index) in lrcArray">
         {{lyricItem | removeTime}}
+        <span>{{lyricItem | removeLyric}}</span>
       </p>
     </div>
     <div v-else class="no-lyric">
@@ -20,11 +24,27 @@ export default {
     return {
       lrc: '',
       lrcArray: [],
+      totalTime: [],
+      totalLyric: [],
     }
   },
   computed: {
     id () {
       return this.$store.state.playingId;
+    },
+    // 当前进度
+    current() {
+      return this.$store.state.current;
+    },
+    // 总长度
+    unFixedDuration () {
+      return this.$store.state.unFixedDuration;
+    },
+    unFixedTime() {
+      return this.$store.state.unFixedTime;
+    },
+    playingTime() {
+
     }
   },
   props: {
@@ -35,8 +55,6 @@ export default {
       }
     },
   },
-  mounted() {
-  },
   methods: {
     hide(e) {
       this.$emit('hide', e)
@@ -45,6 +63,11 @@ export default {
   filters: {
     removeTime(str) {
       return str.replace(/\[\d+:\d+\.\d+\]/g, '')
+    },
+    removeLyric(str) {
+      return str.replace(/(\[\d+:\d+\.\d+\])([\D+]+)/g, (match ,$1, $2) => {
+        return $1
+      })
     }
   },
   watch: {
@@ -55,14 +78,39 @@ export default {
           const split = '\n'
           this.lrc = result.data.lrc.lyric
           this.lrcArray = this.lrc.split(split)
-          console.log('lrcArray', this.lrcArray);
+          this.totalLyric = this.lrcArray.map((item, index) => {
+            return item.replace(/\[\d+:\d+\.\d+\]/g, '')
+          })
+          this.lrcArray.forEach((item, index) => {
+            return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
+              let time = $1.split(':');
+              // 00   00.00
+              let min = time[0]
+              let sec = time[1]
+              let total = 0
+              if (min !== '00') {
+                total = Number(min)*60
+              }
+              if (sec !== '00.00') {
+                total += Number(sec)
+              }
+              console.log('test', total)
+              this.totalTime.push(Number(total.toFixed(2)))
+            })
+          })
+          console.log('nowTime', this.totalTime);
+          console.log('nowLyric', this.totalLyric);
         } else {
           this.lrc = '暂无歌词'
         }
       })
-      console.log(`new is : ${newId}`)
-      console.log(`old is : ${oldId}`)
-      console.log(this.lrc);
+    },
+    unFixedTime(newC, oldC) {
+      console.log(newC)
+
+    },
+    current() {
+      // console.log(1)
     }
   }
 }
@@ -85,6 +133,14 @@ export default {
         line-height: 2.5rem;
         color: #fff;
         opacity: .5;
+
+        span {
+          display: none;
+        }
+
+        &.active {
+          opacity: 1;
+        }
       }
     }
 
