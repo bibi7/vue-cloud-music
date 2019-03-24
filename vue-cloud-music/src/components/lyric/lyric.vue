@@ -1,8 +1,5 @@
 <template lang="html">
   <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
-    <!-- {{unFixedDuration}}
-    {{unFixedTime}} -->
-    {{current}}
     <div v-if="this.lrcArray.length !== 0" class="lyric-text">
       <p v-for="(lyricItem, index) in lrcArray">
         {{lyricItem | removeTime}}
@@ -42,9 +39,6 @@ export default {
     },
     unFixedTime() {
       return this.$store.state.unFixedTime;
-    },
-    playingTime() {
-
     }
   },
   props: {
@@ -73,7 +67,6 @@ export default {
   watch: {
     id(newId, oldId) {
       getSongLyric(this.id).then((result) => {
-        console.log(result)
         if (result.data.lrc) {
           const split = '\n'
           this.lrc = result.data.lrc.lyric
@@ -84,7 +77,7 @@ export default {
           this.lrcArray.forEach((item, index) => {
             return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
               let time = $1.split(':');
-              // 00   00.00
+              // time formatter with origin format 00:00.00
               let min = time[0]
               let sec = time[1]
               let total = 0
@@ -107,10 +100,10 @@ export default {
     },
     unFixedTime(newC, oldC) {
       console.log(newC)
+      //TODO too many traversal here
+      this.totalTime.forEach(() => {
 
-    },
-    current() {
-      // console.log(1)
+      })
     }
   }
 }
@@ -125,6 +118,7 @@ export default {
     animation: fade10 .3s linear;
 
     .lyric-text {
+      overflow: auto;
       padding: .5rem 1rem;
       height: 100%;
       color: #fff;
