@@ -1,9 +1,9 @@
 <template lang="html">
   <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
     <div v-if="this.lrcArray.length !== 0" class="lyric-text">
-      <p v-for="(lyricItem, index) in lrcArray">
+      <p v-for="(lyricItem, index) in lrcArray" :class="activeItem === index ? 'active' : null">
         {{lyricItem | removeTime}}
-        <span>{{lyricItem | removeLyric}}</span>
+        <!-- <span>{{lyricItem | removeLyric}}</span> -->
       </p>
     </div>
     <div v-else class="no-lyric">
@@ -20,6 +20,8 @@ export default {
   data() {
     return {
       lrc: '',
+      isForEaching: false,
+      activeItem: 0,
       lrcArray: [],
       totalTime: [],
       totalLyric: [],
@@ -74,23 +76,46 @@ export default {
           this.totalLyric = this.lrcArray.map((item, index) => {
             return item.replace(/\[\d+:\d+\.\d+\]/g, '')
           })
+          this.totalTime = [];
           this.lrcArray.forEach((item, index) => {
-            return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
-              let time = $1.split(':');
-              // time formatter with origin format 00:00.00
-              let min = time[0]
-              let sec = time[1]
-              let total = 0
-              if (min !== '00') {
-                total = Number(min)*60
-              }
-              if (sec !== '00.00') {
-                total += Number(sec)
-              }
-              console.log('test', total)
-              this.totalTime.push(Number(total.toFixed(2)))
-            })
+            // return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
+            //   let time = $1.split(':');
+            //   // time formatter with origin format 00:00.00
+            //   if (time.length > 0) {
+            //     let min = time[0]
+            //     let sec = time[1]
+            //     let total = 0
+            //     if (min !== '00') {
+            //       total = Number(min)*60
+            //     }
+            //     if (sec !== '00.00') {
+            //       total += Number(sec)
+            //     }
+            //     this.totalTime.push(Number(total.toFixed(2)))
+            //   }
+            // })
+            if (/(\d+:\d+\.\d+)([\D+]+)/g.test(item)) {
+              return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
+                let time = $1.split(':');
+                // time formatter with origin format 00:00.00
+                if (time.length > 0) {
+                  let min = time[0]
+                  let sec = time[1]
+                  let total = 0
+                  if (min !== '00') {
+                    total = Number(min)*60
+                  }
+                  if (sec !== '00.00') {
+                    total += Number(sec)
+                  }
+                  this.totalTime.push(Number(total.toFixed(2)))
+                }
+              })
+            } else {
+              this.totalTime.push(null)
+            }
           })
+          console.log('2',this.lrcArray)
           console.log('nowTime', this.totalTime);
           console.log('nowLyric', this.totalLyric);
         } else {
@@ -100,10 +125,21 @@ export default {
     },
     unFixedTime(newC, oldC) {
       console.log(newC)
-      //TODO too many traversal here
-      this.totalTime.forEach(() => {
-
-      })
+      if (this.isForEaching) {
+        return
+      } else {
+        // TODO too many traversal here
+        for (let i = 0; i < this.totalTime.length; i++) {
+          this.isForEaching = true
+          if (this.totalTime[i] !== null && newC > this.totalTime[i]) {
+            this.activeItem = i
+          }
+          console.log('active===',this.activeItem);
+          console.log(newC > this.totalTime[i]);
+          
+        }
+        this.isForEaching = false
+      }
     }
   }
 }
