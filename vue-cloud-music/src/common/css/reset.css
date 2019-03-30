@@ -25,6 +25,10 @@ body {
     background: white;
     line-height: 1;
     color: black;
+    height: 100%;
+}
+html {
+  height: 100%;
 }
 ol, ul {
     list-style: none;

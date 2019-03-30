@@ -1,10 +1,12 @@
 <template lang="html">
   <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
     <div v-if="this.lrcArray.length !== 0" class="lyric-text">
-      <p v-for="(lyricItem, index) in lrcArray" :class="activeItem === index ? 'active' : null">
-        {{lyricItem | removeTime}}
-        <!-- <span>{{lyricItem | removeLyric}}</span> -->
-      </p>
+      <div ref="lyIn" class="lyin">
+        <p v-for="(lyricItem, index) in lrcArray" :class="activeItem === index ? 'activeItem' : null">
+          {{lyricItem | removeTime}}
+          <!-- <span>{{lyricItem | removeLyric}}</span> -->
+        </p>
+      </div>
     </div>
     <div v-else class="no-lyric">
       <p>{{lrc}}</p>
@@ -20,6 +22,9 @@ export default {
   data() {
     return {
       lrc: '',
+      middleHeight: '',
+      cHeight: 0,
+      sHeight: 0,
       isForEaching: false,
       activeItem: 0,
       lrcArray: [],
@@ -51,6 +56,10 @@ export default {
       }
     },
   },
+  mounted() {
+    this.middleHeight = this.$refs.ly.clientHeight / 2;
+    console.log('body.clientHeight',document.body.clientHeight)
+  },
   methods: {
     hide(e) {
       this.$emit('hide', e)
@@ -78,22 +87,6 @@ export default {
           })
           this.totalTime = [];
           this.lrcArray.forEach((item, index) => {
-            // return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
-            //   let time = $1.split(':');
-            //   // time formatter with origin format 00:00.00
-            //   if (time.length > 0) {
-            //     let min = time[0]
-            //     let sec = time[1]
-            //     let total = 0
-            //     if (min !== '00') {
-            //       total = Number(min)*60
-            //     }
-            //     if (sec !== '00.00') {
-            //       total += Number(sec)
-            //     }
-            //     this.totalTime.push(Number(total.toFixed(2)))
-            //   }
-            // })
             if (/(\d+:\d+\.\d+)([\D+]+)/g.test(item)) {
               return item.replace(/(\d+:\d+\.\d+)([\D+]+)/g, (match ,$1, $2) => {
                 let time = $1.split(':');
@@ -115,16 +108,20 @@ export default {
               this.totalTime.push(null)
             }
           })
-          console.log('2',this.lrcArray)
           console.log('nowTime', this.totalTime);
           console.log('nowLyric', this.totalLyric);
         } else {
           this.lrc = '暂无歌词'
         }
+      }).then(() => {
+        this.sHeight = 0;
+        this.cHeight = 0;
+        this.activeItem = null;
+        this.$refs.lyIn.style.transform = `translateY(0px)`
+        console.log('updated transform is =>' ,this.$refs.lyIn.style.transform);
       })
     },
     unFixedTime(newC, oldC) {
-      console.log(newC)
       if (this.isForEaching) {
         return
       } else {
@@ -134,12 +131,26 @@ export default {
           if (this.totalTime[i] !== null && newC > this.totalTime[i]) {
             this.activeItem = i
           }
-          console.log('active===',this.activeItem);
-          console.log(newC > this.totalTime[i]);
-          
         }
         this.isForEaching = false
       }
+    },
+    activeItem(newActive, oldActive) {
+      // always got the previous activeItem DOM
+      // so setTimeout to let this functiin into microtask to avoid it
+      setTimeout(() => {
+        const item = document.getElementsByClassName('activeItem')[0]
+        if (item) {
+          const marginTop = item.offsetTop;
+          const scrollTop = item.scrollTop;
+          this.cHeight = marginTop - scrollTop;
+          if (this.cHeight > this.middleHeight) {
+            this.sHeight = this.cHeight - this.middleHeight
+            console.log('scroll height =>', this.sHeight)
+            this.$refs.lyIn.style.transform = `translateY(-${this.sHeight}px)`
+          }
+        }
+      }, 0)
     }
   }
 }
@@ -154,7 +165,7 @@ export default {
     animation: fade10 .3s linear;
 
     .lyric-text {
-      overflow: auto;
+      overflow: hidden;
       padding: .5rem 1rem;
       height: 100%;
       color: #fff;
@@ -168,9 +179,13 @@ export default {
           display: none;
         }
 
-        &.active {
+        &.activeItem {
           opacity: 1;
         }
+      }
+
+      .lyin {
+        transition: all .3s linear;
       }
     }
 
