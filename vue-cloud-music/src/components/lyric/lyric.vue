@@ -144,6 +144,7 @@ export default {
           const marginTop = item.offsetTop;
           const scrollTop = item.scrollTop;
           this.cHeight = marginTop - scrollTop;
+          console.log('this.cHeight===>',this.cHeight,'  this.middleHeight===>',this.middleHeight);
           if (this.cHeight > this.middleHeight) {
             this.sHeight = this.cHeight - this.middleHeight
             console.log('scroll height =>', this.sHeight)

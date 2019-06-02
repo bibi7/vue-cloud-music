@@ -23,13 +23,13 @@
         </div>
         <div class="other" :class="!isLyricShow ? 'show' : ''">
           <div>
-            <i class="iconfont icon-aixin likes" @click="likes" :class="{active: isLike}"></i>
+            <i class="iconfont icon-aixin likes" v-on:click.stop="likes" :class="{active: isLike}"></i>
           </div>
           <div>
             <i class="iconfont icon-xiazai"></i>
           </div>
           <div class="comment">
-            <i class="iconfont icon-pinglun" @click="goComment"></i>
+            <i class="iconfont icon-pinglun" v-on:click.stop="goComment"></i>
             <!--<span>999</span>-->
           </div>
           <div>
@@ -508,17 +508,18 @@ export default {
       }
     }
     & > div:last-child {
-      z-index: -1;
+      z-index: 1;
       color: #C3AEB0;
       position: absolute;
       bottom: 0;
       width: 65%;
       opacity: 0;
-      display: flex;
+      display: none;
       transition: all .3s linear;
       justify-content: space-between;
 
       &.show {
+        display: flex;
         opacity: 1;
       }
     }
