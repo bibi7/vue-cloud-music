@@ -87,7 +87,9 @@
         getUserPlaylist(newValue).then(result => {
           this.getUserSongList(result)
         })
-        .then(this.updateScroll())
+        .then(() => {
+          this.updateScroll()
+        })
         .then(() => {
           this.$emit('goRemoveLoading')
         })

@@ -128,10 +128,7 @@
         })
       },
       removeLoading () {
-        return new Promise(function(resolve, reject) {
-          resolve()
-        })
-        .then(setTimeout(() => {
+        return Promise.resolve().then(setTimeout(() => {
             this.hide = false
           }, 300))
         .then(setTimeout(() => {
@@ -294,7 +291,7 @@
             probeType: 3
           });
           v.on('scroll', this.onScroll)
-        }, 300)
+        }, 0)
       },
     },
     mounted () {

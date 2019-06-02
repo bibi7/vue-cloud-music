@@ -57,26 +57,14 @@ export default {
     },
   },
   mounted() {
-    this.middleHeight = this.$refs.ly.clientHeight / 2;
     console.log('body.clientHeight',document.body.clientHeight)
+    this.initLyric()
   },
   methods: {
     hide(e) {
       this.$emit('hide', e)
-    }
-  },
-  filters: {
-    removeTime(str) {
-      return str.replace(/\[\d+:\d+\.\d+\]/g, '')
     },
-    removeLyric(str) {
-      return str.replace(/(\[\d+:\d+\.\d+\])([\D+]+)/g, (match ,$1, $2) => {
-        return $1
-      })
-    }
-  },
-  watch: {
-    id(newId, oldId) {
+    initLyric() {
       getSongLyric(this.id).then((result) => {
         if (result.data.lrc) {
           const split = '\n'
@@ -117,9 +105,25 @@ export default {
         this.sHeight = 0;
         this.cHeight = 0;
         this.activeItem = null;
+        this.middleHeight = this.$refs.ly.clientHeight / 2;
         this.$refs.lyIn.style.transform = `translateY(0px)`
         console.log('updated transform is =>' ,this.$refs.lyIn.style.transform);
       })
+    }
+  },
+  filters: {
+    removeTime(str) {
+      return str.replace(/\[\d+:\d+\.\d+\]/g, '')
+    },
+    removeLyric(str) {
+      return str.replace(/(\[\d+:\d+\.\d+\])([\D+]+)/g, (match ,$1, $2) => {
+        return $1
+      })
+    }
+  },
+  watch: {
+    id(newId, oldId) {
+      this.initLyric()
     },
     unFixedTime(newC, oldC) {
       if (this.isForEaching) {
