@@ -8,23 +8,31 @@ class storageManager {
 
   setLocalStorage(key, value) {
     if (window.localStorage) {
-      localStorage.setItem(
+      window.localStorage.setItem(
         key,
         typeof value === 'string' ? value : JSON.stringify(value)
       )
     }
-
   }
-  getLocalStorage() {
-
-  }
-
-  setSessionStorage() {
-
+  getLocalStorage(key) {
+    if (window.localStorage) {
+      return window.localStorage.getItem(key)
+    }
   }
 
-  getSessionStorage() {
+  setSessionStorage(key, value) {
+    if (window.sessionStorage) {
+      window.sessionStorage.setItem(
+        key,
+        typeof value === 'string' ? value : JSON.stringify(value)
+      )
+    }
+  }
 
+  getSessionStorage(key) {
+    if (window.sessionStorage) {
+      return window.sessionStorage.getItem(key)
+    }
   }
 
   getInstance() {
