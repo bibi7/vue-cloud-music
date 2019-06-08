@@ -14,6 +14,7 @@ class storageManager {
       )
     }
   }
+
   getLocalStorage(key) {
     if (window.localStorage) {
       return window.localStorage.getItem(key)
@@ -44,4 +45,4 @@ class storageManager {
   }
 }
 
-export default storageManager().getInstance();
+export default new storageManager().getInstance();

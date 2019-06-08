@@ -14,7 +14,10 @@
           <div class="r-title">
             <p>{{item.user.nickname}}</p>
             <span>{{getTime(item.time)}}</span>
-            <div class="like">
+            <div class="like"
+                 :class="searchLike(item.commentId)"
+                 @click="commentLike(item.commentId, $event, index)"
+                 ref="likeRef">
               <i class="iconfont icon-dianzan"></i>
               <span>{{item.likedCount}}</span>
             </div>
@@ -34,6 +37,7 @@
 </template>
 
 <script>
+import storageManager from '@/common/js/utils/utils'
 export default {
   name: 'comment',
   data() {
@@ -60,7 +64,53 @@ export default {
     }
   },
   methods: {
-    getTime (num) {
+    commentLike(commentId, event, index) {
+      return Promise.resolve().then(() => {
+        // 尝试着用localStorage的方式，
+        // 虽然是持久化了，
+        // 但是还是store更方便。
+        console.log('commentId' ,commentId);
+        let commentLike = storageManager.getLocalStorage('commentLike')
+        if (commentLike) {
+          commentLike = JSON.parse(commentLike)
+          const {
+            likeList
+          } = commentLike
+          if (likeList.includes(commentId)) {
+            const likeIndex = likeList.indexOf(commentId)
+            likeList.splice(likeIndex, 1)
+          } else {
+            likeList.push(commentId)
+          }
+          storageManager.setLocalStorage('commentLike', commentLike)
+          console.log('commentLike', commentLike);
+        } else {
+          storageManager.setLocalStorage('commentLike', {
+            likeList: [
+              commentId
+            ]
+          })
+        }
+      })
+      .then(() => {
+        this.searchLike(commentId, event, index)
+      })
+    },
+    searchLike(commentId, event, index) {
+      let commentLike = storageManager.getLocalStorage('commentLike')
+      if (commentLike) commentLike = JSON.parse(commentLike)
+      if (event) {
+        const dom = this.$refs.likeRef[index]
+        if (commentLike.likeList.includes(commentId)) {
+          dom.classList.add('active')
+        } else {
+          dom.classList.remove('active')
+        }
+      } else {
+        if (commentLike.likeList.includes(commentId)) return 'active'
+      }
+    },
+    getTime(num) {
       let commentTime;
       const now = new Date();
       const thatTime = new Date(num);
@@ -185,7 +235,7 @@ export default {
             font-size: .8rem;
             color: @themeGray;
 
-            & > i.active {
+            &.active > i {
               color: @themeRed;
             }
           }
