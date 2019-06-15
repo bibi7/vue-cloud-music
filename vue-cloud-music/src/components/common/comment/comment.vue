@@ -96,6 +96,11 @@ export default {
         this.searchLike(commentId, event, index)
       })
     },
+    goUser (id) {
+      this.$router.push({
+        path: `/userInfo/${id}`
+      })
+    },
     searchLike(commentId, event, index) {
       let commentLike = storageManager.getLocalStorage('commentLike')
       if (commentLike) commentLike = JSON.parse(commentLike)
