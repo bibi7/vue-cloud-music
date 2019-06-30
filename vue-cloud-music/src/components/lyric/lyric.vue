@@ -59,6 +59,7 @@ export default {
   mounted() {
     console.log('body.clientHeight',document.body.clientHeight)
     this.initLyric()
+    this.middleHeight = this.$refs.ly.clientHeight / 2;
   },
   methods: {
     hide(e) {
@@ -105,7 +106,6 @@ export default {
         this.sHeight = 0;
         this.cHeight = 0;
         this.activeItem = null;
-        this.middleHeight = this.$refs.ly.clientHeight / 2;
         this.$refs.lyIn.style.transform = `translateY(0px)`
         console.log('updated transform is =>' ,this.$refs.lyIn.style.transform);
       })

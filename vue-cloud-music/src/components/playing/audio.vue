@@ -1,6 +1,6 @@
 <template>
   <div>
-    <audio class="audio" ref="audio" :src="address" autoplay="autoplay" @play="onPlay" @timeupdate="timeUpdate" @ended="end"></audio>
+    <audio class="audio" ref="audio" id="audio" :src="address" autoplay="autoplay" @play="onPlay" v-on:timeupdate="timeUpdate($event)" @ended="end"></audio>
   </div>
 </template>
 
@@ -33,12 +33,17 @@
     },
     methods: {
       timeUpdate (e) {
-//        console.log(e);
-        let min = parseInt((e.path[0].currentTime / 60), 10);
-        let sec = (e.path[0].currentTime % 60).toFixed(0);
-        if (sec < 10) sec = `0${sec}`;
-        this.currentTime = `${min}:${sec}`;
-        this.UPDATE_CURRENTTIME({current: this.currentTime, unFixedTime: e.path[0].currentTime});
+        try {
+          let min = parseInt((e.path[0].currentTime / 60), 10);
+          let sec = (e.path[0].currentTime % 60).toFixed(0);
+          if (sec < 10) sec = `0${sec}`;
+          this.currentTime = `${min}:${sec}`;
+          this.UPDATE_CURRENTTIME({current: this.currentTime, unFixedTime: e.path[0].currentTime});
+        } catch(err) {
+          const a = JSON.stringify(e)
+          // alert(a)
+
+        }
       },
       onPlay () {
         let min = (this.$refs.audio.duration / 60).toString().split('.')[0];
@@ -74,21 +79,21 @@
       ])
     },
     watch: {
-      id () {
-        getMusicUrl(this.id).then(result => { 
+      id() {
+        getMusicUrl(this.id).then(result => {
           const { url , id }= result.data.data[0];
-          //个别url地址会导致播放403，采用id的方式拼入官方url
-          this.address = `https://music.163.com/song/media/outer/url?id=${id}.mp3`
+          //个别url地址会导致播放403，采用后台api建议的官方id的方式拼入官方url
+          this.address = `http://music.163.com/song/media/outer/url?id=${id}.mp3`
         });
       },
-      isPlaying () {
+      isPlaying() {
         if (this.isPlaying === true) {
           this.$refs.audio.play();
           return
         }
         this.$refs.audio.pause();
       },
-      jump () {
+      jump() {
         this.$refs.audio.currentTime = this.jump
       }
     }

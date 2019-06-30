@@ -146,15 +146,15 @@
 
       },
       //回弹初始化
-      initWrapper () {
-        const scrollWrapper = new BScroll(this.$refs.musicList, {
-          scrollY: true,
-          click: true,
-          probeType: 3
-        });
-
-        scrollWrapper.on('scroll', this.onScroll)
-      },
+      // initWrapper () {
+      //   const scrollWrapper = new BScroll(this.$refs.musicList, {
+      //     scrollY: true,
+      //     click: true,
+      //     probeType: 3
+      //   });
+      //
+      //   scrollWrapper.on('scroll', this.onScroll)
+      // },
       //路由回退
       back () {
         this.$router.back(-1)
@@ -197,7 +197,7 @@
     },
     mounted () {
       this.getMusicListInfo();
-      this.initWrapper();
+      // this.initWrapper();
       this.checkBgHeight();
     },
   }
@@ -215,6 +215,7 @@
   right: 0;
   bottom: 0;
   z-index: 10;
+  overflow: auto;
   background-color: #fff;
 
   .title {
@@ -242,7 +243,7 @@
   }
 
   .listInfo {
-    position: fixed;
+    // position: fixed;
     top: 2.5rem;
     width: 100%;
 

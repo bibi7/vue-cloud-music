@@ -124,11 +124,16 @@
 
     .description {
       display: block;
+      // display:-webkit-box;
       text-align: left;
       padding-left: 2px;
       font-size: @normalSize;
       color: @themeBlack;
-      line-height: 1rem;
+      line-height: 1.2rem;
+      // text-overflow: ellipsis;
+      // -webkit-line-clamp:2;
+      // -webkit-box-orient:vertical;
+      // overflow: hidden;
     }
 
     & > img {

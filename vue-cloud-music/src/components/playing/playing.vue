@@ -92,6 +92,7 @@
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
 import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP, PLAY_MUSIC, LIKE} from '@/store/mutationType.js';
+import {imgChche} from '@/common/js/utils/utils.js';
 import {mapMutations} from 'vuex';
 import popBox from '@/components/common/popBox/popBox.vue';
 import BScroll from 'better-scroll';
@@ -319,7 +320,9 @@ export default {
       this.$refs.progressReal.style.width = value;
     },
     musicImg () {
-      this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
+      imgChche(this.musicImg, () => {
+        this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
+      })
     },
   }
 }
@@ -399,7 +402,7 @@ export default {
     transition: all .3s linear;
     flex-wrap: wrap;
     justify-content: center;
-    height: 76vh;
+    height: 72vh;
     top: 3rem;
     width: 100%;
     overflow: hidden;
@@ -416,7 +419,7 @@ export default {
 
     .head {
       display: block;
-      z-index: -1;
+      // z-index: -1;
       opacity: 0;
       position: absolute;
       width: 34px;
@@ -503,6 +506,8 @@ export default {
         & > img {
           width: 100%;
           height: 100%;
+          display: block;
+          border-radius: 50%;
           animation: rotate 25s linear infinite;
         }
       }
@@ -510,9 +515,10 @@ export default {
     & > div:last-child {
       z-index: 1;
       color: #C3AEB0;
+      margin-bottom: 1.5rem;
       position: absolute;
       bottom: 0;
-      width: 65%;
+      width: 78%;
       opacity: 0;
       display: none;
       transition: all .3s linear;
@@ -527,20 +533,20 @@ export default {
 
   .footer {
     position: absolute;
-    bottom: 2.5vh;
+    bottom: 4.5vh;
     width: 96%;
     padding: 0 2%;
 
     .progress {
       width: 100%;
       display: flex;
-      margin-bottom: .7rem;
+      margin-bottom: 1.7rem;
       align-items: center;
       justify-content: space-between;
 
       .progress-bar {
         height: 2px;
-        width: 72%;
+        width: 80%;
         background-color: #a6a6a6;
         cursor: pointer;
 
@@ -554,8 +560,8 @@ export default {
             position: absolute;
             right: -10px;
             top: 50%;
-            width: 20px;
-            height: 20px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
             transform: translateY(-50%);
             background-color: #fff;
@@ -564,7 +570,7 @@ export default {
               position: absolute;
               top: 50%;
               left: 50%;
-              width: 5px;
+              width: 4px;
               height: 5px;
               border-radius: 50%;
               transform: translate(-50%, -50%);
@@ -610,6 +616,7 @@ export default {
     background-size: cover!important;
     filter: blur(55px);
     transform: translate(-10%, -10%);
+    transition: all 1s cubic-bezier(0.38, 0.15, 0.63, 0.92);
   }
 
   .header {

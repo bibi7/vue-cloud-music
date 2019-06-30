@@ -41,7 +41,7 @@
               </div>
             </div>
           </div>
-          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" v-on:goRemoveLoading="removeLoading"></component>
+          <component :is="currentTab" :aboutInfo="aboutInfo" :songList="songList" v-on:updateScroll="initWrapper"></component>
         </div>
       </div>
     </div>
@@ -134,9 +134,9 @@
         .then(setTimeout(() => {
           this.isLoadingDone = true
         }, 500))
-        .then(() => {
-          this.initWrapper();
-        })
+        // .then(() => {
+        //   this.initWrapper();
+        // })
       },
       initBackground () {
         this.$refs.bg.style.background = `url(${this.backgroundImg})`
@@ -284,19 +284,24 @@
         }
       },
       initWrapper () {
-        setTimeout(() => {
-          const v =  new BScroll(this.$refs.user, {
-            scrollY: true,
-            click: true,
-            probeType: 3
-          });
-          v.on('scroll', this.onScroll)
-        }, 0)
+        // this.$nextTick(() => {
+        //   console.log(1,this.$refs.user)
+        //   return Promise.resolve().then(() => {
+        //     const v =  new BScroll(this.$refs.user, {
+        //       scrollY: true,
+        //       click: true,
+        //       probeType: 3
+        //     });
+        //     v.on('scroll', this.onScroll)
+        //   })
+        //   .then(() => {
+            this.removeLoading()
+        //   })
+        // })
       },
     },
     mounted () {
       setTimeout(this.initInfo(this.userId), 150);
-//      this.initWrapper();
     },
     watch: {
         scrollY () {
@@ -315,7 +320,7 @@
   @import '../../common/css/fontSize.less';
   @import '../../common/css/color.less';
   .user {
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     right: 0;
@@ -331,7 +336,6 @@
     .main-info {
       position: relative;
       height: 40vh;
-      /*margin-top: -2.5rem;*/
       z-index: -1;
 
       .bg {

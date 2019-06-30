@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import storageManager from '@/common/js/utils/utils'
+import storageManager from '@/common/js/utils/storageUtils'
 export default {
   name: 'comment',
   data() {
@@ -112,7 +112,7 @@ export default {
           dom.classList.remove('active')
         }
       } else {
-        if (commentLike.likeList.includes(commentId)) return 'active'
+        if (commentLike && commentLike.likeList.includes(commentId)) return 'active'
       }
     },
     getTime(num) {

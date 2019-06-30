@@ -90,9 +90,9 @@
         .then(() => {
           this.updateScroll()
         })
-        .then(() => {
-          this.$emit('goRemoveLoading')
-        })
+        // .then(() => {
+        //   this.$emit('goRemoveLoading')
+        // })
       }
     }
   }

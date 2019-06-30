@@ -74,7 +74,7 @@ export default {
       .songName {
         width: 95%;
         display: inline-block;
-        font-size: @normalSize + 0.3rem;
+        font-size: @normalSize + 0.1rem;
         color: @themeBlack;
         overflow: hidden;
         text-overflow: ellipsis;

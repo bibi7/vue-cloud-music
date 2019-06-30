@@ -47,6 +47,8 @@
     },
     methods: {
       playMusic(obj) {
+        document.getElementById('audio').play();
+        document.getElementById('audio').pause();
         //提交store
         this.PLAY_MUSIC(obj);
         //路由切换
@@ -55,7 +57,7 @@
         })
       },
       playAll() {
-        //Todo
+        //TODO
 
       },
       ...mapMutations([

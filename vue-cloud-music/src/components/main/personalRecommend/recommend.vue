@@ -25,15 +25,15 @@
   export default {
   name: 'recommend',
   mounted () {
-    this._initScroll();
+    // this._initScroll();
   },
   methods: {
-    _initScroll () {
-      this.scroll = new BScroll(this.$refs.wrapper, {
-        scrollY: true,
-        click: true
-      })
-    },
+    // _initScroll () {
+    //   this.scroll = new BScroll(this.$refs.wrapper, {
+    //     scrollY: true,
+    //     click: true
+    //   })
+    // },
     ...mapMutations([
       'UPDATE_PROGRESS'
     ])
@@ -48,7 +48,8 @@
 
 <style lang="less" scoped>
 .recommend {
-  position: fixed;
+  // position: fixed;
+  position: relative;
   top: 5.5rem;
   width: 100%;
   bottom: 0;
@@ -56,7 +57,7 @@
   .wrapper {
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    // overflow: hidden;
   }
 
   .red-bg {
