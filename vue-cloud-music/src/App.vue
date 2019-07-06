@@ -11,6 +11,31 @@ import appHeader from './components/header/header.vue';
 import audios from './components/playing/audio.vue';
 export default {
   name: 'App',
+  data () {
+    return {
+      stop: false
+    }
+  },
+  mounted () {
+    let app = document.querySelector('#app')
+    app.addEventListener('touchend', this.firstPlay)
+  },
+  methods: {
+    firstPlay () {
+      alert(1)
+      let music = document.querySelector('#audio')
+      music.play()
+      if (music.src !== '') {
+        this.stop = true
+      }
+    }
+  },
+  watch: {
+    stop () {
+      let app = document.querySelector('#app')
+      app.removeEventListener('touchend', this.firstPlay)
+    }
+  },
   components: {
     appHeader,
     audios

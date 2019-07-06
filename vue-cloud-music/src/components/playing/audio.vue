@@ -34,14 +34,14 @@
     methods: {
       timeUpdate (e) {
         try {
-          let min = parseInt((e.path[0].currentTime / 60), 10);
-          let sec = (e.path[0].currentTime % 60).toFixed(0);
+          let min = parseInt((e.target.currentTime / 60), 10);
+          let sec = (e.target.currentTime % 60).toFixed(0);
           if (sec < 10) sec = `0${sec}`;
           this.currentTime = `${min}:${sec}`;
-          this.UPDATE_CURRENTTIME({current: this.currentTime, unFixedTime: e.path[0].currentTime});
+          this.UPDATE_CURRENTTIME({current: this.currentTime, unFixedTime: e.target.currentTime});
         } catch(err) {
           const a = JSON.stringify(e)
-          // alert(a)
+          alert(a)
 
         }
       },

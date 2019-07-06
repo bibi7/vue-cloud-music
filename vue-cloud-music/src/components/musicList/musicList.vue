@@ -1,62 +1,54 @@
 <template>
-  <keep-alive>
-    <div class="musicList" ref="musicList">
-      <div class="listInfo" ref="listInfo">
-        <div>
-          <div class="main-bg" ref="mainBg"></div>
-          <div class="info">
-            <div class="info-img">
-              <img :src="listMusicImg">
-            </div>
-            <div class="info-message">
-              <div>
-                <p class="mes-title">{{name}}</p>
-                <div class="creator">
-                  <img :src="avatar.imgUrl">
-                  <div>
-                    <span @click="getUserDetail(avatar.userId)">{{avatar.nickname}}</span>
-                    <i class="iconfont icon-combinedshapefuben"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="choose">
-              <div>
-                <div class="items" @click="goComment">
-                  <i class="iconfont icon-pinglun"></i>
-                  <span>{{commentCount}}</span>
-                </div>
-                <div class="items">
-                  <i class="iconfont icon-zhuanfa"></i>
-                  <span>{{shareCount}}</span>
-                </div>
-                <div class="items">
-                  <i class="iconfont icon-xiazai"></i>
-                  <span>下载</span>
-                </div>
-                <div class="items">
-                  <i class="iconfont icon-duoxuan"></i>
-                  <span>多选</span>
+  <div class="musicList" ref="musicList">
+    <div class="listInfo" ref="listInfo">
+      <div>
+        <div class="main-bg" ref="mainBg"></div>
+        <div class="info">
+          <div class="info-img">
+            <img :src="listMusicImg">
+          </div>
+          <div class="info-message">
+            <div>
+              <p class="mes-title">{{name}}</p>
+              <div class="creator">
+                <img :src="avatar.imgUrl">
+                <div>
+                  <span @click="getUserDetail(avatar.userId)">{{avatar.nickname}}</span>
+                  <i class="iconfont icon-combinedshapefuben"></i>
                 </div>
               </div>
             </div>
           </div>
-          <!--通用歌单处理-->
-          <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
+          <div class="choose">
+            <div>
+              <div class="items" @click="goComment">
+                <i class="iconfont icon-pinglun"></i>
+                <span>{{commentCount}}</span>
+              </div>
+              <div class="items">
+                <i class="iconfont icon-zhuanfa"></i>
+                <span>{{shareCount}}</span>
+              </div>
+              <div class="items">
+                <i class="iconfont icon-xiazai"></i>
+                <span>下载</span>
+              </div>
+              <div class="items">
+                <i class="iconfont icon-duoxuan"></i>
+                <span>多选</span>
+              </div>
+            </div>
+          </div>
         </div>
+        <!--通用歌单处理-->
+        <playList :radius="true" :info="tracks" :subscribedCount="subscribedCount"></playList>
       </div>
-      <div class="title" ref="title">
-        <div class="title-bg"></div>
-        <div class="title-content">
-          <i class="iconfont icon-xiangzuo" @click="back"></i>
-          <p>歌单</p>
-          <i class="iconfont icon-zhengzaibofang" @click="goPlaying" v-if="!playing"></i>
-          <img class="gif" src="../../common/img/playing_white.gif" @click="goPlaying" v-if="playing">
-        </div>
-      </div>
-      <loading :class="{hide: !hide, none: isLoadingDone}"></loading>
     </div>
-  </keep-alive>
+    <redHeader :transparent="true" :fixed="true" ref="header">
+      <span>歌单</span>
+    </redHeader>
+    <loading :class="{hide: !hide, none: isLoadingDone}"></loading>
+  </div>
 </template>
 
 <script>
@@ -64,6 +56,7 @@
   import {getMusicListInfo, getUserDetail} from '@/common/js/axiosType/getAxiosType.js'
   import playList from '@/components/common/playList.vue'
   import loading from '@/components/common/loading/loading.vue'
+  import redHeader from '@/components/common/redHeader/redHeader.vue'
   import {UPDATE_PROGRESS} from '@/store/mutationType.js'
   import {mapMutations} from 'vuex'
   export default {
@@ -86,6 +79,7 @@
     components: {
       playList,
       loading,
+      redHeader,
     },
     methods: {
       //获取歌单id
@@ -159,12 +153,6 @@
       back () {
         this.$router.back(-1)
       },
-      //路由前进
-      goPlaying() {
-        this.$router.push({
-          path: '/playing'
-        })
-      },
       onScroll (pos) {
         this.scrollY = pos.y
       },
@@ -209,7 +197,8 @@
   @import '../../common/css/color.less';
 
   .musicList {
-  position: fixed;
+  position: relative;
+  // position: fixed;
   top: 0;
   left: 0;
   right: 0;
@@ -254,7 +243,7 @@
         position: relative;
         height: 70vh;
         margin-top: -30vh;
-        width: 106%;
+        width: 100%;
         transform: translateX(-3%)
       }
 
