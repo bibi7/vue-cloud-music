@@ -1,6 +1,9 @@
 <template>
   <div id="app">
-    <appHeader></appHeader>
+    <!-- <appHeader></appHeader> -->
+    <redHeader :fixed="true">
+      <span>网易云音乐</span>
+    </redHeader>
     <router-view></router-view>
     <audios></audios>
   </div>
@@ -8,6 +11,7 @@
 
 <script>
 import appHeader from './components/header/header.vue';
+import redHeader from './components/common/redHeader/redHeader.vue';
 import audios from './components/playing/audio.vue';
 export default {
   name: 'App',
@@ -20,9 +24,12 @@ export default {
     let app = document.querySelector('#app')
     app.addEventListener('touchend', this.firstPlay)
   },
+  beforeRouteLeave(to, from, next) {
+    alert(111);
+
+  },
   methods: {
     firstPlay () {
-      alert(1)
       let music = document.querySelector('#audio')
       music.play()
       if (music.src !== '') {
@@ -37,6 +44,7 @@ export default {
     }
   },
   components: {
+    redHeader,
     appHeader,
     audios
   }

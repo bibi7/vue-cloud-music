@@ -592,6 +592,7 @@ export default {
       }
     }
     .choose {
+      height: 2.5rem;
       margin: 0 auto;
       width: 94%;
       display: flex;
@@ -605,6 +606,7 @@ export default {
 
       & > i:nth-child(3) {
         font-size: 2rem;
+        height: 2.2rem;
       }
     }
   }

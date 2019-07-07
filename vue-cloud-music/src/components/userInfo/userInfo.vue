@@ -48,7 +48,7 @@
     <redHeader :transparent="true" :fixed="true" ref="header">
       <span>{{userName}}</span>
     </redHeader>
-    <loading :class="{hide: !hide, none: isLoadingDone}"></loading>
+    <loading :isLoadingDone="isLoadingDone"></loading>
   </div>
 </template>
 

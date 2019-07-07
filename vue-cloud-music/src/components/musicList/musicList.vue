@@ -47,7 +47,7 @@
     <redHeader :transparent="true" :fixed="true" ref="header">
       <span>歌单</span>
     </redHeader>
-    <loading :class="{hide: !hide, none: isLoadingDone}"></loading>
+    <loading :isLoadingDone="isLoadingDone"></loading>
   </div>
 </template>
 
@@ -73,7 +73,6 @@
         tracks: [],
         scrollY: 0,
         isLoadingDone: false,
-        hide: true,
       }
     },
     components: {
@@ -128,13 +127,13 @@
           this.$refs.mainBg.style.filter = 'blur(20px)';
 
           //结束loading，loading分为两部分，分别是淡出动画以及display为none
-          setTimeout(() => {
-            this.hide = false
-          }, 300)
+          // setTimeout(() => {
+          //   this.hide = false
+          // }, 300)
 
           setTimeout(() => {
             this.isLoadingDone = true
-          }, 500)
+          }, 1000)
         });
 
 

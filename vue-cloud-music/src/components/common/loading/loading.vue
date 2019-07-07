@@ -1,5 +1,5 @@
 <template>
-  <div class="loading">
+  <div class="loading" :class="isLoadingDone ? 'hide' : ''">
     <div>
       <img src="../../../common/img/playing_red.gif" class="gif">
       <span>{{show}}</span>
@@ -10,6 +10,14 @@
 <script>
   export default {
     name: 'loading',
+    props: {
+      isLoadingDone: {
+        type: Boolean,
+        defualt: function () {
+          return {}
+        }
+      }
+    },
     data () {
       return {
         desc: [
@@ -32,8 +40,8 @@
         this.show = this.desc[index]
       }
     },
-    mounted () {
-      this.switchInfo();
+    created() {
+      this.switchInfo()
     }
   }
 </script>
@@ -54,7 +62,8 @@
       display: none;
     }
 
-    &.hide > div {
+    &.hide {
+      display: none;
       animation: hide .2s cubic-bezier(0.21, 0.95, 1, 1.06);
       animation-fill-mode: forwards;
     }

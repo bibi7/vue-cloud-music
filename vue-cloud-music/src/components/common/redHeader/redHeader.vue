@@ -33,11 +33,21 @@
       playing () {
         return this.$store.state.isPlaying
       },
+      playingId() {
+        return this.$store.state.playingId
+      }
     },
     methods: {
       goPlaying () {
+        if (this.playingId === '') {
+          alert('暂无播放曲目')
+          return
+        }
         this.$router.push({
-          path: '/playing'
+          path: '/playing',
+          query: {
+            id: this.playingId
+          }
         })
       },
       back () {
@@ -75,6 +85,7 @@
 
     &.fixed {
       position: fixed;
+      z-index: 10;
       top: 0;
       width: 100%;
     }

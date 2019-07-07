@@ -29,11 +29,20 @@ export default {
   computed: {
     playing () {
       return this.$store.state.isPlaying
+    },
+    playingId() {
+      return this.$store.state.playingId
     }
   },
   methods: {
     back () {
       this.$router.back(-1)
+    }
+  },
+  beforeRouteLeave(to, from, next) {
+    alert(111);
+    if (this.playingId === '') {
+      next(false)
     }
   }
 }
