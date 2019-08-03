@@ -1,15 +1,17 @@
 <template lang="html">
-  <div class="lyric-base" :class="show? 'show': null" @click="hide" ref="ly">
-    <div v-if="this.lrcArray.length !== 0" class="lyric-text">
-      <div ref="lyIn" class="lyin">
-        <p v-for="(lyricItem, index) in lrcArray" :class="activeItem === index ? 'activeItem' : null">
-          {{lyricItem | removeTime}}
-          <!-- <span>{{lyricItem | removeLyric}}</span> -->
-        </p>
+  <div class="out-box" ref="ly">
+    <div class="lyric-base" :class="show? 'show': null" @click="hide">
+      <div v-if="this.lrcArray.length !== 0" class="lyric-text">
+        <div ref="lyIn" class="lyin">
+          <p v-for="(lyricItem, index) in lrcArray" :class="activeItem === index ? 'activeItem' : null">
+            {{lyricItem | removeTime}}
+            <!-- <span>{{lyricItem | removeLyric}}</span> -->
+          </p>
+        </div>
       </div>
-    </div>
-    <div v-else class="no-lyric">
-      <p>{{lrc}}</p>
+      <div v-else class="no-lyric">
+        <p>{{lrc}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -162,12 +164,16 @@ export default {
 </script>
 
 <style lang="less" scoped>
+  .out-box {
+    height: 100%;
+  }
   .lyric-base {
     display: none;
+    // visibility: hidden;
     height: 100%;
     z-index: 10;
     transition: all .3s linear;
-    animation: fade10 .3s linear;
+    // animation: fade10 .3s linear;
 
     .lyric-text {
       overflow: hidden;
@@ -204,6 +210,7 @@ export default {
     }
 
     &.show {
+      // visibility: visible;
       display: block;
     }
   }

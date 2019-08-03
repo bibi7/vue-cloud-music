@@ -3,6 +3,7 @@
     <div class="slider" ref="slider">
       <div v-for="(item, index) in imgArray" class="slider-in" ref="sliders">
         <img :src="item.imageUrl">
+        <!-- <img v-lazy="item.imageUrl"> -->
       </div>
     </div>
     <div class="dots">
@@ -23,6 +24,7 @@ export default {
       imgArray: [],
       currentIndex: 0,
       interval: 4000,
+      inter: '',
     }
   },
   created () {
@@ -85,16 +87,17 @@ export default {
         stopPropagation: true,
         click: true
       });
-      this.slider.on('beforeScrollStart', function () {
+      this.slider.on('beforeScrollStart', () => {
         console.log('scroll start!');
+        clearInterval(this.inter)
+        this.inter = null;
       });
       this.slider.on('scrollEnd', this.scrollEnd);
       this._play();
     },
     //无限滚动，四秒一次
     _play () {
-      clearInterval(inter);
-      let inter = setInterval(() => {
+      this.inter = setInterval(() => {
         this.slider.next()
       }, this.interval)
     },
@@ -102,6 +105,9 @@ export default {
     scrollEnd () {
       let index = this.slider.getCurrentPage().pageX;
       this.currentIndex = index;
+      if (!this.inter) {
+        this._play();
+      }
     },
     //前往指定页数
     goTo (index) {
@@ -120,7 +126,7 @@ export default {
 }
 .slider {
   position: relative;
-  /*height: 25vh;*/
+  height: 20vh;
   overflow: hidden;
 
   .slider-in {

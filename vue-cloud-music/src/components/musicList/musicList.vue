@@ -25,15 +25,15 @@
                 <i class="iconfont icon-pinglun"></i>
                 <span>{{commentCount}}</span>
               </div>
-              <div class="items">
+              <div class="items" v-on:click.stop="notSupport">
                 <i class="iconfont icon-zhuanfa"></i>
                 <span>{{shareCount}}</span>
               </div>
-              <div class="items">
+              <div class="items" v-on:click.stop="notSupport">
                 <i class="iconfont icon-xiazai"></i>
                 <span>下载</span>
               </div>
-              <div class="items">
+              <div class="items" v-on:click.stop="notSupport">
                 <i class="iconfont icon-duoxuan"></i>
                 <span>多选</span>
               </div>
@@ -81,6 +81,9 @@
       redHeader,
     },
     methods: {
+      notSupport() {
+        alert('敬请期待')
+      },
       //获取歌单id
       getMusicId () {
         this.listId = this.$route.params.id
@@ -239,21 +242,23 @@
       height: 100%;
 
       .main-bg {
-        position: relative;
+        z-index: -1;
+        position: absolute;
         height: 70vh;
         margin-top: -30vh;
         width: 100%;
-        transform: translateX(-3%)
+        // transform: translateX(-3%)
       }
 
       .info {
-        position: absolute;
+        // position: absolute;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        top: 7vh;
-        width: 94%;
-        left: 3%;
+        margin: 3rem 1rem 0;
+        // top: 7vh;
+        // width: 94%;
+        // left: 3%;
 
         .info-img {
           width: 40%;
@@ -304,7 +309,7 @@
 
       .choose {
         width: 100%;
-        margin-top: 2vh;
+        margin: 2vh 0;
 
         & > div {
           width: 90%;

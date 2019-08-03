@@ -43,22 +43,25 @@
       },
       indexs () {
         return this.$store.state.playingIndex
+      },
+      id () {
+        return this.$store.state.playingId;
       }
     },
     methods: {
       playMusic(obj) {
-        document.getElementById('audio').play();
-        document.getElementById('audio').pause();
         //提交store
         this.PLAY_MUSIC(obj);
         //路由切换
         this.$router.push({
-          path: '/playing'
+          path: '/playing',
+          query: {
+            playId: this.id,
+          }
         })
       },
       playAll() {
         //TODO
-
       },
       ...mapMutations([
         'PLAY_MUSIC',
@@ -100,6 +103,7 @@
     }
     & > div:nth-child(3) {
       width: 30%;
+      height: 100%;
       color: #fff;
       font-size: @normalSize;
       white-space: nowrap;

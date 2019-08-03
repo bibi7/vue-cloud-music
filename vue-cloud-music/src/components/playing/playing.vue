@@ -5,7 +5,7 @@
       <div class="header">
         <i class="iconfont icon-xiangzuo" @click="back"></i>
         <p>{{name.length < 25? name:`${name.substring(0, 25)}...`}}</p>
-        <i class="iconfont icon-zhuanfa"></i>
+        <i class="iconfont icon-zhuanfa" v-on:click.stop="notSupport"></i>
       </div>
       <div class="main" @click="showLyric">
         <div :class="!isLyricShow ? 'show' : ''">
@@ -26,24 +26,26 @@
             <i class="iconfont icon-aixin likes" v-on:click.stop="likes" :class="{active: isLike}"></i>
           </div>
           <div>
-            <i class="iconfont icon-xiazai"></i>
+            <i class="iconfont icon-xiazai" v-on:click.stop="notSupport"></i>
           </div>
           <div class="comment">
             <i class="iconfont icon-pinglun" v-on:click.stop="goComment"></i>
             <!--<span>999</span>-->
           </div>
           <div>
-            <i class="iconfont icon-gengduo"></i>
+            <i class="iconfont icon-gengduo" v-on:click.stop="notSupport"></i>
           </div>
         </div>
       </div>
       <div class="footer">
         <div class="progress">
           <span>{{current}}</span>
-          <div class="progress-bar" ref="progress" @click="jump">
-            <div class="real-progress" ref="progressReal">
-              <div class="circle" @touchmove="touchmove" @touchend="touchend">
-                <div class="small-circle" ref="small"></div>
+          <div class="progress-bar" @touchend.prevent="touchend" @touchmove.prevent="touchmove" ref="progress">
+            <div>
+              <div class="real-progress" ref="progressReal">
+                <div class="circle">
+                  <div class="small-circle" ref="small"></div>
+                </div>
               </div>
             </div>
           </div>
@@ -83,7 +85,7 @@
           </div>
         </div>
       </div>
-      <popBox :clickText="likeText" />
+      <!-- <popBox :clickText="likeText" /> -->
     </div>
   </keep-alive>
 </template>
@@ -92,9 +94,9 @@
 
 import {getMusicUrl} from '@/common/js/axiosType/getAxiosType.js';
 import {PLAY_PREV, PLAY_NEXT, UPDATE_PROGRESS, PLAY_IRREGULAR, PLAY_MODE, PLAY, PAUSE, JUMP, PLAY_MUSIC, LIKE} from '@/store/mutationType.js';
-import {imgChche} from '@/common/js/utils/utils.js';
+import {imgChche, toast} from '@/common/js/utils/utils.js';
 import {mapMutations} from 'vuex';
-import popBox from '@/components/common/popBox/popBox.vue';
+// import popBox from '@/components/common/popBox/popBox.vue';
 import BScroll from 'better-scroll';
 import lyric from '@/components/lyric/lyric.vue'
 import singleCollection from '@/components/common/singleCollection/singleCollection.vue';
@@ -105,7 +107,6 @@ export default {
       musicUrl: '',
       audio: '',
       isShowList: false,
-      likeText: '',
       isShow: false,
       isLyricShow: false,
     }
@@ -115,7 +116,7 @@ export default {
   },
   components: {
     singleCollection,
-    popBox,
+    // popBox,
     lyric,
   },
   computed: {
@@ -191,6 +192,9 @@ export default {
     hideLyric(e) {
       this.isLyricShow = false
     },
+    notSupport() {
+      toast('敬请期待')
+    },
     goComment () {
       this.$router.push({
         path: `/listComment/${this.id}`,
@@ -203,6 +207,7 @@ export default {
       })
     },
     initSong () {
+      this.computeProgress();
       //初始化歌曲地址
       getMusicUrl(this.id).then(result => {
         this.musicUrl = result.data.data[0].url;
@@ -210,24 +215,29 @@ export default {
 
       this.$refs.bg.style.background = `url(${this.musicImg}) no-repeat`;
     },
+    computeProgress() {
+      let value = this.$store.state.unFixedTime / this.$store.state.unFixedDuration;
+      value = `${(value * 100).toFixed(2)}%`;
+      this.$refs.progressReal.style.width = value;
+    },
     //中断播放
-    pause () {
+    pause() {
       this.PAUSE()
     },
     //继续播放
-    play () {
+    play() {
       this.PLAY()
     },
     //上一首
-    prev () {
+    prev() {
       this.PLAY_PREV();
     },
     //下一首
-    next () {
+    next() {
       this.PLAY_NEXT();
     },
     //进度条跳到指定位置
-    jump () {
+    jump() {
       const progress = this.$refs.progress;
       progress.addEventListener('click', (e) => {
         let offsetX = e.offsetX;
@@ -276,25 +286,25 @@ export default {
       this.LIKE({item: this.playingItem, id: this.id});
       const storeSong = this.$store.state.collectionList;
       if (storeSong.id.includes(this.id)) {
-        this.likeText = '已喜欢！_(:з」∠)_';
+        // this.likeText = '已喜欢！_(:з」∠)_';
+        toast('已喜欢！_(:з」∠)_')
         return;
       }
-      this.likeText = '取消喜欢QAQ';
+      // this.likeText = '取消喜欢QAQ';
+      toast('取消喜欢QAQ')
     },
     //拉动进度条
     touchmove (e) {
       const progress = this.$refs.progress;
       const realProgress = this.$refs.progressReal;
       const width = progress.clientWidth;
-      if (e.target === this.$refs.small) {
-        const margin = e.path[2].offsetLeft;
-        const newOffset = e.changedTouches[0].pageX - margin;
-        if (newOffset > 0) {
-          let percentage = ((newOffset / width).toFixed(4));
-          if (percentage < 1) {
-            realProgress.style.width = `${percentage * 100}%`;
-            this.move = percentage * this.unFixDuration
-          }
+      const margin = e.target.offsetLeft;
+      const newOffset = e.changedTouches[0].pageX - margin;
+      if (newOffset > 0) {
+        let percentage = ((newOffset / width).toFixed(4));
+        if (percentage < 1) {
+          realProgress.style.width = `${percentage * 100}%`;
+          this.move = percentage * this.unFixDuration
         }
       }
     },
@@ -315,9 +325,7 @@ export default {
   },
   watch: {
     current () {
-      let value = this.$store.state.unFixedTime / this.$store.state.unFixedDuration;
-      value = `${(value * 100).toFixed(2)}%`;
-      this.$refs.progressReal.style.width = value;
+      this.computeProgress();
     },
     musicImg () {
       imgChche(this.musicImg, () => {
@@ -402,7 +410,7 @@ export default {
     transition: all .3s linear;
     flex-wrap: wrap;
     justify-content: center;
-    height: 72vh;
+    height: 68vh;
     top: 3rem;
     width: 100%;
     overflow: hidden;
@@ -472,7 +480,7 @@ export default {
     }
 
     .other i {
-      font-size: @oneHalfSize + 0.3rem;
+      font-size: @oneHalfSize + 0.5rem;
 
       &.likes.active {
         color: @themeRed;
@@ -481,7 +489,7 @@ export default {
     & > div:first-child {
       opacity: 0;
       position: relative;
-      width: 85%;
+      width: 80%;
       transition: all .3s linear;
 
       &.show {
@@ -515,10 +523,9 @@ export default {
     & > div:last-child {
       z-index: 1;
       color: #C3AEB0;
-      margin-bottom: 1.5rem;
       position: absolute;
       bottom: 0;
-      width: 78%;
+      width: 85%;
       opacity: 0;
       display: none;
       transition: all .3s linear;
@@ -547,34 +554,40 @@ export default {
       .progress-bar {
         height: 2px;
         width: 80%;
-        background-color: #a6a6a6;
         cursor: pointer;
+        padding: 20px 0;
 
-        .real-progress {
-          position: relative;
-          width: 0;
-          height: 100%;
-          background-color: #d81e06;
+        & > div {
+          background-color: #a6a6a6;
+          width: 100%;
+          height: 2px;
 
-          .circle {
-            position: absolute;
-            right: -10px;
-            top: 50%;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            transform: translateY(-50%);
-            background-color: #fff;
+          .real-progress {
+            position: relative;
+            width: 0;
+            height: 100%;
+            background-color: #d81e06;
 
-            .small-circle {
+            .circle {
               position: absolute;
+              right: -10px;
               top: 50%;
-              left: 50%;
-              width: 4px;
-              height: 5px;
+              width: 14px;
+              height: 14px;
               border-radius: 50%;
-              transform: translate(-50%, -50%);
-              background-color: #D33A31;
+              transform: translateY(-50%);
+              background-color: #fff;
+
+              .small-circle {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 4px;
+                height: 5px;
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #D33A31;
+              }
             }
           }
         }
@@ -600,13 +613,13 @@ export default {
       justify-content: space-between;
 
       & > i {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
         color: #fff;
       }
 
       & > i:nth-child(3) {
-        font-size: 2rem;
-        height: 2.2rem;
+        font-size: 2.5rem;
+        height: 2.5rem;
       }
     }
   }
@@ -622,6 +635,11 @@ export default {
   }
 
   .header {
+    display: flex;
+    margin: 0 1rem;
+    color: #fff;
+    position: relative;
+    justify-content: space-between;
     line-height: 3rem;
     height: 3rem;
     background-color: transparent;

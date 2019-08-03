@@ -1,7 +1,7 @@
 import axios from 'axios'
 // const url = 'http://120.79.162.149:3000/';
-const url = 'http://47.101.10.223:3000/';
-// const url = 'http://localhost:3000/';
+// const url = 'http://47.101.10.223:3000/';
+const url = 'http://localhost:3000/';
 
 
 /**
