@@ -54,6 +54,7 @@
 <script>
   import BScroll from 'better-scroll'
   import {getMusicListInfo, getUserDetail} from '@/common/js/axiosType/getAxiosType.js'
+  import {toast} from '@/common/js/utils/utils.js';
   import playList from '@/components/common/playList.vue'
   import loading from '@/components/common/loading/loading.vue'
   import redHeader from '@/components/common/redHeader/redHeader.vue'
@@ -82,7 +83,7 @@
     },
     methods: {
       notSupport() {
-        alert('敬请期待')
+        toast('敬请期待')
       },
       //获取歌单id
       getMusicId () {
