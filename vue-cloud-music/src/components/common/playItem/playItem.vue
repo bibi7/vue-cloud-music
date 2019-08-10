@@ -76,6 +76,7 @@ export default {
         display: inline-block;
         font-size: @normalSize + 0.1rem;
         color: @themeBlack;
+        line-height: 1rem;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;

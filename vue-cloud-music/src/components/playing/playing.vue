@@ -1,6 +1,6 @@
 <template>
   <keep-alive>
-    <div class="playing">
+    <div class="playing black">
       <div class="play-bg" ref="bg"></div>
       <div class="header">
         <i class="iconfont icon-xiangzuo" @click="back"></i>
@@ -75,7 +75,7 @@
           </div>
           <div class="listContainer" ref="listContainer">
             <div>
-              <div v-for="(item, index) in listInfo" @click="switchPlay(item, index)">
+              <div v-for="(item, index) in listInfo" :key="item.id" @click="switchPlay(item, index)">
                 <singleCollection :name="item.name" :singer="item.ar[0].name" :songId="item.id" :item="item" :index="index"></singleCollection>
               </div>
             </div>
@@ -109,6 +109,7 @@ export default {
       isShowList: false,
       isShow: false,
       isLyricShow: false,
+      // imgReady: false
     }
   },
   mounted () {
@@ -341,13 +342,19 @@ export default {
   @import '../../common/css/color.less';
   @import '../../common/css/fontSize.less';
 .playing {
-  background-color: #fff;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 10;
+
+  &.black {
+    background-color: #000;
+  }
+  &.white {
+    background-color: #fff;
+  }
 
   .list {
     display: none;
@@ -636,13 +643,18 @@ export default {
 
   .header {
     display: flex;
-    margin: 0 1rem;
     color: #fff;
     position: relative;
     justify-content: space-between;
     line-height: 3rem;
+    font-size: @oneHalfSize - 0.2rem;
     height: 3rem;
     background-color: transparent;
+    padding: 0 1rem;
+
+    & > i {
+      font-size: @oneHalfSize;
+    }
   }
 }
 
