@@ -52,8 +52,8 @@
             });
           }
         } else if (this.type === 'highQualityList') {
-          storageManager.setLocalStorage(this.type, result, '30m')
           getHighqualityList().then(result => {
+            storageManager.setLocalStorage(this.type, result, '30m')
             result.data.playlists.forEach((item, index) => {
               if (index < 1) return;
               this.fillItem(item, index, 17)
