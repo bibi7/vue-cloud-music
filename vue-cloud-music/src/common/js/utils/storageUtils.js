@@ -6,18 +6,51 @@ class storageManager {
     this.manager = null
   }
 
-  setLocalStorage(key, value) {
+  setLocalStorage(key, value, expires) {
     if (window.localStorage) {
+      const item = expires ? value :  {
+        data: {
+          ...value
+        },
+        expires,
+        currentTime: Date.now()
+      }
       window.localStorage.setItem(
         key,
-        typeof value === 'string' ? value : JSON.stringify(value)
+        JSON.stringify(item)
       )
     }
   }
 
   getLocalStorage(key) {
     if (window.localStorage) {
-      return window.localStorage.getItem(key)
+      const item = window.localStorage.getItem(key)
+      if (item.expires) {
+        const time = Date.now();
+        switch (item.expires) {
+          case '30m':
+            if (item.currentTime < (time - 60 * 30)) {
+              window.localStorage.clear(key)
+              return null
+            }
+            break;
+          case '1h':
+            if (item.currentTime < (time - 60 * 60)) {
+              window.localStorage.clear(key)
+              return null
+            }
+            break;
+          case '1d':
+            if (item.currentTime < (time - 60 * 60 * 24)) {
+              window.localStorage.clear(key)
+              return null
+            }
+            break;
+        }
+        return item.data
+      }
+      return item
+      // return 
     }
   }
 

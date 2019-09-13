@@ -15,7 +15,7 @@
 
 <script>
   import {getRecommend, getNewMusic, getHighqualityList, newAlbum} from '@/common/js/axiosType/getAxiosType'
-
+  import storageManager from '@/common/js/utils/storageUtils'
   export default {
     name: 'recommendList',
     data () {
@@ -35,15 +35,24 @@
       }
     },
     methods: {
-      //加载推荐歌单
-      _initList () {
+      //加载首页推荐歌单，一般首页歌单不经常变动，做个小尝试，缓存local半小时
+      _initList (cacheObj) {
         if (this.type === 'recommend') {
-          getRecommend().then(result => {
-            result.data.result.forEach((item, index) => {
-              this.fillItem(item, index, 21)
-            })
-          });
+          if (cacheObj !== null) {
+            cacheObj = JSON.parse(cacheObj)
+            cacheObj.data.result.forEach((item, index) => {
+                this.fillItem(item, index, 21)
+              })
+          } else {
+            getRecommend().then(result => {
+              storageManager.setLocalStorage(this.type, result, '30m')
+              result.data.result.forEach((item, index) => {
+                this.fillItem(item, index, 21)
+              })
+            });
+          }
         } else if (this.type === 'highQualityList') {
+          storageManager.setLocalStorage(this.type, result, '30m')
           getHighqualityList().then(result => {
             result.data.playlists.forEach((item, index) => {
               if (index < 1) return;
@@ -51,13 +60,6 @@
             })
           })
         }
-//        else if (this.type = 'newMusic') {
-//          newAlbum().then(result => {
-//            console.log(1)
-//            console.log(result)
-//            this.info = result.data.albums
-//          })
-//        }
       },
       //歌单通用处理
       fillItem (item, index, limitNumber) {
@@ -95,7 +97,8 @@
       },
     },
     mounted () {
-      this._initList();
+      const listCache = storageManager.getLocalStorage(this.type)
+      this._initList(listCache);
     }
   }
 </script>
