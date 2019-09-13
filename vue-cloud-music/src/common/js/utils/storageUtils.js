@@ -25,7 +25,7 @@ class storageManager {
   getLocalStorage(key) {
     if (window.localStorage) {
       const item = window.localStorage.getItem(key)
-      if (item.expires) {
+      if (item && item.expires) {
         const time = Date.now();
         switch (item.expires) {
           case '30m':
