@@ -129,7 +129,7 @@
           this.$refs.mainBg.style.background = `url(${this.listMusicImg}) center no-repeat`;
           this.$refs.mainBg.style.backgroundSize = 'cover';
           this.$refs.mainBg.style.filter = 'blur(20px)';
-
+          this.$refs.mainBg.style.willChange = 'transform';
           //结束loading，loading分为两部分，分别是淡出动画以及display为none
           // setTimeout(() => {
           //   this.hide = false
